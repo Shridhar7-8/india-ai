@@ -39,9 +39,9 @@ export default function LandingPage() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         style={{
-          background: "linear-gradient(135deg, #1a1145 0%, #2d1b69 100%)",
+          background: "linear-gradient(to right, #0a0818, #2d1b69)",
         }}
-        className="w-full px-6 md:px-12 py-4 flex items-center justify-between"
+        className="w-full px-6 md:px-12 py-4 flex flex-col items-center justify-center text-center gap-1 md:flex-row md:justify-between md:text-left md:gap-0"
       >
         <h2 className="text-white text-xl md:text-2xl tracking-wide">
           <span className="font-light">Build</span>
@@ -50,7 +50,7 @@ export default function LandingPage() {
           </span>
           <span className="font-light"> Pitch Event</span>
         </h2>
-        <p className="text-white/80 text-xs md:text-sm font-light hidden sm:block">
+        <p className="text-white/80 text-xs md:text-sm font-light">
           A Joint event of IndiaAI Mission and ITEL Foundation
         </p>
       </motion.header>
