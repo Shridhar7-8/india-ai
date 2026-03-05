@@ -137,9 +137,9 @@ export default function ChatInterface({
 
                         {/* Content */}
                         <div className="max-w-lg space-y-4 md:space-y-6 px-4">
-                            <h1 className="text-3xl md:text-5xl tracking-tight text-gray-800">
+                            <h1 className="text-3xl md:text-5xl tracking-tight text-gray-800 font-medium">
                                 <span className="font-light">Welcome to </span>
-                                <span className="font-bold text-gray-900">FounderCheck</span>
+                                <span className="text-gray-900">FounderCheck</span>
                             </h1>
 
                             <p className="text-gray-500 text-base md:text-lg font-light">
@@ -173,16 +173,16 @@ export default function ChatInterface({
                                 <div className="bg-white border border-gray-100 shadow-sm rounded-2xl px-5 py-3">
                                     <div className="flex space-x-2">
                                         <div
-                                            className="w-2 h-2 bg-green-500 rounded-full animate-bounce"
-                                            style={{ animationDelay: "0ms" }}
+                                            className="w-2 h-2 rounded-full animate-bounce"
+                                            style={{ backgroundColor: '#E8793A', animationDelay: "0ms" }}
                                         ></div>
                                         <div
-                                            className="w-2 h-2 bg-green-500 rounded-full animate-bounce"
-                                            style={{ animationDelay: "150ms" }}
+                                            className="w-2 h-2 rounded-full animate-bounce"
+                                            style={{ backgroundColor: '#E8793A', animationDelay: "150ms" }}
                                         ></div>
                                         <div
-                                            className="w-2 h-2 bg-green-500 rounded-full animate-bounce"
-                                            style={{ animationDelay: "300ms" }}
+                                            className="w-2 h-2 rounded-full animate-bounce"
+                                            style={{ backgroundColor: '#E8793A', animationDelay: "300ms" }}
                                         ></div>
                                     </div>
                                 </div>
@@ -191,14 +191,14 @@ export default function ChatInterface({
                         {isInterviewComplete && !isLoading && (
                             <div className="flex justify-center my-6">
                                 <div className="bg-white border border-gray-200 shadow-sm rounded-2xl px-6 py-4 max-w-md text-center">
-                                    <p className="text-green-600 font-semibold mb-2">
+                                    <p className="font-medium mb-2" style={{ color: '#E8793A' }}>
                                         ✅ Session Completed
                                     </p>
                                     <p className="text-gray-600 text-sm mb-2">
                                         Your analysis has been completed and a comprehensive report
                                         has been generated.
                                     </p>
-                                    <p className="text-gray-400 text-xs">
+                                    <p className="text-gray-400 text-xs font-light">
                                         Chat is now disabled. Thank you for using FounderCheck.
                                     </p>
                                 </div>
@@ -224,8 +224,8 @@ export default function ChatInterface({
                                     onDrop={handleDrop}
                                     onDragOver={(e) => e.preventDefault()}
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="border-2 border-dashed border-green-300 bg-green-50/50 rounded-xl p-4 text-center cursor-pointer
-                                               hover:border-green-500 hover:bg-green-50 transition-all"
+                                    className="border-2 border-dashed border-orange-200 bg-orange-50/10 rounded-xl p-4 text-center cursor-pointer
+                                               hover:border-orange-400 hover:bg-orange-50/20 transition-all font-light"
                                 >
                                     <input
                                         ref={fileInputRef}
@@ -244,12 +244,12 @@ export default function ChatInterface({
                                         </div>
                                     ) : (
                                         <>
-                                            <div className="flex items-center justify-center gap-2 text-green-600 mb-1">
+                                            <div className="flex items-center justify-center gap-2 mb-1" style={{ color: '#E8793A' }}>
                                                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                                 </svg>
-                                                <span className="text-sm font-semibold">Upload Pitch Deck</span>
+                                                <span className="text-sm font-medium">Upload Pitch Deck</span>
                                             </div>
                                             <p className="text-xs text-gray-400">
                                                 Drop a file here or click to browse • PDF, DOC, DOCX, PPT, PPTX (max 10MB)

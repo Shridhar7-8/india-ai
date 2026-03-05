@@ -88,7 +88,7 @@ export default function Sidebar({
                                 />
                             </svg>
                         </div>
-                        <h4 className="text-xl font-bold text-gray-900">FounderCheck</h4>
+                        <h4 className="text-xl font-medium text-gray-900">FounderCheck</h4>
                     </div>
                     {onClose && (
                         <button
@@ -225,8 +225,8 @@ export default function Sidebar({
                 <div className="flex items-start gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500 mt-1 flex-shrink-0"></div>
                     <div>
-                        <p className="text-xs font-bold text-gray-600">Powered by ITEL</p>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-xs font-medium text-gray-600">Powered by ITEL</p>
+                        <p className="text-xs text-gray-400 font-light">
                             Immersive Technology Entrepreneurship Labs
                         </p>
                     </div>

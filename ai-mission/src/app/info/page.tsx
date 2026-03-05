@@ -69,10 +69,10 @@ export default function InfoPage() {
                 >
                     <motion.h1
                         variants={itemVariants}
-                        className="text-3xl md:text-4xl mb-4 md:mb-6 text-center md:text-left mt-0 md:mt-0"
+                        className="text-3xl md:text-4xl mb-4 md:mb-6 text-center md:text-left mt-0 md:mt-0 font-medium"
                     >
-                        <span className="font-light text-gray-800">Welcome to </span>
-                        <span className="font-bold text-gray-900">FounderCheck</span>
+                        <span className="text-gray-800">Welcome to </span>
+                        <span className="text-gray-900">FounderCheck</span>
                     </motion.h1>
 
                     <div className="space-y-1 md:space-y-1 text-gray-600 text-sm md:text-base font-light leading-relaxed max-w-4xl bg-white/60 p-5 md:p-6 rounded-xl md:rounded-2xl shadow-lg border border-white/40 backdrop-blur-sm">
@@ -107,7 +107,7 @@ export default function InfoPage() {
 
                         <motion.p
                             variants={itemVariants}
-                            className="text-gray-800 font-normal pt-1"
+                            className="text-gray-800 font-light pt-1"
                         >
                             Please begin when you are ready — take your time, reflect, and
                             share your story.

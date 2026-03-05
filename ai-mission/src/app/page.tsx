@@ -39,16 +39,14 @@ export default function LandingPage() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
         style={{
-          background: "linear-gradient(to right, #0a0818, #2d1b69)",
+          background: "linear-gradient(to right, #0a0818, #4e35b7)",
         }}
         className="w-full px-6 md:px-12 py-4 flex flex-col items-center justify-center text-center gap-1 md:flex-row md:justify-between md:text-left md:gap-0"
       >
-        <h2 className="text-white text-xl md:text-2xl tracking-wide">
-          <span className="font-light">Build</span>
-          <span className="font-bold" style={{ color: "#E8793A" }}>
-            AI
-          </span>
-          <span className="font-light"> Pitch Event</span>
+        <h2 className="text-white text-[28px] md:text-2xl tracking-wide font-semibold">
+          <span>Build</span>
+          <span style={{ color: "#E8793A" }}>AI</span>
+          <span> Pitch Event</span>
         </h2>
         <p className="text-white/80 text-xs md:text-sm font-light">
           A Joint event of IndiaAI Mission and ITEL Foundation
@@ -67,8 +65,8 @@ export default function LandingPage() {
           className="flex flex-col items-center"
         >
           <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl text-gray-900 mb-4 tracking-tight leading-snug text-center">
-            <span className="block md:inline font-light">Welcome to </span>
-            <span className="block md:inline font-bold">Founder Check</span>
+            <span className="block md:inline font-medium">Welcome to </span>
+            <span className="block md:inline font-medium">Founder Check</span>
           </motion.h1>
 
           <motion.p variants={itemVariants} className="text-gray-500 text-base md:text-lg mb-10 font-light">
