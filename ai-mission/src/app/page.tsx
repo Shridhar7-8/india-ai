@@ -66,9 +66,9 @@ export default function LandingPage() {
           animate="visible"
           className="flex flex-col items-center"
         >
-          <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl text-gray-900 mb-4 tracking-tight">
-            <span className="font-light">Welcome to </span>
-            <span className="font-bold">Founder Check</span>
+          <motion.h1 variants={itemVariants} className="text-3xl md:text-5xl text-gray-900 mb-4 tracking-tight leading-snug text-center">
+            <span className="block md:inline font-light">Welcome to </span>
+            <span className="block md:inline font-bold">Founder Check</span>
           </motion.h1>
 
           <motion.p variants={itemVariants} className="text-gray-500 text-base md:text-lg mb-10 font-light">
