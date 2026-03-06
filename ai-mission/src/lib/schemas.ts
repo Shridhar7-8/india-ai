@@ -32,7 +32,8 @@ export type ConductorResponse = z.infer<typeof ConductorResponseSchema>;
 
 export const ConductorEvalSchema = z.object({
     answered: z.boolean(),          // Did the user adequately answer the topic?
-    response: z.string().min(1),    // LLM's generated question or follow-up text
+    response: z.string(),           // LLM's generated question or follow-up text (can be empty string)
+    is_off_topic: z.boolean().default(false), // Flag if the user input is completely irrelevant/rubbish
 });
 export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 
