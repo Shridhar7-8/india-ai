@@ -213,23 +213,25 @@ function parseReportData(markdown: string) {
         }
     }
 
-    // Section 4: Flags
+    // Section 4: Flags (bullet-point format)
     const flagLines = sections[4].trim().split('\n');
-    inTable = false;
+    let currentFlagType: 'red' | 'green' | null = null;
+    const redFlagItems: string[] = [];
+    const greenFlagItems: string[] = [];
     for (const line of flagLines) {
-        if (line.includes('| 🔴 RED FLAGS | 🟢 GREEN FLAGS |')) { inTable = true; continue; }
-        if (line.includes('|---|---|')) continue;
-        if (inTable && line.startsWith('|')) {
-            const parts = line.split('|').map((s) => s.trim()).filter(Boolean);
-            if (parts.length >= 1) {
-                // In markdown tables, empty cells might just be space, or missing
-                // Split by | yields empty strings for edges
-                const splits = line.split('|');
-                data.redFlags = splits[1]?.trim() || "None";
-                data.greenFlags = splits[2]?.trim() || "None";
+        if (line.includes('RED FLAGS')) { currentFlagType = 'red'; continue; }
+        if (line.includes('GREEN FLAGS')) { currentFlagType = 'green'; continue; }
+        const trimmed = line.trim();
+        if (trimmed.startsWith('- ') && trimmed.length > 2) {
+            const flagText = trimmed.substring(2).trim();
+            if (flagText && flagText !== 'None') {
+                if (currentFlagType === 'red') redFlagItems.push(flagText);
+                else if (currentFlagType === 'green') greenFlagItems.push(flagText);
             }
         }
     }
+    data.redFlags = redFlagItems.length > 0 ? redFlagItems.join('\n') : "None";
+    data.greenFlags = greenFlagItems.length > 0 ? greenFlagItems.join('\n') : "None";
 
     // Section 5: Mission Fit
     const missionTitleMatch = markdown.match(/## SECTION 5 — AI MISSION FIT \((.*?)\)/);
