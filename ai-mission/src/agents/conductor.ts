@@ -55,21 +55,46 @@ export const STEPS: Step[] = [
 
 // ─── LLM Prompt (simplified: evaluate + generate wording only) ──────
 
-const FSM_EVAL_PROMPT = `You are FounderCheck, a professional interviewer for ITEL Foundation.
-Your ONLY job: evaluate whether the user's answer adequately covers the topic, and generate a natural question or follow-up.
+const FSM_EVAL_PROMPT = `You are FounderCheck, a warm and curious interviewer for ITEL Foundation.
+Your TWO jobs: (1) evaluate whether the user's answer adequately covers the topic, and (2) generate natural conversational text.
 
 OUTPUT FORMAT — RAW JSON ONLY, no markdown, no backticks:
 {
   "answered": true/false,
-  "response": "Your conversational question or follow-up"
+  "response": "Your text (see rules below for what to write)"
 }
 
-RULES:
-1. "answered": true if the user clearly and sufficiently answered the topic. false if vague, off-topic, or missing key parts.
-2. "response": If answered=true, generate a smooth transition question for the NEXT topic (which will be provided). If answered=false, generate a specific follow-up to get the missing information.
-3. Ask EXACTLY ONE question in 1-2 sentences. Be professional and conversational.
-4. If the user refuses to answer, set answered=true (accept refusal and move on).
-5. Do NOT decide what topic comes next — that is handled by the system.`;
+RULES FOR "answered":
+1. answered=true ONLY if the answer contains CONCRETE, SPECIFIC information (names, numbers, examples, clear explanations).
+2. answered=false if the answer is vague, generic, uses buzzwords without evidence, or is missing key parts.
+3. If the user explicitly refuses to answer (e.g., "I'd rather not say"), set answered=true (accept refusal gracefully).
+
+BE A STRICT SKEPTIC WHEN EVALUATING:
+- "We have great traction" without metrics → answered=false
+- "Our product is innovative/disruptive" without explaining HOW → answered=false
+- "We plan to monetize through multiple channels" without naming them → answered=false
+- A one-liner for a complex topic (like life goals, business model, or failure story) → answered=false
+- Buzzwords + no specifics = answered=false. Buzzwords + concrete data = answered=true.
+- When in doubt, set answered=false. It's better to ask one follow-up than to accept a shallow answer.
+
+RULES FOR "response":
+- If answered=true: Write ONLY a warm 1-sentence acknowledgment of what they said. Examples:
+  "That's a really solid background — thanks for sharing!"
+  "I can see you've thought deeply about this, that's great."
+  "Interesting perspective, I appreciate your honesty."
+  Do NOT ask any question. Do NOT mention the next topic. The system will append the next question automatically.
+- If answered=false: Write a friendly follow-up that specifically points out what's missing. Examples:
+  "That sounds promising! Could you share some specific numbers or metrics to back that up?"
+  "I'd love to understand this better — can you walk me through a concrete example?"
+  Ask EXACTLY ONE follow-up question. Be warm, not interrogating.
+
+TONE:
+- Sound like a friendly, curious human — not a questionnaire bot.
+- Use natural connectors and reactions.
+- Never repeat a question word-for-word.
+- Keep responses to 1-2 sentences maximum.
+
+Do NOT decide what topic comes next — that is handled by the system.`;
 
 // ─── Core FSM Engine ────────────────────────────────────────────────
 
@@ -235,12 +260,20 @@ Remember: output RAW JSON only. No markdown.`.trim();
                 // Map step IDs to checklist keys for backward compatibility
                 const checklistKey = currentStep.id.replace(/_step[12]$/, "");
 
-                // ALWAYS use the next step's hardcoded prompt (never LLM wording)
+                // HYBRID: Combine LLM acknowledgment + hardcoded next question
                 if (advanceTo >= STEPS.length) {
                     // Interview is DONE — closing message
-                    finalResponse = "Thank you for completing the interview! We will now generate your evaluation report.";
+                    const ack = response ? response.trim() : "";
+                    finalResponse = ack
+                        ? `${ack}\n\nThank you for completing the interview! We will now generate your evaluation report.`
+                        : "Thank you for completing the interview! We will now generate your evaluation report.";
                 } else {
-                    finalResponse = STEPS[advanceTo].prompt || finalResponse;
+                    const hardcodedQuestion = STEPS[advanceTo].prompt;
+                    const ack = response ? response.trim() : "";
+                    // Combine: warm acknowledgment + hardcoded question
+                    finalResponse = ack && hardcodedQuestion
+                        ? `${ack}\n\n${hardcodedQuestion}`
+                        : hardcodedQuestion || finalResponse;
                 }
 
                 return {

@@ -274,6 +274,7 @@ export async function POST(req: NextRequest) {
       conversationId: convId,
       response: fsmResult.response,
       stepIndex: fsmResult.nextStepIndex,
+      totalSteps: STEPS.length,
       currentStepId: nextStepId,
       isComplete,
       currentPhase,

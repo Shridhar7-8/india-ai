@@ -18,6 +18,8 @@ interface ChatInterfaceProps {
     isLoading: boolean;
     isInterviewComplete: boolean;
     currentStepId: string | null;
+    stepIndex: number;
+    totalSteps: number;
     onSendMessage: (content: string) => void;
     onNewConversation: () => void;
 }
@@ -28,6 +30,8 @@ export default function ChatInterface({
     isLoading,
     isInterviewComplete,
     currentStepId,
+    stepIndex,
+    totalSteps,
     onSendMessage,
     onNewConversation,
 }: ChatInterfaceProps) {
@@ -116,8 +120,59 @@ export default function ChatInterface({
         if (file) handleFileUpload(file);
     };
 
+    // Compute progress
+    const progressPercent = totalSteps > 0 ? Math.min(Math.round((stepIndex / totalSteps) * 100), 100) : 0;
+    const getPhaseLabel = () => {
+        if (stepIndex <= 10) return "Founder";
+        if (stepIndex <= 16) return "Business";
+        if (stepIndex <= 21) return "AI & Mission";
+        return "Closing";
+    };
+
     return (
         <div className="flex flex-col h-full">
+            {/* Progress bar — only show during active interview */}
+            {messages.length > 0 && !isInterviewComplete && (
+                <div className="flex-none px-4 md:px-6 pt-3 pb-1">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-medium text-gray-500">
+                            {getPhaseLabel()}
+                        </span>
+                        <span className="text-xs text-gray-400">
+                            {progressPercent}%
+                        </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                            className="h-full rounded-full transition-all duration-700 ease-out"
+                            style={{
+                                width: `${Math.max(progressPercent, 2)}%`,
+                                background: 'linear-gradient(90deg, #E8793A, #f59e0b)',
+                            }}
+                        />
+                    </div>
+                </div>
+            )}
+            {/* Completed progress bar */}
+            {isInterviewComplete && messages.length > 0 && (
+                <div className="flex-none px-4 md:px-6 pt-3 pb-1">
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs font-medium text-green-600">
+                            ✅ Interview Complete
+                        </span>
+                        <span className="text-xs text-green-500">
+                            100%
+                        </span>
+                    </div>
+                    <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div
+                            className="h-full rounded-full transition-all duration-700 ease-out bg-green-500"
+                            style={{ width: '100%' }}
+                        />
+                    </div>
+                </div>
+            )}
+
             {/* Messages area */}
             <div className="flex-1 overflow-y-auto custom-scrollbar px-4 md:px-6 py-4">
                 {messages.length === 0 ? (

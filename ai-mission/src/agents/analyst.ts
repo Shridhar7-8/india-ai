@@ -313,7 +313,9 @@ function buildMarkdownReport(
     lines.push("");
 
     // Section 5
-    lines.push(`## SECTION 5 — AI MISSION FIT (${fl.mission_fit})`);
+    lines.push(`## SECTION 5 — AI MISSION FIT [HIGH / MEDIUM / LOW]`);
+    lines.push("");
+    lines.push(`**Mission Fit:** ${fl.mission_fit}`);
     lines.push("");
     lines.push(`**IndiaAI Pillar:** ${v.indiaai_pillar}`);
     lines.push("");

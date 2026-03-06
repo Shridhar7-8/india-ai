@@ -234,12 +234,11 @@ function parseReportData(markdown: string) {
     data.greenFlags = greenFlagItems.length > 0 ? greenFlagItems.join('\n') : "None";
 
     // Section 5: Mission Fit
-    const missionTitleMatch = markdown.match(/## SECTION 5 — AI MISSION FIT \((.*?)\)/);
-    if (missionTitleMatch) data.missionFit.verdict = missionTitleMatch[1];
-
     const missionLines = sections[5].trim().split(/\n\n+/);
     for (const block of missionLines) {
-        if (block.includes('**IndiaAI Pillar:**')) {
+        if (block.includes('**Mission Fit:**')) {
+            data.missionFit.verdict = block.replace('**Mission Fit:**', '').trim();
+        } else if (block.includes('**IndiaAI Pillar:**')) {
             data.missionFit.pillar = block.replace('**IndiaAI Pillar:**', '').trim();
         } else if (block.includes('**IndiaAI Mission Awareness:**')) {
             data.missionFit.awareness = block.replace('**IndiaAI Mission Awareness:**', '').trim();
@@ -336,7 +335,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
 
                 {/* Section 3 */}
                 <View style={styles.section} wrap={false}>
-                    <Text style={styles.h2}>SECTION 3 — 5-ZONE SCORECARD</Text>
+                    <Text style={styles.h2}>SECTION 3 — 5-ZONE SCORECARD [PASS / MODERATE / FAIL]</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
                             <View style={[styles.tableCol3, { width: "20%" }]}><Text style={styles.tableCellHeader}>Zone</Text></View>
@@ -374,8 +373,16 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
 
                 {/* Section 5 */}
                 <View style={styles.section} wrap={false}>
-                    <Text style={styles.h2}>SECTION 5 — AI MISSION FIT ({data.missionFit.verdict || "TBD"})</Text>
+                    <Text style={styles.h2}>SECTION 5 — AI MISSION FIT [HIGH / MEDIUM / LOW]</Text>
                     <View style={styles.table}>
+                        <View style={styles.tableRow}>
+                            <View style={[styles.tableCol, { width: "30%" }]}><Text style={styles.tableCellHeader}>Mission Fit</Text></View>
+                            <View style={[styles.tableCol, { width: "70%" }]}>
+                                <Text style={[styles.tableCell, { fontWeight: "bold", color: data.missionFit.verdict === "HIGH" ? "#10b981" : data.missionFit.verdict === "LOW" ? "#ef4444" : "#f59e0b" }]}>
+                                    {data.missionFit.verdict || "TBD"}
+                                </Text>
+                            </View>
+                        </View>
                         <View style={styles.tableRow}>
                             <View style={[styles.tableCol, { width: "30%" }]}><Text style={styles.tableCellHeader}>IndiaAI Pillar</Text></View>
                             <View style={[styles.tableCol, { width: "70%" }]}><Text style={styles.tableCell}><StripMarkdown text={data.missionFit.pillar} /></Text></View>

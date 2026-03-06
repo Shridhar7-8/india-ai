@@ -24,6 +24,8 @@ export default function ChatPage() {
 
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
     const [currentStepId, setCurrentStepId] = useState<string | null>(null);
+    const [stepIndex, setStepIndex] = useState(0);
+    const [totalSteps, setTotalSteps] = useState(25);
 
     // Load conversations on mount
     const loadConversations = useCallback(async () => {
@@ -134,6 +136,12 @@ export default function ChatPage() {
 
                 if (data.currentStepId !== undefined) {
                     setCurrentStepId(data.currentStepId);
+                }
+                if (data.stepIndex !== undefined) {
+                    setStepIndex(data.stepIndex);
+                }
+                if (data.totalSteps !== undefined) {
+                    setTotalSteps(data.totalSteps);
                 }
 
                 await loadConversations();
@@ -271,6 +279,8 @@ export default function ChatPage() {
                         isLoading={isLoading}
                         isInterviewComplete={isInterviewComplete}
                         currentStepId={currentStepId}
+                        stepIndex={stepIndex}
+                        totalSteps={totalSteps}
                         onSendMessage={handleSendMessage}
                         onNewConversation={handleNewConversation}
                     />

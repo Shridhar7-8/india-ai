@@ -111,7 +111,7 @@ export default function InfoPage() {
 
                         <motion.p variants={itemVariants}>
                             We encourage you to answer thoughtfully and honestly. There are no
-                            &quot;right&quot; answers. Your responses help us understand your
+                            &quot;right&quot; or &quot;wrong&quot; answers. Your responses help us understand your
                             business, the people behind it, and the opportunities that lie
                             ahead.
                         </motion.p>
