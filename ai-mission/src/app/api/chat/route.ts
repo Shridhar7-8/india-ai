@@ -55,6 +55,7 @@ export async function POST(req: NextRequest) {
         conversation_summary: getInitialSummary(),
         step_index: 0,
         current_drill_count: 0,
+        vague_topics: [],
       });
     }
 
@@ -167,7 +168,14 @@ export async function POST(req: NextRequest) {
         }
       }
       if (completedStepId === "website") {
-        updatedSummary.website_url = content;
+        // Extract just the URL/domain from user's message
+        // e.g. "Yes, our website is legalmind.ai" → "legalmind.ai"
+        // e.g. "bolo.ai" → "bolo.ai"
+        // e.g. "https://www.example.com" → "https://www.example.com"
+        const urlMatch = content.match(
+          /(?:https?:\/\/)?(?:www\.)?([a-zA-Z0-9][-a-zA-Z0-9]*\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?(?:\/\S*)?)/i
+        );
+        updatedSummary.website_url = urlMatch ? urlMatch[0] : content;
       }
     }
 
@@ -204,6 +212,12 @@ export async function POST(req: NextRequest) {
 
     const isComplete = fsmResult.isComplete;
 
+    // Track vague topics
+    const updatedVagueTopics = [...(interviewState.vague_topics || [])];
+    if (fsmResult.notedVague && !updatedVagueTopics.includes(fsmResult.notedVague)) {
+      updatedVagueTopics.push(fsmResult.notedVague);
+    }
+
     await supabase
       .from("interview_states")
       .update({
@@ -215,6 +229,7 @@ export async function POST(req: NextRequest) {
         turn_count: interviewState.turn_count + 1,
         step_index: fsmResult.nextStepIndex,
         current_drill_count: fsmResult.nextDrillCount,
+        vague_topics: updatedVagueTopics,
         ...(fsmResult.founderIsSolo !== undefined ? { founder_is_solo: fsmResult.founderIsSolo } : {}),
       })
       .eq("conversation_id", convId);

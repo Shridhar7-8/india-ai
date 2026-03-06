@@ -38,38 +38,40 @@ export const ConductorEvalSchema = z.object({
 export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 
 // ─── Report Chunk Schemas (split into 4 small calls) ────────────────
+// NOTE: No z.preprocess — normalization happens in analyst.ts normalizeBeforeZod()
 
 export const FounderChunkSchema = z.object({
-    founder_name: z.string(),
-    founder_background: z.string(),
-    why_entrepreneurship: z.string(),
-    financial_commitments: z.string(),
-    goals: z.string(),
-    grit_score: z.enum(["HIGH", "MEDIUM", "LOW"]),
-    grit_evidence: z.string(),
-    business_thinking: z.string(),
-    founder_structure: z.string(),
+    founder_name: z.string().max(100),
+    founder_background: z.string().max(400),
+    why_entrepreneurship: z.string().max(300).default("Not discussed in interview"),
+    financial_commitments: z.string().max(200).default("Not discussed in interview"),
+    goals: z.string().max(400).default("Not discussed in interview"),
+    grit_score: z.enum(["HIGH", "MEDIUM", "LOW"]).default("LOW"),
+    grit_evidence: z.string().max(250).default("Not discussed in interview"),
+    business_thinking: z.string().max(300).default("Not discussed in interview"),
+    founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
+    hobbies: z.string().max(200).default("Not discussed in interview"),
 });
 
 export const SolutionChunkSchema = z.object({
-    idea: z.string(),
-    macro_context: z.string(),
-    why_ai: z.string(),
-    development_stage: z.string(),
-    assets: z.string(),
+    idea: z.string().max(500),
+    macro_context: z.string().max(200).default("Not discussed in interview"),
+    why_ai: z.string().max(300).default("Not discussed in interview"),
+    development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
+    assets: z.string().max(300).default("Not discussed in interview"),
 });
 
 export const ScorecardChunkSchema = z.object({
     desirability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    desirability_note: z.string(),
+    desirability_note: z.string().max(250).default("Not discussed in interview"),
     viability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    viability_note: z.string(),
+    viability_note: z.string().max(250).default("Not discussed in interview"),
     feasibility_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    feasibility_note: z.string(),
+    feasibility_note: z.string().max(250).default("Not discussed in interview"),
     defensibility_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    defensibility_note: z.string(),
+    defensibility_note: z.string().max(250).default("Not discussed in interview"),
     affordability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    affordability_note: z.string(),
+    affordability_note: z.string().max(250).default("Not discussed in interview"),
 });
 
 export const AssessmentChunkSchema = z.object({
@@ -99,8 +101,8 @@ export const AssessmentChunkSchema = z.object({
 // ─── Split Assessment into smaller chunks for reliability ────────────
 
 export const FlagsChunkSchema = z.object({
-    red_flags: z.string(),
-    green_flags: z.string(),
+    red_flags: z.string().max(800).default("None"),
+    green_flags: z.string().max(800).default("None"),
     mission_fit: z.enum(["HIGH", "MEDIUM", "LOW"]),
 });
 
@@ -115,14 +117,9 @@ export const VerdictChunkSchema = z.object({
         "Safe & Trusted AI",
         "None",
     ]),
-    indiaai_awareness: z.string(),
-    mission_fit_reasoning: z.string(),
-    verdict: z.enum([
-        "SEEMS LIKE A GOOD FIT",
-        "UNSURE — MORE VALIDATION REQUIRED",
-        "DOESN'T SEEM LIKE A GOOD FIT",
-    ]),
-    verdict_reasoning: z.string(),
+    indiaai_awareness: z.enum(["Aware", "Not aware"]),
+    mission_fit_reasoning: z.string().max(500).default("Not discussed in interview"),
+    verdict_reasoning: z.string().max(400).default("Not discussed in interview"),
 });
 
 // ─── Database Row Types ─────────────────────────────────────────────

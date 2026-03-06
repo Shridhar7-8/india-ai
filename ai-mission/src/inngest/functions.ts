@@ -44,7 +44,7 @@ export const finalizeInterview = inngest.createFunction(
     const interviewState = await step.run("fetch-interview-state", async () => {
       const { data, error } = await supabase
         .from("interview_states")
-        .select("red_flags, conversation_summary")
+        .select("red_flags, conversation_summary, vague_topics")
         .eq("conversation_id", conversationId)
         .single();
 
@@ -72,6 +72,7 @@ export const finalizeInterview = inngest.createFunction(
         companyName: convSummary.company_name || undefined,
         pitchDeckUrl,
         websiteUrl: convSummary.website_url || undefined,
+        vagueTopics: interviewState.vague_topics || [],
       });
 
       return report;

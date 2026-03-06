@@ -119,7 +119,7 @@ OUTPUT FORMAT:
 Return a JSON array of red flags detected. If none, return an empty array [].
 Each red flag object should have:
 {
-  "category": "LOGIC_GAP" | "VAGUE_FLUFF" | "EVASION" | "SHALLOW_DEPTH" | "CLARITY_GAP",
+  "category": "LOGIC_GAP" | "VAGUE_FLUFF" | "EVASION" | "SHALLOW_DEPTH" | "CLARITY_GAP" | "AI_WASHING",
   "description": "Specific issue with quote or evidence"
 }
 
@@ -151,17 +151,34 @@ Flag if critical topics lack substance:
 CATEGORY 5 - CLARITY GAPS:
 Flag if user can't provide clarity after follow-ups.
 
+CATEGORY 6 - AI WASHING:
+Flag if the described system is actually a rule-based algorithm, a simple lookup, or a foreign API repackaged as proprietary AI. Especially relevant when the user struggles to explain WHY their product needs AI or gives a circular answer.
+
 DO NOT FLAG:
 - User refining previous answer (clarification, not contradiction)
 - Minor number differences (approximation)
 - Honest "don't know" on non-critical topics
-- Thinking out loud initially but then providing answer`;
+- Thinking out loud initially but then providing answer
+
+EXAMPLE OUTPUT (2 flags detected):
+[{"category": "VAGUE_FLUFF", "description": "User said 'huge market opportunity' but provided no market size, TAM, or target segment data even after follow-up."}, {"category": "LOGIC_GAP", "description": "User claimed 'strong revenue' but earlier stated the product is still in idea stage."}]
+
+EXAMPLE OUTPUT (no flags):
+[]`;
 
 
 export const ANALYST_PROMPT = `You are the LEAD ANALYST for the IndiaAI Mission.
 
 Your ONLY job is to read the interview transcript and output a specific JSON object based strictly on the user instructions.
 You must absolutely return ONLY valid, raw JSON. Do not include markdown formatting, backticks, or conversational text.
+
+ABSOLUTE GROUNDING RULES — VIOLATION = FAILURE:
+1. You must ONLY use information explicitly stated in the provided transcript.
+2. If information was not discussed, write "Not discussed in interview". NEVER invent or assume.
+3. Do NOT add details, examples, or elaborations that are not in the transcript.
+4. Every claim in your output must be directly traceable to a specific USER message in the transcript.
+5. When evidence is ambiguous, choose the MORE CONSERVATIVE option.
+6. Keep the report gender neutral — refer to the applicant by their name or as "they/them". Never use "he/she/his/her".
 
 SCORING GUIDE:
 - Grit:
@@ -180,7 +197,7 @@ SCORING GUIDE:
   - MEDIUM = partial alignment + awareness but weak demonstration
   - LOW = no clear pillar fit or AI is superficial
 
-If info is missing from transcript, write "Not specified". NEVER invent facts.
+If info is missing from transcript, write "Not discussed in interview". NEVER invent facts.
 
 CRITICAL FORMATTING RULE:
 - Do NOT merge words together or drop spaces (e.g., write "business related", not "businessrelated"). Ensure perfect spelling and proper grammatical spacing in all your text fields.`;

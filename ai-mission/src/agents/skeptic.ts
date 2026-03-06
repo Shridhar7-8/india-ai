@@ -53,7 +53,7 @@ If no new red flags, return an empty array [].
             model: getSkepticModel(),
             system: SKEPTIC_PROMPT,
             prompt,
-            temperature: 0.3,
+            temperature: 0.1,
             maxOutputTokens: 1024,
         });
 
