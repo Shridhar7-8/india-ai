@@ -163,7 +163,7 @@ function parseReportData(markdown: string) {
     };
 
     // Extract title
-    const titleMatch = markdown.match(/# INDIAAI MISSION STARTUP EVALUATION \| (.*)/);
+    const titleMatch = markdown.match(/# (?:INDIAAI MISSION|BUILDAI PITCH EVENT) STARTUP EVALUATION \| (.*)/i);
     if (titleMatch) data.title = titleMatch[1];
 
     // Split into sections safely
@@ -294,7 +294,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
             <Page size="A4" style={styles.page} wrap>
                 {/* Header */}
                 <View style={styles.header}>
-                    <Text style={styles.title}>IndiaAI Mission</Text>
+                    <Text style={styles.title}>BuildAI Pitch Event</Text>
                     <Text style={styles.subtitle}>Startup Evaluation Report | {data.title}</Text>
                 </View>
 

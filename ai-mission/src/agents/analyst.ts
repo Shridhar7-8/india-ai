@@ -242,7 +242,7 @@ function buildMarkdownReport(
 
     // Title: Applicant Name | Company Name | Date
     const reportDate = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-    lines.push(`# INDIAAI MISSION STARTUP EVALUATION | ${f.founder_name} | ${companyName || "Not specified"} | ${reportDate}`);
+    lines.push(`# BUILDAI PITCH EVENT STARTUP EVALUATION | ${f.founder_name} | ${companyName || "Not specified"} | ${reportDate}`);
     lines.push("");
 
     // Section 1

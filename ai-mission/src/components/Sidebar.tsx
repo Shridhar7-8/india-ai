@@ -93,7 +93,8 @@ export default function Sidebar({
                     {onClose && (
                         <button
                             onClick={onClose}
-                            className="md:hidden p-2 text-gray-500 hover:text-orange-700"
+                            className="md:hidden p-2 text-gray-500 hover:text-orange-700 bg-white/50 hover:bg-white rounded-full transition-colors relative z-50 pointer-events-auto"
+                            aria-label="Close sidebar"
                         >
                             <svg
                                 className="w-6 h-6"

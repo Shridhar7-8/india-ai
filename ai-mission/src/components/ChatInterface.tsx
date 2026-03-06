@@ -143,18 +143,18 @@ export default function ChatInterface({
                             </h1>
 
                             <p className="text-gray-500 text-base md:text-lg font-light">
-                                ITEL&apos;S AI-powered interactive application for startups.
+                                Say hello to start the conversation.
                             </p>
 
                             {/* Question prompt */}
-                            <div className="mt-8">
+                            {/* <div className="mt-8">
                                 <button
                                     onClick={onNewConversation}
                                     className="btn-primary px-8 py-3 text-base md:text-lg"
                                 >
                                     Start New Interview
                                 </button>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 ) : (

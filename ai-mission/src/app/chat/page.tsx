@@ -192,7 +192,7 @@ export default function ChatPage() {
             {/* Mobile Sidebar Overlay */}
             {mobileSidebarOpen && (
                 <div
-                    className="fixed inset-0 bg-gray-800/40 z-40 md:hidden backdrop-blur-sm transition-opacity"
+                    className="fixed inset-0 bg-gray-800/40 z-[55] md:hidden backdrop-blur-sm transition-opacity"
                     onClick={() => setMobileSidebarOpen(false)}
                 />
             )}
@@ -200,7 +200,7 @@ export default function ChatPage() {
             {/* Sidebar */}
             <div
                 className={`
-          fixed inset-y-0 left-0 z-50 w-80 transform transition-transform duration-300 ease-in-out border-r border-white/20
+          fixed inset-y-0 left-0 z-[60] w-80 transform transition-transform duration-300 ease-in-out border-r border-white/20
           md:relative md:translate-x-0 md:w-80 md:border-r md:border-white/20
           ${mobileSidebarOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}
         `}
