@@ -117,6 +117,7 @@ export interface FSMResult {
     checklistUpdate?: { key: string; value: boolean };  // For backward compat with checklist
     isComplete: boolean;         // True if the interview is done
     founderIsSolo?: boolean;     // Stored for step2 branching
+    notedVague?: string;         // Track vague topics
 }
 
 export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {

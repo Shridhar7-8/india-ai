@@ -119,6 +119,11 @@ export const VerdictChunkSchema = z.object({
     ]),
     indiaai_awareness: z.enum(["Aware", "Not aware"]),
     mission_fit_reasoning: z.string().max(500).default("Not discussed in interview"),
+    verdict: z.enum([
+        "SEEMS LIKE A GOOD FIT",
+        "UNSURE — MORE VALIDATION REQUIRED",
+        "DOESN'T SEEM LIKE A GOOD FIT",
+    ]),
     verdict_reasoning: z.string().max(400).default("Not discussed in interview"),
 });
 
@@ -205,6 +210,7 @@ export interface InterviewState {
         summary: string;
     }>;
     turn_count: number;
+    vague_topics?: string[];
     created_at: string;
     updated_at: string;
 }

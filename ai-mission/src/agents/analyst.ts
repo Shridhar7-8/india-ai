@@ -16,6 +16,7 @@ interface AnalystInput {
     companyName?: string;
     pitchDeckUrl?: string;
     websiteUrl?: string;
+    vagueTopics?: string[];
 }
 
 // ─── JSON Repair Helper ─────────────────────────────────────────────
