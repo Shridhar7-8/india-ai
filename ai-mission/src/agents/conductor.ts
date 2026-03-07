@@ -194,7 +194,7 @@ Remember: output RAW JSON only. No markdown.`.trim();
                     { role: "user", content: evalContext },
                 ],
                 temperature: 0.5,
-                maxOutputTokens: 512,
+                maxOutputTokens: 1024,
             });
 
             console.log(`🤖 FSM eval (attempt ${attempt + 1}, ${text.length} chars)`);
