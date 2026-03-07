@@ -72,13 +72,21 @@ async function callLLMForJSON<T>(
     maxTokens: number = 2048,
 ): Promise<T | null> {
     const MAX_RETRIES = 5;
+    let lastZodError: string | null = null; // Track last Zod error for feedback
 
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
+            // Build prompt — on retry, append the Zod error so the LLM can self-correct
+            let effectivePrompt = userPrompt;
+            if (lastZodError && attempt > 0) {
+                effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION:\n${lastZodError}\nPlease fix the above issues and try again. Use EXACTLY the allowed values listed above. Output RAW JSON ONLY.`;
+                console.log(`🔄 ${chunkName} retry ${attempt + 1} with error feedback`);
+            }
+
             const { text } = await generateText({
                 model: getModel(),
                 system: systemPrompt,
-                prompt: userPrompt,
+                prompt: effectivePrompt,
                 temperature: 0.3,
                 maxOutputTokens: maxTokens,
             });
@@ -99,7 +107,10 @@ async function callLLMForJSON<T>(
             const zodResult = schema.safeParse(parsed);
 
             if (!zodResult.success) {
-                console.warn(`⚠️ ${chunkName} Zod failed (attempt ${attempt + 1}):`, zodResult.error.flatten());
+                const flatError = zodResult.error.flatten();
+                console.warn(`⚠️ ${chunkName} Zod failed (attempt ${attempt + 1}):`, flatError);
+                // Store the error for the next retry prompt
+                lastZodError = JSON.stringify(flatError.fieldErrors);
                 continue;
             }
 
@@ -108,6 +119,7 @@ async function callLLMForJSON<T>(
 
         } catch (error) {
             console.error(`❌ ${chunkName} error (attempt ${attempt + 1}):`, error);
+            lastZodError = error instanceof Error ? error.message : String(error);
         }
     }
 
@@ -156,7 +168,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         SolutionChunkSchema,
         "Solution chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "idea": "2-3 sentences describing the startup idea (stay close to their words)",\n  "macro_context": "1-line macro context",\n  "why_ai": "why their product requires AI",\n  "development_stage": "MVP / Idea / Growth / etc.",\n  "assets": "key assets they bring"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "idea": "2-3 sentences describing the startup idea (stay close to their words)",\n  "macro_context": "1-line macro context",\n  "why_ai": "why their product requires AI",\n  "development_stage": "MUST be exactly one of: Idea, Concept, Prototype, Early MVP, MVP, Growth, Not specified",\n  "assets": "key assets they bring"\n}\nOutput RAW JSON ONLY.`,
     );
 
     // ── Call 3: 5-Zone Scorecard ──
