@@ -40,11 +40,11 @@ export const STEPS: Step[] = [
     { id: "zone_5_affordability", prompt: "How does your pricing fit within the Indian market?", maxDrills: 2 },
 
     // ── Phase 3: AI & IndiaAI ──
-    { id: "ai_interest", prompt: "What got you interested in AI? Was there a specific moment or problem that drew you to it?", maxDrills: 0 },
-    { id: "ai_necessity", prompt: "Why does your product specifically require AI? Would it not be possible to build this without AI?", maxDrills: 0 },
-    { id: "ai_ecosystem_contribution", prompt: "How do you think your product will contribute to the Indian AI ecosystem?", maxDrills: 0 },
-    { id: "indiaai_awareness", prompt: "Are you aware of the IndiaAI Mission?", maxDrills: 0 },
-    { id: "indiaai_alignment", prompt: "How does your product empower the IndiaAI Mission?", maxDrills: 0 },
+    { id: "ai_interest", prompt: "What got you interested in AI? Was there a specific moment or problem that drew you to it?", maxDrills: 1, evalPrompt: "Accept any genuine personal story or motivation. Do NOT demand technical details or metrics. If they mention a moment, problem, or general interest in AI, answered=true." },
+    { id: "ai_necessity", prompt: "Why does your product specifically require AI? Would it not be possible to build this without AI?", maxDrills: 2, evalPrompt: "The answer should explain WHY the product specifically needs AI vs traditional approaches. Accept clear reasoning about what AI enables. Do NOT demand specific model names or technical architecture." },
+    { id: "ai_ecosystem_contribution", prompt: "How do you think your product will contribute to the Indian AI ecosystem?", maxDrills: 2, evalPrompt: "The answer should describe how the product benefits the broader Indian AI ecosystem (e.g., adoption, accessibility, local capability). Accept vision-level answers with at least one concrete example or mechanism. Stay scoped to ecosystem contribution — do NOT ask about IndiaAI Mission here." },
+    { id: "indiaai_awareness", prompt: "Are you aware of the IndiaAI Mission?", maxDrills: 0, evalPrompt: "This is a simple yes/no awareness check. Any answer indicating awareness or lack thereof is sufficient." },
+    { id: "indiaai_alignment", prompt: "How does your product empower the IndiaAI Mission?", maxDrills: 2, evalPrompt: "The answer should explain how the product aligns with or empowers the IndiaAI Mission. Accept answers that describe contribution to AI adoption, local capability building, or government AI goals. If they provide a clear example, answered=true." },
 
     // ── Phase 4: Closing ──
     { id: "company_name", prompt: "What is the name of your company or startup?", maxDrills: 0 },
