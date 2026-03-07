@@ -22,12 +22,12 @@ export const STEPS: Step[] = [
     { id: "name", prompt: "Could you please tell me your name to get started?", maxDrills: 1 },
     { id: "professional_background", prompt: "Tell me about your professional background and work experience.", maxDrills: 0 },
     { id: "education_background", prompt: "What is your educational background?", maxDrills: 0 },
-    { id: "life_goals", prompt: "What are your short-term, mid-term, and long-term life goals?", maxDrills: 2, evalPrompt: "The answer must cover short-term AND mid-term AND long-term goals. If any are missing, answered=false." },
-    { id: "startup_vs_technology", prompt: "What does it mean to you that a startup is a BUSINESS, not just a technology?", maxDrills: 0 },
+    { id: "life_goals", prompt: "What are your short-term, mid-term, and long-term life goals?", maxDrills: 2, evalPrompt: "The answer must cover short-term AND mid-term AND long-term goals with CONCRETE, SPECIFIC details. Vague goals like 'grow', 'scale', or 'succeed' without specifics = answered=false. Each timeframe needs a clear, actionable goal. If any timeframe is missing OR any goal is generic/vague, answered=false." },
+    { id: "startup_vs_technology", prompt: "What does it mean to you that a startup is a BUSINESS, not just a technology?", maxDrills: 2, evalPrompt: "The answer must show genuine understanding of BUSINESS fundamentals (e.g., revenue, customers, market, operations, sales) vs just building technology. Generic statements like 'business is important' or 'it's not just about tech' without explaining WHAT that means concretely = answered=false. Look for specific business thinking." },
     { id: "founder_status_step1", prompt: "Are you building this as a solo founder or do you have co-founders?", maxDrills: 0 },
     { id: "founder_status_step2", prompt: "", maxDrills: 0 },  // prompt set dynamically by backend
     { id: "financial_obligations", prompt: "What are your personal and family financial obligations?", maxDrills: 0, evalPrompt: "This is about PERSONAL and FAMILY obligations only, NOT startup funding." },
-    { id: "failure_story", prompt: "Can you share a failure you experienced and what you learned from it?", maxDrills: 2, evalPrompt: "Accept ANY failure (childhood, academic, personal, professional). Never ask for a 'bigger' one. Must include what failed + lesson learned." },
+    { id: "failure_story", prompt: "Can you share a failure you experienced and what you learned from it?", maxDrills: 2, evalPrompt: "Accept ANY failure (childhood, academic, personal, professional). Never ask for a 'bigger' one. The answer must include: (1) a SPECIFIC description of what failed (not just 'a project failed'), and (2) a CONCRETE lesson learned (not just 'I learned to be better'). If either the failure or the lesson is vague/generic, answered=false." },
     { id: "hobbies", prompt: "What are your hobbies or interests outside of work?", maxDrills: 0 },
     { id: "the_why", prompt: "What motivates you to build this startup?", maxDrills: 0 },
 
