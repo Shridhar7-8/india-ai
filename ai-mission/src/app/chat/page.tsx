@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import ChatInterface from "@/components/ChatInterface";
 import { useChatStore } from "@/store/chat-store";
@@ -8,6 +9,7 @@ import { useChatStore } from "@/store/chat-store";
 const API_BASE = "";
 
 export default function ChatPage() {
+    const router = useRouter();
     const {
         conversations,
         setConversations,
@@ -26,6 +28,13 @@ export default function ChatPage() {
     const [currentStepId, setCurrentStepId] = useState<string | null>(null);
     const [stepIndex, setStepIndex] = useState(0);
     const [totalSteps, setTotalSteps] = useState(25);
+
+    // Redirect to feedback page when interview is complete
+    useEffect(() => {
+        if (isInterviewComplete && activeConversationId) {
+            router.push(`/feedback?conversationId=${activeConversationId}`);
+        }
+    }, [isInterviewComplete, activeConversationId, router]);
 
     // Load conversations on mount
     const loadConversations = useCallback(async () => {

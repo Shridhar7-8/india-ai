@@ -226,7 +226,7 @@ export default function Sidebar({
                 <div className="flex items-start gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500 mt-1 flex-shrink-0"></div>
                     <div>
-                        <p className="text-xs font-medium text-gray-600">Powered by ITEL</p>
+                        <p className="text-xs font-medium text-gray-600">Powered by Venture Lens</p>
                         <p className="text-xs text-gray-400 font-light">
                             Immersive Technology Entrepreneurship Labs
                         </p>

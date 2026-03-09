@@ -18,10 +18,10 @@ const PoweredByBadge = () => {
                 Powered by
             </span>
             <Image
-                src="/logo.png"
-                alt="ITEL"
-                width={60}
-                height={24}
+                src="/logo_venture.png"
+                alt="Venture Lens"
+                width={80}
+                height={30}
                 className="object-contain"
             />
         </motion.div>

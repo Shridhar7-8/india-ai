@@ -180,7 +180,7 @@ export default function ChatInterface({
                             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white p-3 shadow-lg ring-1 ring-gray-100 flex items-center justify-center">
                                 <Image
                                     src="/logo.png"
-                                    alt="ITEL"
+                                    alt="ITEL Foundation"
                                     width={64}
                                     height={64}
                                     className="object-contain"
