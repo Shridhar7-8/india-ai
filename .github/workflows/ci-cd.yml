@@ -84,32 +84,27 @@ jobs:
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
-          port: ${{ secrets.SERVER_PORT }}
-          password: ${{ secrets.SERVER_PASSWORD }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
             
             # Application Directory
-            APP_DIR="/var/www/india-ai/india-ai/ai-mission"
+            APP_DIR="/var/www/buildai/ai-mission"
             
             if [ ! -d "$APP_DIR" ]; then
               echo "Directory does not exist. Please clone the repository manually the first time."
               exit 1
             fi
             
-            cd $APP_DIR
-            
-            # Since git pull should happen at the repo root
-            cd /var/www/india-ai/india-ai
-            # Ensure we are using HTTPS with the PAT to avoid SSH passphrase prompts
-            git remote set-url origin https://Shridhar7-8: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@github.com/Shridhar7-8/india-ai.git
+            # Go back to the repo root
+            cd /var/www/buildai
             git pull origin main
             
             # Go back to the app directory
             cd $APP_DIR
             
-            npm ci
+            npm install
             npm run build
             
-            pm2 restart india-ai-prod || pm2 start npm --name "india-ai-prod" -- start
+            pm2 restart buildai || pm2 start npm --name "buildai" -- start
             echo "Deployment successful!"
