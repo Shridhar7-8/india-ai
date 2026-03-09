@@ -93,7 +93,7 @@ export default function InfoPage() {
                         variants={itemVariants}
                         className="text-base md:text-2xl mb-2 md:mb-4 text-center md:text-left mt-0 md:mt-0 font-medium text-gray-900"
                     >
-                        Welcome to the Build AI Pitch Event application.
+                        Welcome to the <span className="font-bold">Build<span style={{ color: "#E8793A" }}>AI</span></span> Pitch Event application.
                     </motion.h1>
 
                     <div className="flex flex-col gap-1.5 md:gap-2 text-gray-600 text-[12px] md:text-[15px] leading-snug max-w-4xl bg-white/60 p-3 md:p-5 rounded-xl md:rounded-2xl shadow-lg border border-white/40 backdrop-blur-sm">
@@ -122,7 +122,7 @@ export default function InfoPage() {
                         </motion.p>
 
                         <motion.p variants={itemVariants}>
-                            The process takes approximately 30 minutes. There is no time
+                            The process takes 20-40 minutes. There is no time
                             limit.
                         </motion.p>
 
