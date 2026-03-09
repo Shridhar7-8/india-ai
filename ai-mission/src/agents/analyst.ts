@@ -161,7 +161,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         FounderChunkSchema,
         "Founder chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "Solo founder OR Co-founder team",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'",\n  "long_term_vision": "1-2 sentences on their long-term vision, using their own words, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "MUST BE 'Solo founder' OR 'Co-founder team'. STRICT RULE: Unless they explicitly mention co-founders, default to 'Solo founder'. Do NOT hallucinate co-founders from 'we' if referring to a company.",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'",\n  "long_term_vision": "1-2 sentences on their long-term vision, using their own words, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
     );
 
     // ── Call 2: Solution Snapshot ──
@@ -208,39 +208,55 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
     const desirabilityFail = sc?.desirability_score === "FAIL";
     const gritScore = founderData?.grit_score || "LOW";
 
-    // Pre-compute the deterministic verdict so the LLM can only fill in reasoning + pillar
+    const redFlagsCount = flagsData?.red_flags && flagsData.red_flags !== "None" ? flagsData.red_flags.split("|").length : 0;
+    const greenFlagsCount = flagsData?.green_flags && flagsData.green_flags !== "None" ? flagsData.green_flags.split("|").length : 0;
+
     let deterministicVerdict: string;
-    if (failCount >= 3 || desirabilityFail) {
-        // HARD DISQUALIFIER
+    let hardDisqualifierNote = "";
+
+    // 1. HARD DISQUALIFIERS (Top Priority)
+    if (failCount >= 3) {
         deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
-    } else if (
+        hardDisqualifierNote = `HARD DISQUALIFIER: ${failCount} zones scored FAIL (≥3). The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT regardless of everything else.`;
+    } else if (desirabilityFail) {
+        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
+        hardDisqualifierNote = "HARD DISQUALIFIER: Desirability is FAIL. The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT. Important: mention explicitly in the summary reasoning that since desirability is fail, no market exists for the product and the candidate doesn't seem like a good fit.";
+    }
+    // 2. SEEMS LIKE A GOOD FIT
+    else if (
         (gritScore === "HIGH" || gritScore === "MEDIUM") &&
-        passCount >= 3 && failCount === 0 &&
-        (missionFit === "HIGH" || missionFit === "MEDIUM")
+        (failCount === 0 || (failCount === 1 && passCount >= 4 && !desirabilityFail)) &&
+        passCount >= 3 &&
+        (missionFit === "HIGH" || missionFit === "MEDIUM") &&
+        redFlagsCount <= 1
     ) {
         deterministicVerdict = "SEEMS LIKE A GOOD FIT";
-    } else if (
-        (gritScore === "HIGH" || gritScore === "MEDIUM") &&
-        passCount >= 2 && failCount <= 2 && !desirabilityFail
+    }
+    // 3. DOESN'T SEEM LIKE A GOOD FIT (Criteria match)
+    else if (
+        (gritScore === "LOW" || gritScore === "MEDIUM" || (gritScore === "HIGH" && passCount <= 1)) &&
+        (missionFit === "LOW" || missionFit === "MEDIUM") &&
+        redFlagsCount >= 2 && greenFlagsCount <= 1
     ) {
-        deterministicVerdict = "UNSURE — MORE VALIDATION REQUIRED";
-    } else if (gritScore === "LOW" || failCount >= 3) {
         deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
-    } else {
+    }
+    // 4. UNSURE — MORE VALIDATION REQUIRED
+    else {
         deterministicVerdict = "UNSURE — MORE VALIDATION REQUIRED";
     }
 
-    const hardDisqualifierNote = desirabilityFail
-        ? "HARD DISQUALIFIER: Desirability is FAIL — no market exists for the product. The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT. Mention this explicitly in verdict_reasoning."
-        : failCount >= 3
-            ? `HARD DISQUALIFIER: ${failCount} zones scored FAIL (≥3). The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT regardless of everything else.`
-            : "";
+    // Handle rare edge cases for the prompt instructions
+    if (deterministicVerdict === "DOESN'T SEEM LIKE A GOOD FIT" && gritScore === "HIGH") {
+        hardDisqualifierNote += " NOTE: The founder's grit is HIGH, but other aspects are very weak. Mention explicitly in the reasoning that grit is high but other aspects fall short.";
+    } else if (deterministicVerdict === "UNSURE — MORE VALIDATION REQUIRED" && gritScore === "LOW") {
+        hardDisqualifierNote += " NOTE: The founder's grit is LOW, but other aspects are strong enough to warrant UNSURE. Mention explicitly in the reasoning that grit is low but other signals are strong.";
+    }
 
     const verdictData = await callLLMForJSON(
         VerdictChunkSchema,
         "Verdict chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}".\n\nReturn a JSON with ONLY these 4 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision to grant the verdict of: ${deterministicVerdict}."\n}\n\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}".\n\nReturn a JSON with ONLY these 4 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision to grant the verdict of: ${deterministicVerdict}. Make sure to include any explicitly requested notes about desirability failing or grit contradictions."\n}\n\nOutput RAW JSON ONLY.`,
         5120, // extra tokens for reasoning fields
     );
 
