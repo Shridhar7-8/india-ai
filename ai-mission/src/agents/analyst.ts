@@ -334,7 +334,11 @@ function buildMarkdownReport(
     } else {
         lines.push(`| **Pitch Deck** | Not provided |`);
     }
-    lines.push(`| **Website** | ${websiteUrl || "Not provided"} |`);
+    if (websiteUrl && websiteUrl !== "Not provided") {
+        lines.push(`| **Website** | [${websiteUrl}](${websiteUrl.startsWith("http") ? websiteUrl : "https://" + websiteUrl}) |`);
+    } else {
+        lines.push(`| **Website** | Not provided |`);
+    }
     lines.push("");
 
     // Section 3

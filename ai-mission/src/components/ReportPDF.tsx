@@ -6,6 +6,7 @@ import {
     View,
     StyleSheet,
     Font,
+    Link,
     renderToBuffer,
 } from "@react-pdf/renderer";
 
@@ -286,6 +287,27 @@ const cleanField = (field: string) => {
     return field.replace(/\[.*?\]/g, "").trim();
 };
 
+// Renders cell value with clickable links if markdown link syntax is found
+const RenderCellValue = ({ text }: { text?: string }) => {
+    if (!text) return null;
+    // Match markdown links: [label](url)
+    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/;
+    const match = text.match(linkRegex);
+    if (match) {
+        const label = match[1];
+        const url = match[2];
+        return <Link src={url} style={{ color: "#2563eb", textDecoration: "underline" }}>{label}</Link>;
+    }
+    // Fallback: if it looks like a URL, make it clickable
+    const trimmed = text.replace(/\*\*/g, "").trim();
+    if (trimmed.match(/^https?:\/\//)) {
+        return <Link src={trimmed} style={{ color: "#2563eb", textDecoration: "underline" }}>{trimmed}</Link>;
+    }
+    let clean = text.replace(/\*\*/g, "").replace(/<br>/g, "\n");
+    clean = clean.replace(/[🔴🟢]/g, "").trim();
+    return <Text>{clean}</Text>;
+};
+
 const ReportTemplate = ({ markdown }: { markdown: string }) => {
     const data = parseReportData(markdown);
 
@@ -337,7 +359,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                                     <Text style={styles.tableCellHeader}>{cleanField(row.field)}</Text>
                                 </View>
                                 <View style={[styles.tableCol, { width: "70%" }]}>
-                                    <Text style={styles.tableCell}><StripMarkdown text={row.value} /></Text>
+                                    <Text style={styles.tableCell}><RenderCellValue text={row.value} /></Text>
                                 </View>
                             </View>
                         ))}
