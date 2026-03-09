@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState, FormEvent, Suspense } from "react";
+import React, { useState, FormEvent, Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useChatStore } from "@/store/chat-store";
 
 function FeedbackForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const conversationId = searchParams.get("conversationId");
+
+    // Pull the interview completion state from the global store
+    const { isInterviewComplete } = useChatStore();
 
     const [rating, setRating] = useState<number>(0);
     const [hoverRating, setHoverRating] = useState<number>(0);
@@ -14,6 +18,41 @@ function FeedbackForm() {
     const [difficulties, setDifficulties] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [unauthorized, setUnauthorized] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Verify access when component mounts
+    useEffect(() => {
+        setIsMounted(true);
+        // Only allow access if the store explicitly says the interview is complete,
+        // OR if a valid conversationId is passed (as an extra fallback)
+        if (!isInterviewComplete && !conversationId) {
+            setUnauthorized(true);
+            const timer = setTimeout(() => {
+                router.push("/");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [isInterviewComplete, conversationId, router]);
+
+    // Prevent hydration mismatch and form flashing
+    if (!isMounted) {
+        return null;
+    }
+
+    if (unauthorized) {
+        return (
+            <div className="flex flex-col items-center justify-center flex-1 h-[60vh] text-center space-y-6 animate-in fade-in duration-500">
+                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg className="w-10 h-10 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900">Access Denied</h2>
+                <p className="text-gray-600 max-w-md">This page is only accessible after completing an interview. Redirecting you home...</p>
+            </div>
+        );
+    }
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
