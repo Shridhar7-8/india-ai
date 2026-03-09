@@ -51,6 +51,7 @@ export const FounderChunkSchema = z.object({
     business_thinking: z.string().max(300).default("Not discussed in interview"),
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
     hobbies: z.string().max(200).default("Not discussed in interview"),
+    long_term_vision: z.string().max(300).default("Not discussed in interview"),
 });
 
 export const SolutionChunkSchema = z.object({
@@ -119,11 +120,6 @@ export const VerdictChunkSchema = z.object({
     ]),
     indiaai_awareness: z.enum(["Aware", "Not aware"]),
     mission_fit_reasoning: z.string().max(500).default("Not discussed in interview"),
-    verdict: z.enum([
-        "SEEMS LIKE A GOOD FIT",
-        "UNSURE — MORE VALIDATION REQUIRED",
-        "DOESN'T SEEM LIKE A GOOD FIT",
-    ]),
     verdict_reasoning: z.string().max(800).default("Not discussed in interview"),
 });
 

@@ -69,7 +69,7 @@ async function callLLMForJSON<T>(
     chunkName: string,
     systemPrompt: string,
     userPrompt: string,
-    maxTokens: number = 2048,
+    maxTokens: number = 4096,
 ): Promise<T | null> {
     const MAX_RETRIES = 5;
     let lastZodError: string | null = null; // Track last Zod error for feedback
@@ -149,8 +149,9 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         .join("\n\n");
 
     // Pass only descriptions — not category codes like VAGUE_FLUFF
+    // Provide flags plainly without numbers, as providing numbers causes LLM to just output numbers later.
     const redFlagsStr = redFlags.length > 0
-        ? redFlags.map((f, i) => `${i + 1}. ${f.description}`).join("\n")
+        ? redFlags.map((f) => `- ${f.description}`).join("\n")
         : "No red flags detected.";
 
     const baseContext = `INTERVIEW TRANSCRIPT:\n${transcript}\n\nRED FLAGS:\n${redFlagsStr}`;
@@ -160,7 +161,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         FounderChunkSchema,
         "Founder chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "Solo founder OR Co-founder team",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "Solo founder OR Co-founder team",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'",\n  "long_term_vision": "1-2 sentences on their long-term vision, using their own words, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
     );
 
     // ── Call 2: Solution Snapshot ──
@@ -194,7 +195,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         FlagsChunkSchema,
         "Flags chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\n\nReturn a JSON with ONLY these 3 fields:\n{\n  "red_flags": "flag1 | flag2 | flag3 (pipe-separated, or 'None')",\n  "green_flags": "flag1 | flag2 | flag3 (pipe-separated, or 'None')",\n  "mission_fit": "HIGH or MEDIUM or LOW"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\n\nCRITICAL: For red_flags and green_flags, do NOT EVER return numbers (e.g., "1 | 2"). You must return the FULL TEXT DESCRIPTION of each flag. Do not use generic flag IDs.\n\nReturn a JSON with ONLY these 3 fields:\n{\n  "red_flags": "full text description of flag 1 | full text description of flag 2 (pipe-separated, or 'None')",\n  "green_flags": "full text description of flag 1 | full text description of flag 2 (pipe-separated, or 'None')",\n  "mission_fit": "HIGH or MEDIUM or LOW"\n}\nOutput RAW JSON ONLY.`,
     );
 
     const missionFit = flagsData?.mission_fit || "LOW";
@@ -239,8 +240,8 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         VerdictChunkSchema,
         "Verdict chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}"\nYou MUST use this exact verdict string. Do NOT change it.\n\nReturn a JSON with ONLY these 5 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict": "${deterministicVerdict}",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision."\n}\n\nOutput RAW JSON ONLY.`,
-        3072, // extra tokens for reasoning fields
+        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}".\n\nReturn a JSON with ONLY these 4 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision to grant the verdict of: ${deterministicVerdict}."\n}\n\nOutput RAW JSON ONLY.`,
+        5120, // extra tokens for reasoning fields
     );
 
     // ── Fallback: if Verdict LLM call failed, use deterministic verdict ──
@@ -248,12 +249,11 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         indiaai_pillar: "None" as const,
         indiaai_awareness: "Not aware" as const,
         mission_fit_reasoning: "Report generation partially failed — verdict determined by scoring rules.",
-        verdict: deterministicVerdict as "SEEMS LIKE A GOOD FIT" | "UNSURE — MORE VALIDATION REQUIRED" | "DOESN'T SEEM LIKE A GOOD FIT",
         verdict_reasoning: `Verdict determined by scoring rules: Grit=${gritScore}, PASS=${passCount}, FAIL=${failCount}, Mission Fit=${missionFit}.${desirabilityFail ? " Desirability scored FAIL — no clear market exists for the product." : ""}`,
     };
 
     // ── Merge & Build Markdown ──
-    return buildMarkdownReport(founderData, solutionData, scorecardData, flagsData, finalVerdictData, companyName, pitchDeckUrl, websiteUrl);
+    return buildMarkdownReport(founderData, solutionData, scorecardData, flagsData, finalVerdictData, deterministicVerdict, companyName, pitchDeckUrl, websiteUrl);
 }
 
 // ─── Deterministic Markdown Builder ─────────────────────────────────
@@ -263,7 +263,8 @@ function buildMarkdownReport(
     solution: z.infer<typeof SolutionChunkSchema> | null,
     scorecard: z.infer<typeof ScorecardChunkSchema> | null,
     flags: z.infer<typeof FlagsChunkSchema> | null,
-    verdict: z.infer<typeof VerdictChunkSchema> | null,
+    verdictData: z.infer<typeof VerdictChunkSchema> | null,
+    finalVerdictString: string,
     companyName?: string,
     pitchDeckUrl?: string,
     websiteUrl?: string,
@@ -273,6 +274,7 @@ function buildMarkdownReport(
         why_entrepreneurship: "Not available", financial_commitments: "Not available",
         goals: "Not available", grit_score: "LOW" as const, grit_evidence: "Report generation partially failed.",
         business_thinking: "Not available", founder_structure: "Not available",
+        hobbies: "Not available", long_term_vision: "Not available",
     };
     const s = solution || {
         idea: "Not available", macro_context: "Not available",
@@ -289,10 +291,11 @@ function buildMarkdownReport(
         red_flags: "Report generation partially failed", green_flags: "None",
         mission_fit: "LOW" as const,
     };
-    const v = verdict || {
+    const v = verdictData || {
         indiaai_pillar: "None" as const,
-        indiaai_awareness: "Not available", mission_fit_reasoning: "Report generation partially failed.",
-        verdict: "DOESN'T SEEM LIKE A GOOD FIT" as const, verdict_reasoning: "Report generation partially failed.",
+        indiaai_awareness: "Not aware" as const,
+        mission_fit_reasoning: "Report generation partially failed.",
+        verdict_reasoning: "Report generation partially failed.",
     };
 
     const lines: string[] = [];
@@ -314,6 +317,7 @@ function buildMarkdownReport(
     lines.push(`| **Grit Score** | ${f.grit_score} <br><br> Evidence: ${f.grit_evidence} |`);
     lines.push(`| **Business Thinking** | ${f.business_thinking} |`);
     lines.push(`| **Founder Structure** | ${f.founder_structure} |`);
+    lines.push(`| **Long Term Vision** | ${f.long_term_vision} |`);
     lines.push("");
 
     // Section 2
@@ -386,9 +390,9 @@ function buildMarkdownReport(
     lines.push("");
 
     // Section 6
-    lines.push(`## SECTION 6 — AI VERDICT (SEEMS LIKE A GOOD FIT / UNSURE — MORE VALIDATION REQUIRED / DOESN'T SEEM LIKE A GOOD FIT) [${v.verdict}]`);
+    lines.push(`## SECTION 6 — AI VERDICT [${finalVerdictString}]`);
     lines.push("");
-    lines.push(`**Verdict:** ${v.verdict}`);
+    lines.push(`**Verdict:** ${finalVerdictString}`);
     lines.push("");
     lines.push(`**Reasoning:** ${v.verdict_reasoning}`);
     lines.push("");

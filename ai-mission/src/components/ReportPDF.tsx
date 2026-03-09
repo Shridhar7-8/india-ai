@@ -178,8 +178,9 @@ function parseReportData(markdown: string): ReportData {
     const titleMatch = markdown.match(/# (?:INDIAAI MISSION|BUILDAI PITCH EVENT) STARTUP EVALUATION \| (.*)/i);
     if (titleMatch) data.title = titleMatch[1];
 
-    // Split into sections safely
-    const sections = markdown.split(/## SECTION \d+ — [A-Z0-9 &-]+(?:\s*\[[^\]]*\])?|## SECTION \d+ — [A-Z0-9 &-]+(?:\s*\([^\)]*\))?/);
+    // Split into sections safely. The regex matches the full header line for any section.
+    // '## SECTION X — Anything...'
+    const sections = markdown.split(/## SECTION \d+ — [^\n]*/);
     if (sections.length < 7) {
         // Fallback: If parsing fails entirely (unexpected format), just return raw body
         return { ...data, raw: markdown };
