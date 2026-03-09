@@ -101,6 +101,8 @@ jobs:
             
             # Since git pull should happen at the repo root
             cd /var/www/india-ai/india-ai
+            # Ensure we are using HTTPS with the PAT to avoid SSH passphrase prompts
+            git remote set-url origin https://Shridhar7-8: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@github.com/Shridhar7-8/india-ai.git
             git pull origin main
             
             # Go back to the app directory
