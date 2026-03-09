@@ -1,7 +1,6 @@
 import { generateText } from "ai";
 import { getModel } from "@/lib/ollama";
 import { ConductorEvalSchema } from "@/lib/schemas";
-import type { ConductorResponse } from "@/lib/schemas";
 
 // ─── FSM Step Definitions ───────────────────────────────────────────
 
@@ -233,8 +232,9 @@ Remember: output RAW JSON only. No markdown.`.trim();
             let parsed;
             try {
                 parsed = JSON.parse(jsonStr);
-            } catch (parseError: any) {
-                console.warn(`⚠️ JSON parse error (attempt ${attempt + 1}):`, parseError.message);
+            } catch (parseError: unknown) {
+                const message = parseError instanceof Error ? parseError.message : String(parseError);
+                console.warn(`⚠️ JSON parse error (attempt ${attempt + 1}):`, message);
 
                 // Fallback Attempt 1: Try to fix trailing commas
                 try {

@@ -282,7 +282,6 @@ export default function ChatPage() {
                         stepIndex={stepIndex}
                         totalSteps={totalSteps}
                         onSendMessage={handleSendMessage}
-                        onNewConversation={handleNewConversation}
                     />
                 </div>
             </div>

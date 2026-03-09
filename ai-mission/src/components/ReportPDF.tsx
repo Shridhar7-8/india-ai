@@ -8,7 +8,6 @@ import {
     Font,
     renderToBuffer,
 } from "@react-pdf/renderer";
-import { marked } from "marked";
 
 // Register fonts
 Font.register({
@@ -150,8 +149,20 @@ const styles = StyleSheet.create({
  * A simple utility to parse exactly the structure we output from the Analyst
  * We do some naive parsing for the exact template structure we defined.
  */
-function parseReportData(markdown: string) {
-    const data: any = {
+interface ReportData {
+    title: string;
+    founderProfile: Array<{ field: string; value: string }>;
+    solutionSnapshot: Array<{ field: string; value: string }>;
+    scorecard: Array<{ zone: string; score: string; note: string }>;
+    redFlags: string;
+    greenFlags: string;
+    missionFit: { verdict?: string; pillar?: string; awareness?: string; reasoning?: string };
+    verdict: { verdict?: string; reasoning?: string };
+    raw?: string;
+}
+
+function parseReportData(markdown: string): ReportData {
+    const data: ReportData = {
         title: "",
         founderProfile: [],
         solutionSnapshot: [],
@@ -261,7 +272,7 @@ function parseReportData(markdown: string) {
 }
 
 // Sub-components
-const StripMarkdown = ({ text }: { text: string }) => {
+const StripMarkdown = ({ text }: { text?: string }) => {
     // Strip markdown bold asterisks and <br> tags for standard text elements
     if (!text) return null;
     let clean = text.replace(/\*\*/g, "").replace(/<br>/g, "\n");
@@ -303,7 +314,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 <View style={styles.section} wrap={false}>
                     <Text style={styles.h2}>SECTION 1 — FOUNDER PROFILE</Text>
                     <View style={styles.table}>
-                        {data.founderProfile.map((row: any, i: number) => (
+                        {data.founderProfile.map((row: { field: string; value: string }, i: number) => (
                             <View style={styles.tableRow} key={i}>
                                 <View style={[styles.tableCol, { width: "30%" }]}>
                                     <Text style={styles.tableCellHeader}>{cleanField(row.field)}</Text>
@@ -320,7 +331,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 <View style={styles.section} wrap={false}>
                     <Text style={styles.h2}>SECTION 2 — SOLUTION SNAPSHOT</Text>
                     <View style={styles.table}>
-                        {data.solutionSnapshot.map((row: any, i: number) => (
+                        {data.solutionSnapshot.map((row: { field: string; value: string }, i: number) => (
                             <View style={styles.tableRow} key={i}>
                                 <View style={[styles.tableCol, { width: "30%" }]}>
                                     <Text style={styles.tableCellHeader}>{cleanField(row.field)}</Text>
@@ -342,7 +353,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                             <View style={[styles.tableCol3, { width: "20%" }]}><Text style={styles.tableCellHeader}>Score</Text></View>
                             <View style={[styles.tableCol3, { width: "60%" }]}><Text style={styles.tableCellHeader}>Analyst Note</Text></View>
                         </View>
-                        {data.scorecard.map((row: any, i: number) => (
+                        {data.scorecard.map((row: { zone: string; score: string; note: string }, i: number) => (
                             <View style={styles.tableRow} key={i}>
                                 <View style={[styles.tableCol3, { width: "20%" }]}><Text style={styles.tableCellHeader}>{row.zone}</Text></View>
                                 <View style={[styles.tableCol3, { width: "20%" }]}>

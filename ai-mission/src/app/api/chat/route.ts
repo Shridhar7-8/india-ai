@@ -4,7 +4,6 @@ import { supabase } from "@/lib/supabase";
 import { MessageCreateSchema } from "@/lib/schemas";
 import { runConductorFSM, getInitialChecklist, getInitialSummary, STEPS } from "@/agents/conductor";
 import { runSkeptic } from "@/agents/skeptic";
-import { GREETING_MESSAGE } from "@/agents/prompts";
 import { inngest } from "@/inngest/client";
 
 /**
@@ -146,7 +145,7 @@ export async function POST(req: NextRequest) {
       }
       if (completedStepId === "company_name") {
         // Deterministic multi-pass strip to extract company name from natural language
-        let name = content
+        const name = content
           // Pass 1: Strip "name of my/our/the company/startup/venture (is)"
           .replace(/^(the\s+)?(name\s+of\s+(my|our|the)\s+(company|startup|venture)\s*(is)?)\s*/i, "")
           // Pass 2: Strip "my/our company (name) is" / "the company/startup is"

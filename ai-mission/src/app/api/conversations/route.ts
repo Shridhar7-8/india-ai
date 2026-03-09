@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { supabase } from "@/lib/supabase";
 import { getInitialChecklist, getInitialSummary } from "@/agents/conductor";
-import { GREETING_MESSAGE } from "@/agents/prompts";
 import { ConversationCreateSchema } from "@/lib/schemas";
 
 /**

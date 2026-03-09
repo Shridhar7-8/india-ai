@@ -21,7 +21,6 @@ interface ChatInterfaceProps {
     stepIndex: number;
     totalSteps: number;
     onSendMessage: (content: string) => void;
-    onNewConversation: () => void;
 }
 
 export default function ChatInterface({
@@ -33,7 +32,6 @@ export default function ChatInterface({
     stepIndex,
     totalSteps,
     onSendMessage,
-    onNewConversation,
 }: ChatInterfaceProps) {
     const [input, setInput] = useState("");
     const [isUploading, setIsUploading] = useState(false);
