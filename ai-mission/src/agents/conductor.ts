@@ -138,7 +138,9 @@ export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {
     if (currentStep.id === "founder_status_step2" && drillCount === 0) {
         // This is the first time we hit step2. We need to determine SOLO vs CO-FOUNDER
         // from the user's PREVIOUS answer (to step1).
-        const isSolo = input.founderIsSolo ?? /solo|by myself|just me|alone/i.test(userMessage);
+        // Check for co-founder keywords FIRST to avoid false solo detection
+        const hasCoFounder = /co-?founder|co founder|partner|team|we are|we have|together/i.test(userMessage);
+        const isSolo = input.founderIsSolo ?? (hasCoFounder ? false : /solo|by myself|just me|alone|single founder|only one|i am the only/i.test(userMessage));
         const step2Question = isSolo
             ? "How do you plan to manage Product, Sales, and Tech all by yourself?"
             : "How do you split Product, Sales, and Tech among your team?";
@@ -266,7 +268,9 @@ Remember: output RAW JSON only. No markdown.`.trim();
 
                 // SPECIAL: founder_status_step1 → override with hard-coded step2 question
                 if (currentStep.id === "founder_status_step1") {
-                    const isSolo = /solo|by myself|just me|alone/i.test(userMessage);
+                    // Check for co-founder keywords FIRST
+                    const hasCoFounderKeyword = /co-?founder|co founder|partner|team|we are|we have|together/i.test(userMessage);
+                    const isSolo = hasCoFounderKeyword ? false : /solo|by myself|just me|alone|single founder|only one|i am the only/i.test(userMessage);
                     finalResponse = isSolo
                         ? "How do you plan to manage Product, Sales, and Tech all by yourself?"
                         : "How do you split Product, Sales, and Tech among your team?";

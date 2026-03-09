@@ -200,11 +200,46 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
     const missionFit = flagsData?.mission_fit || "LOW";
 
     // ── Call 4b: Verdict (pillar, awareness, reasoning, verdict) ──
+    // Deterministic hard-disqualifier check BEFORE the LLM call
+    const zoneScores = sc ? [sc.desirability_score, sc.viability_score, sc.feasibility_score, sc.defensibility_score, sc.affordability_score] : [];
+    const failCount = zoneScores.filter(z => z === "FAIL").length;
+    const passCount = zoneScores.filter(z => z === "PASS").length;
+    const desirabilityFail = sc?.desirability_score === "FAIL";
+    const gritScore = founderData?.grit_score || "LOW";
+
+    // Pre-compute the deterministic verdict so the LLM can only fill in reasoning + pillar
+    let deterministicVerdict: string;
+    if (failCount >= 3 || desirabilityFail) {
+        // HARD DISQUALIFIER
+        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
+    } else if (
+        (gritScore === "HIGH" || gritScore === "MEDIUM") &&
+        passCount >= 3 && failCount === 0 &&
+        (missionFit === "HIGH" || missionFit === "MEDIUM")
+    ) {
+        deterministicVerdict = "SEEMS LIKE A GOOD FIT";
+    } else if (
+        (gritScore === "HIGH" || gritScore === "MEDIUM") &&
+        passCount >= 2 && failCount <= 2 && !desirabilityFail
+    ) {
+        deterministicVerdict = "UNSURE — MORE VALIDATION REQUIRED";
+    } else if (gritScore === "LOW" || failCount >= 3) {
+        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
+    } else {
+        deterministicVerdict = "UNSURE — MORE VALIDATION REQUIRED";
+    }
+
+    const hardDisqualifierNote = desirabilityFail
+        ? "HARD DISQUALIFIER: Desirability is FAIL — no market exists for the product. The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT. Mention this explicitly in verdict_reasoning."
+        : failCount >= 3
+            ? `HARD DISQUALIFIER: ${failCount} zones scored FAIL (≥3). The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT regardless of everything else.`
+            : "";
+
     const verdictData = await callLLMForJSON(
         VerdictChunkSchema,
         "Verdict chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\n\n${INDIAAI_PILLAR_NAMES}\n\nReturn a JSON with ONLY these 5 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict": "SEEMS LIKE A GOOD FIT or UNSURE — MORE VALIDATION REQUIRED or DOESN'T SEEM LIKE A GOOD FIT",\n  "verdict_reasoning": "1-2 sentences why"\n}\n\nVERDICT RULES:\n- GOOD FIT: Grit HIGH/MEDIUM + 3+ PASS (0 FAILs) + Mission Fit HIGH\n- UNSURE: Mixed. 2+ PASS, max 2 FAILs. Mission Fit MEDIUM.\n- NOT A GOOD FIT: Grit LOW, or 3+ FAILs, or Desirability FAIL.\n\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}"\nYou MUST use this exact verdict string. Do NOT change it.\n\nReturn a JSON with ONLY these 5 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict": "${deterministicVerdict}",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision."\n}\n\nOutput RAW JSON ONLY.`,
         3072, // extra tokens for reasoning fields
     );
 
@@ -338,7 +373,7 @@ function buildMarkdownReport(
     lines.push("");
 
     // Section 6
-    lines.push(`## SECTION 6 — AI VERDICT [${v.verdict}]`);
+    lines.push(`## SECTION 6 — AI VERDICT (SEEMS LIKE A GOOD FIT / UNSURE — MORE VALIDATION REQUIRED / DOESN'T SEEM LIKE A GOOD FIT) [${v.verdict}]`);
     lines.push("");
     lines.push(`**Verdict:** ${v.verdict}`);
     lines.push("");
