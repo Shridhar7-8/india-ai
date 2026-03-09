@@ -160,7 +160,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         FounderChunkSchema,
         "Founder chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name",\n  "founder_background": "1-2 line summary (education, experience)",\n  "why_entrepreneurship": "why they chose entrepreneurship",\n  "financial_commitments": "personal/family financial obligations, or 'None'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score",\n  "business_thinking": "how they view startup as a business",\n  "founder_structure": "Solo founder OR Co-founder team"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "Solo founder OR Co-founder team",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
     );
 
     // ── Call 2: Solution Snapshot ──
@@ -168,7 +168,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         SolutionChunkSchema,
         "Solution chunk",
         ANALYST_PROMPT,
-        `${baseContext}\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "idea": "2-3 sentences describing the startup idea (stay close to their words)",\n  "macro_context": "1-line macro context",\n  "why_ai": "why their product requires AI",\n  "development_stage": "MUST be exactly one of: Idea, Concept, Prototype, Early MVP, MVP, Growth, Not specified",\n  "assets": "key assets they bring"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nIMPORTANT: Describe the startup idea using ONLY what the user said. Do NOT add features, markets, or capabilities they did not mention. Stay as close to their exact words as possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "idea": "2-3 sentences describing the startup idea using the user's own words",\n  "macro_context": "1-line macro context based only on what was discussed",\n  "why_ai": "why their product requires AI, as they explained it",\n  "development_stage": "MUST be exactly one of: Idea, Concept, Prototype, Early MVP, MVP, Growth, Not specified",\n  "assets": "key assets they mentioned, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
     );
 
     // ── Call 3: 5-Zone Scorecard ──
@@ -243,8 +243,17 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         3072, // extra tokens for reasoning fields
     );
 
+    // ── Fallback: if Verdict LLM call failed, use deterministic verdict ──
+    const finalVerdictData = verdictData ?? {
+        indiaai_pillar: "None" as const,
+        indiaai_awareness: "Not aware" as const,
+        mission_fit_reasoning: "Report generation partially failed — verdict determined by scoring rules.",
+        verdict: deterministicVerdict as "SEEMS LIKE A GOOD FIT" | "UNSURE — MORE VALIDATION REQUIRED" | "DOESN'T SEEM LIKE A GOOD FIT",
+        verdict_reasoning: `Verdict determined by scoring rules: Grit=${gritScore}, PASS=${passCount}, FAIL=${failCount}, Mission Fit=${missionFit}.${desirabilityFail ? " Desirability scored FAIL — no clear market exists for the product." : ""}`,
+    };
+
     // ── Merge & Build Markdown ──
-    return buildMarkdownReport(founderData, solutionData, scorecardData, flagsData, verdictData, companyName, pitchDeckUrl, websiteUrl);
+    return buildMarkdownReport(founderData, solutionData, scorecardData, flagsData, finalVerdictData, companyName, pitchDeckUrl, websiteUrl);
 }
 
 // ─── Deterministic Markdown Builder ─────────────────────────────────

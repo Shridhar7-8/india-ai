@@ -124,7 +124,7 @@ export const VerdictChunkSchema = z.object({
         "UNSURE — MORE VALIDATION REQUIRED",
         "DOESN'T SEEM LIKE A GOOD FIT",
     ]),
-    verdict_reasoning: z.string().max(400).default("Not discussed in interview"),
+    verdict_reasoning: z.string().max(800).default("Not discussed in interview"),
 });
 
 // ─── Database Row Types ─────────────────────────────────────────────
