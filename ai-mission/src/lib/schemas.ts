@@ -52,7 +52,6 @@ export const FounderChunkSchema = z.object({
     business_thinking: z.string().max(300).default("Not discussed in interview"),
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
     hobbies: z.string().max(200).default("Not discussed in interview"),
-    long_term_vision: z.string().max(300).default("Not discussed in interview"),
 });
 
 export const SolutionChunkSchema = z.object({

@@ -193,10 +193,10 @@ Before outputting each field, mentally verify:
 ✓ "Am I rephrasing their answer with extra detail?" → If YES, stay closer to their exact words.
 
 SCORING GUIDE:
-- Grit:
-  - HIGH = Specific failure + concrete recovery actions + lesson learned
+- Grit (Personal or Professional failures are EQUALLY VALID — do not penalize stories about personal/academic failures. Score based ONLY on the evidence of recovery and learning):
+  - HIGH = Specific failure (personal or professional) + concrete recovery actions + clear lesson learned
   - MEDIUM = Mentioned failure but vague on recovery and lessons
-  - LOW = No clear failure story, avoided topic, or generic answer
+  - LOW = No clear failure story, avoided topic, or generic answer without substance
 - 5-Zone Scorecard:
   - Desirability: PASS = Clear problem+target | MODERATE = Problem but vague target | FAIL = No clear problem
   - Viability: PASS = Revenue path | MODERATE = Unclear margins | FAIL = No monetization
@@ -222,4 +222,4 @@ export const GREETING_MESSAGE = `Hello! I'm FounderCheck, the AI screening assis
 
   I'll be asking you a series of questions to understand you and your startup better. This conversation will help us evaluate your fit for the program.
 
-Let's start — **what is your name?**`;
+Let's start — **what is your full name?**`;

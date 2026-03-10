@@ -18,7 +18,7 @@ export interface Step {
  */
 export const STEPS: Step[] = [
     // ── Phase 1: Founder ──
-    { id: "name", prompt: "Could you please tell me your name to get started?", maxDrills: 1 },
+    { id: "name", prompt: "Could you please tell me your full name to get started?", maxDrills: 1, evalPrompt: "CRITICAL: This step is ONLY for the founder's full personal name. If the user only provided a first name, or hasn't provided their name at all, your follow-up MUST ask for their full name. NEVER ask for the company or project name in this step." },
     { id: "professional_background", prompt: "Tell me about your professional background and work experience.", maxDrills: 0 },
     { id: "education_background", prompt: "What is your educational background?", maxDrills: 0 },
     { id: "life_goals", prompt: "What are your short-term, mid-term, and long-term life goals?", maxDrills: 2, evalPrompt: "The answer must cover short-term AND mid-term AND long-term goals with CONCRETE, SPECIFIC details. Vague goals like 'grow', 'scale', or 'succeed' without specifics = answered=false. Each timeframe needs a clear, actionable goal. If any timeframe is missing OR any goal is generic/vague, answered=false." },
@@ -92,7 +92,8 @@ RULES FOR "response":
 - If is_off_topic=true: Write a short, polite redirection. Example: "I appreciate you sharing that, but let's refocus on the interview for now." Do NOT repeat the question; the system will do that.
 - If answered=true: Set "response" to exactly "". The system handles the next question automatically. Do NOT say "Got it, thanks", do NOT acknowledge the user at all.
   CRITICAL: Under NO circumstances should you ask a question when answered=true. Do NOT end with a question mark. Do NOT mention the next topic.
-- If answered=false and is_off_topic=false: Write a conversational follow-up to get more detail.
+- If answered=false and is_off_topic=false: Write a conversational follow-up to get more detail about the CURRENT TOPIC ONLY.
+  CRITICAL AVOIDANCE RULE: You are provided with a "next topic hint" at the bottom of the context, purely so you can check if the user accidentally answered it proactively. You MUST NEVER ask a question about the NEXT topic if the CURRENT TOPIC is not answered yet. Your follow-up MUST be strictly about the CURRENT TOPIC.
   CRUCIAL TONE RULE: You MUST match the tone of the user's answer.
   - If the user says "I don't know", "I am not sure", or gives a short negative answer, DO NOT use positive affirmations like "That sounds great!" or "Promising!". Instead, be gently encouraging (e.g., "No worries! Even a rough estimate is fine—how are you currently thinking about [topic]?").
   - If the user gives a positive but vague answer, ONLY THEN can you be encouraging (e.g., "That sounds interesting, could you share a specific example?").
