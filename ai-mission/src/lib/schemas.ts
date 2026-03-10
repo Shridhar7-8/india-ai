@@ -34,6 +34,7 @@ export const ConductorEvalSchema = z.object({
     answered: z.boolean(),          // Did the user adequately answer the topic?
     response: z.string(),           // LLM's generated question or follow-up text (can be empty string)
     is_off_topic: z.boolean().default(false), // Flag if the user input is completely irrelevant/rubbish
+    is_next_topic_answered: z.boolean().default(false), // Flag if the user ALREADY answered the NEXT hardcoded question in their message
 });
 export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 
@@ -102,8 +103,8 @@ export const AssessmentChunkSchema = z.object({
 // ─── Split Assessment into smaller chunks for reliability ────────────
 
 export const FlagsChunkSchema = z.object({
-    red_flags: z.string().max(800).default("None"),
-    green_flags: z.string().max(800).default("None"),
+    red_flags: z.string().max(4000).default("None"),
+    green_flags: z.string().max(4000).default("None"),
     mission_fit: z.enum(["HIGH", "MEDIUM", "LOW"]),
 });
 

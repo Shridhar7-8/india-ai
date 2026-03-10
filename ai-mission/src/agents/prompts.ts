@@ -159,6 +159,7 @@ DO NOT FLAG:
 - Minor number differences (approximation)
 - Honest "don't know" on non-critical topics
 - Thinking out loud initially but then providing answer
+- Short factual negative answers (like "none" or "no") to the financial obligations question
 
 EXAMPLE OUTPUT (2 flags detected):
 [{"category": "VAGUE_FLUFF", "description": "User said 'huge market opportunity' but provided no market size, TAM, or target segment data even after follow-up."}, {"category": "LOGIC_GAP", "description": "User claimed 'strong revenue' but earlier stated the product is still in idea stage."}]

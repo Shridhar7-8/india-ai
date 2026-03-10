@@ -61,6 +61,7 @@ OUTPUT FORMAT — RAW JSON ONLY, no markdown, no backticks:
 {
   "answered": true/false,
   "is_off_topic": true/false,
+  "is_next_topic_answered": true/false,
   "response": "Your text (see rules below for what to write)"
 }
 
@@ -74,6 +75,12 @@ RULES FOR "answered":
 2. answered=false if the answer is vague, generic, uses buzzwords without evidence, or is missing key parts.
 3. If the user explicitly refuses to answer gracefully (e.g., "I'd rather not say"), set answered=true.
 
+RULES FOR "is_next_topic_answered":
+- Look closely at what the NEXT topic is (provided at the bottom). 
+- If the user's current message naturally ALREADY answered the NEXT topic proactively, set is_next_topic_answered=true.
+- For example: if we ask "Who are your customers?" and they reply "Our customers are teens and by the way our company is called TeenApp", and the NEXT topic is Company Name, set is_next_topic_answered=true.
+- Default to false.
+
 BE A STRICT SKEPTIC WHEN EVALUATING:
 - "We have great traction" without metrics → answered=false
 - "Our product is innovative/disruptive" without explaining HOW → answered=false
@@ -85,9 +92,10 @@ RULES FOR "response":
 - If is_off_topic=true: Write a short, polite redirection. Example: "I appreciate you sharing that, but let's refocus on the interview for now." Do NOT repeat the question; the system will do that.
 - If answered=true: Set "response" to exactly "". The system handles the next question automatically. Do NOT say "Got it, thanks", do NOT acknowledge the user at all.
   CRITICAL: Under NO circumstances should you ask a question when answered=true. Do NOT end with a question mark. Do NOT mention the next topic.
-- If answered=false and is_off_topic=false: Write a friendly follow-up that specifically points out what's missing. Examples:
-  "That sounds promising! Could you share some specific numbers or metrics to back that up?"
-  "I'd love to understand this better — can you walk me through a concrete example?"
+- If answered=false and is_off_topic=false: Write a conversational follow-up to get more detail.
+  CRUCIAL TONE RULE: You MUST match the tone of the user's answer.
+  - If the user says "I don't know", "I am not sure", or gives a short negative answer, DO NOT use positive affirmations like "That sounds great!" or "Promising!". Instead, be gently encouraging (e.g., "No worries! Even a rough estimate is fine—how are you currently thinking about [topic]?").
+  - If the user gives a positive but vague answer, ONLY THEN can you be encouraging (e.g., "That sounds interesting, could you share a specific example?").
   Ask EXACTLY ONE follow-up question. Be warm, not interrogating.
 
 TONE:
@@ -255,7 +263,7 @@ Remember: output RAW JSON only. No markdown.`.trim();
                 continue; // Auto-retry
             }
 
-            const { answered, response, is_off_topic } = zodResult.data;
+            const { answered, response, is_off_topic, is_next_topic_answered } = zodResult.data;
 
             // ── Force advance if max drills reached ──
             // Note: If we hit max drills, we force advance NO MATTER WHAT (even if off-topic). This prevents infinite loops.
@@ -264,6 +272,13 @@ Remember: output RAW JSON only. No markdown.`.trim();
             if (effectiveAnswered) {
                 // ── ADVANCE to next step ──
                 let advanceTo = stepIndex + 1;
+
+                // If they proactively answered the NEXT topic, fast-forward past it.
+                if (is_next_topic_answered && (stepIndex + 2) < STEPS.length) {
+                    console.log(`🚀 FSM: User proactively answered next topic. Fast-forwarding by 2 steps.`);
+                    advanceTo = stepIndex + 2;
+                }
+
                 let finalResponse: string = response || ""; // Default: use LLM's generated text, handle optionality safely
 
                 // SPECIAL: founder_status_step1 → override with hard-coded step2 question

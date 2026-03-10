@@ -22,7 +22,10 @@ Font.register({
 // Create styles
 const styles = StyleSheet.create({
     page: {
-        padding: 40,
+        paddingTop: 40,
+        paddingLeft: 40,
+        paddingRight: 40,
+        paddingBottom: 60, // Reserved space for the absolute footer
         fontFamily: "Inter",
         fontSize: 10,
         color: "#1e293b",
@@ -76,8 +79,8 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     tableRow: {
-        margin: "auto",
         flexDirection: "row",
+        minHeight: 24,
     },
     tableCol: {
         width: "50%",
@@ -137,6 +140,7 @@ const styles = StyleSheet.create({
         bottom: 30,
         left: 40,
         right: 40,
+        height: 20,
         fontSize: 8,
         color: "#94a3b8",
         textAlign: "center",
@@ -333,8 +337,8 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                     <Text style={styles.subtitle}>Startup Evaluation Report | {data.title}</Text>
                 </View>
 
-                {/* Section 1 */}
-                <View style={styles.section} wrap={false}>
+                {/* Section */}
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 1 — FOUNDER PROFILE</Text>
                     <View style={styles.table}>
                         {data.founderProfile.map((row: { field: string; value: string }, i: number) => (
@@ -351,7 +355,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 </View>
 
                 {/* Section 2 */}
-                <View style={styles.section} wrap={false}>
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 2 — SOLUTION SNAPSHOT</Text>
                     <View style={styles.table}>
                         {data.solutionSnapshot.map((row: { field: string; value: string }, i: number) => (
@@ -368,7 +372,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 </View>
 
                 {/* Section 3 */}
-                <View style={styles.section} wrap={false}>
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 3 — 5-ZONE SCORECARD [PASS / MODERATE / FAIL]</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
@@ -391,7 +395,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 </View>
 
                 {/* Section 4 */}
-                <View style={styles.section} wrap={false}>
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 4 — FLAGS</Text>
                     <View style={styles.flagContainer}>
                         <View style={[styles.flagBox, styles.redFlagBox]}>
@@ -406,7 +410,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 </View>
 
                 {/* Section 5 */}
-                <View style={styles.section} wrap={false}>
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 5 — AI MISSION FIT [HIGH / MEDIUM / LOW]</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
@@ -433,7 +437,7 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                 </View>
 
                 {/* Section 6 */}
-                <View style={styles.section} wrap={false}>
+                <View style={styles.section}>
                     <Text style={styles.h2}>SECTION 6 — AI VERDICT</Text>
                     <View style={styles.table}>
                         <View style={styles.tableRow}>
