@@ -1,18 +1,14 @@
 import { generateText } from "ai";
 import { getModel } from "@/lib/ollama";
 import { ANALYST_PROMPT } from "./prompts";
-import {
-    FounderChunkSchema,
-    SolutionChunkSchema,
-    ScorecardChunkSchema,
-    FlagsChunkSchema,
-    VerdictChunkSchema,
-} from "@/lib/schemas";
+import { UnifiedReportSchema, type UnifiedReport } from "@/lib/schemas";
 import type { z } from "zod";
+import { zodToJsonSchema } from "zod-to-json-schema";
+import type { SkepticSummary } from "./skeptic";
 
 interface AnalystInput {
     conversationHistory: Array<{ role: string; content: string }>;
-    redFlags: Array<{ category: string; description: string }>;
+    skepticSummary: SkepticSummary;
     companyName?: string;
     pitchDeckUrl?: string;
     websiteUrl?: string;
@@ -69,7 +65,8 @@ async function callLLMForJSON<T>(
     chunkName: string,
     systemPrompt: string,
     userPrompt: string,
-    maxTokens: number = 4096,
+    maxTokens: number = 8192,
+    temperature: number = 0.1,
 ): Promise<T | null> {
     const MAX_RETRIES = 5;
     let lastZodError: string | null = null; // Track last Zod error for feedback
@@ -77,7 +74,9 @@ async function callLLMForJSON<T>(
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
             // Build prompt — on retry, append the Zod error so the LLM can self-correct
-            let effectivePrompt = userPrompt;
+            const stringifiedSchema = JSON.stringify(zodToJsonSchema(schema as any), null, 2);
+            let effectivePrompt = userPrompt + `\n\nEXPECTED JSON SCHEMA:\n${stringifiedSchema}`;
+
             if (lastZodError && attempt > 0) {
                 effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION:\n${lastZodError}\nPlease fix the above issues and try again. Use EXACTLY the allowed values listed above. Output RAW JSON ONLY.`;
                 console.log(`🔄 ${chunkName} retry ${attempt + 1} with error feedback`);
@@ -87,7 +86,7 @@ async function callLLMForJSON<T>(
                 model: getModel(),
                 system: systemPrompt,
                 prompt: effectivePrompt,
-                temperature: 0.3,
+                temperature: temperature,
                 maxOutputTokens: maxTokens,
             });
 
@@ -127,291 +126,272 @@ async function callLLMForJSON<T>(
     return null;
 }
 
-// ─── 7 IndiaAI Pillars (names only — keeping prompt small) ──────────
+// ─── Post-Generation Validation ─────────────────────────────────────
 
-const INDIAAI_PILLAR_NAMES = `Pick EXACTLY ONE pillar:
-1. IndiaAI Innovation Centre
-2. IndiaAI Application Development Initiative
-3. AIKosh
-4. IndiaAI Compute Capacity
-5. IndiaAI Startup Financing
-6. IndiaAI FutureSkills
-7. Safe & Trusted AI
-8. None`;
+function validateReportAgainstTranscript(report: UnifiedReport, transcript: string): string[] {
+    const warnings: string[] = [];
+    const tLower = transcript.toLowerCase();
+
+    const checkArray = (arr: string[] | undefined, fieldName: string) => {
+        if (!arr || arr.length === 0) return;
+        for (const quote of arr) {
+            // Remove basic punctuation/spacing issues for a more forgiving check
+            const normalizedQuote = quote.toLowerCase().replace(/\s+/g, ' ').trim();
+            const normalizedTranscript = tLower.replace(/\s+/g, ' ');
+            if (!normalizedTranscript.includes(normalizedQuote)) {
+                warnings.push(`MISSING_EVIDENCE in ${fieldName}: "${quote}" was not found verbatim in the transcript.`);
+            }
+        }
+    };
+
+    checkArray(report.grit_evaluation_evidence, "grit_evaluation_evidence");
+    checkArray(report.business_thinking_evidence, "business_thinking_evidence");
+    checkArray(report.idea_evidence, "idea_evidence");
+    checkArray(report.macro_context_evidence, "macro_context_evidence");
+    checkArray(report.development_stage_evidence, "development_stage_evidence");
+    checkArray(report.desirability_evidence, "desirability_evidence");
+    checkArray(report.viability_evidence, "viability_evidence");
+    checkArray(report.feasibility_evidence, "feasibility_evidence");
+    checkArray(report.defensibility_evidence, "defensibility_evidence");
+    checkArray(report.affordability_evidence, "affordability_evidence");
+    checkArray(report.mission_fit_evidence, "mission_fit_evidence");
+    checkArray(report.mission_fit_reasoning_evidence, "mission_fit_reasoning_evidence");
+
+    return warnings;
+}
+
+// ─── Deterministic Scoring Logic ────────────────────────────────────
+
+function computeDeterministicScores(report: UnifiedReport) {
+    const dScore = report.desirability_evaluation.includes("Specific problem clearly defined") ? 5 : report.desirability_evaluation.includes("Problem and target user defined") ? 4 : report.desirability_evaluation.includes("Problem mentioned but too broad") ? 3 : report.desirability_evaluation.includes("Weak problem articulation") ? 2 : 1;
+    const vScore = report.viability_evaluation.includes("Clear revenue model") ? 5 : report.viability_evaluation.includes("Solid revenue model") ? 4 : report.viability_evaluation.includes("Revenue model exists but vague") ? 3 : report.viability_evaluation.includes("Revenue model not properly defined") ? 2 : 1;
+    const fScore = report.feasibility_evaluation.includes("Technical capability demonstrated") ? 5 : report.feasibility_evaluation.includes("Technical capability evident") ? 4 : report.feasibility_evaluation.includes("Possible to build") ? 3 : report.feasibility_evaluation.includes("Significant technical gaps") ? 2 : 1;
+    const defScore = report.defensibility_evaluation.includes("At least ONE strong moat clearly defined") ? 5 : report.defensibility_evaluation.includes("One credible moat identified") ? 4 : report.defensibility_evaluation.includes("Some differentiation exists but can be easily copied") ? 3 : report.defensibility_evaluation.includes("Very weak differentiation") ? 2 : 1;
+    const aScore = report.affordability_evaluation.includes("Pricing clearly fits the Indian target segment") ? 5 : report.affordability_evaluation.includes("Pricing fits India well") ? 4 : report.affordability_evaluation.includes("Pricing has not been thought of proactively") ? 3 : report.affordability_evaluation.includes("Pricing not thought through for India") ? 2 : 1;
+    
+    const gritScore = report.grit_evaluation.includes("Specific failure described in detail") ? 5 : report.grit_evaluation.includes("Specific failure mentioned") ? 4 : report.grit_evaluation.includes("Failure mentioned but vague") ? 3 : report.grit_evaluation.includes("Very vague failure story") ? 2 : 1;
+    const missionFitScore = report.mission_fit_evaluation.includes("Direct, specific connection to a pillar") ? 5 : report.mission_fit_evaluation.includes("Clear connection to a pillar") ? 4 : report.mission_fit_evaluation.includes("Connection to a pillar exists") ? 3 : report.mission_fit_evaluation.includes("Pillar fit is a stretch") ? 2 : 1;
+
+    const totalScore = dScore + vScore + fScore + defScore + aScore + gritScore + missionFitScore;
+
+    return {
+        desirability: dScore,
+        viability: vScore,
+        feasibility: fScore,
+        defensibility: defScore,
+        affordability: aScore,
+        grit: gritScore,
+        missionFit: missionFitScore,
+        total: totalScore
+    };
+}
 
 // ─── Main Analyst Function ──────────────────────────────────────────
 
 export async function runAnalyst(input: AnalystInput): Promise<string> {
-    const { conversationHistory, redFlags, companyName, pitchDeckUrl, websiteUrl } = input;
+    const { conversationHistory, skepticSummary, companyName, pitchDeckUrl, websiteUrl } = input;
 
     const transcript = conversationHistory
         .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
         .join("\n\n");
 
-    // Pass only descriptions — not category codes like VAGUE_FLUFF
-    // Provide flags plainly without numbers, as providing numbers causes LLM to just output numbers later.
-    const redFlagsStr = redFlags.length > 0
-        ? redFlags.map((f) => `- ${f.description}`).join("\n")
+    const redFlagsStr = skepticSummary.redFlags.length > 0
+        ? skepticSummary.redFlags.map((f) => `- ${f.category}: ${f.description}`).join("\n")
         : "No red flags detected.";
 
-    const baseContext = `INTERVIEW TRANSCRIPT:\n${transcript}\n\nRED FLAGS:\n${redFlagsStr}`;
+    const greenFlagsStr = skepticSummary.greenFlags.length > 0
+        ? skepticSummary.greenFlags.map((f) => `- ${f.category}: ${f.description}`).join("\n")
+        : "No green flags detected.";
 
-    // ── Call 1: Founder Profile ──
-    const founderData = await callLLMForJSON(
-        FounderChunkSchema,
-        "Founder chunk",
+    const baseContext = `INTERVIEW TRANSCRIPT:\n${transcript}\n\nRED FLAGS DETECTED BY SECONDARY AGENT:\n${redFlagsStr}\n\nGREEN FLAGS DETECTED BY SECONDARY AGENT:\n${greenFlagsStr}`;
+
+    console.log("Generating unified report...");
+    const reportData = await callLLMForJSON(
+        UnifiedReportSchema,
+        "Unified Report",
         ANALYST_PROMPT,
-        `${baseContext}\n\nIMPORTANT: Extract ONLY what the user explicitly said. Do NOT add education details, work experience, or background that is not directly stated in the transcript. If they did not mention their education, do NOT guess it. If they did not mention work experience, do NOT invent it. Use their exact words where possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "founder_name": "full name as stated by the user",\n  "founder_background": "1-2 line summary using ONLY education and experience the user explicitly mentioned",\n  "why_entrepreneurship": "why they chose entrepreneurship, using their own words",\n  "financial_commitments": "personal/family financial obligations as stated, or 'Not discussed in interview'",\n  "goals": "short-term, mid-term, and long-term goals as ONE string, using their words",\n  "grit_score": "HIGH or MEDIUM or LOW",\n  "grit_evidence": "1-2 sentences justifying grit score with direct reference to what they said",\n  "business_thinking": "how they view startup as a business, from their own answer",\n  "founder_structure": "MUST BE 'Solo founder' OR 'Co-founder team'. STRICT RULE: Unless they explicitly mention co-founders, default to 'Solo founder'. Do NOT hallucinate co-founders from 'we' if referring to a company.",\n  "hobbies": "hobbies or interests they mentioned, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
+        `${baseContext}\n\nYou must generate the full report based ONLY on the evidence in the transcript. Your response must be valid JSON matching the EXACT top-level structure of the expected schema.`,
+        8192,
+        0.1 // Temp 0.1 for high determinism
     );
 
-    // ── Call 2: Solution Snapshot ──
-    const solutionData = await callLLMForJSON(
-        SolutionChunkSchema,
-        "Solution chunk",
-        ANALYST_PROMPT,
-        `${baseContext}\n\nIMPORTANT: Describe the startup idea using ONLY what the user said. Do NOT add features, markets, or capabilities they did not mention. Stay as close to their exact words as possible.\n\nAnalyze the transcript and return a JSON with ONLY these fields:\n{\n  "idea": "2-3 sentences describing the startup idea using the user's own words",\n  "macro_context": "1-line macro context based only on what was discussed",\n  "why_ai": "why their product requires AI, as they explained it",\n  "development_stage": "MUST be exactly one of: Idea, Concept, Prototype, Early MVP, MVP, Growth, Not specified",\n  "assets": "key assets they mentioned, or 'Not discussed in interview'"\n}\nOutput RAW JSON ONLY.`,
-    );
-
-    // ── Call 3: 5-Zone Scorecard ──
-    const scorecardData = await callLLMForJSON(
-        ScorecardChunkSchema,
-        "Scorecard chunk",
-        ANALYST_PROMPT,
-        `${baseContext}\n\nCRITICAL GRADING RUBRIC:\nYou MUST grade each zone STRICTLY according to this rubric. Do NOT mix information from other zones. For example, do not use a founder's life goals to grade product desirability.\n\n1. Desirability (Is there a real market?)\n- PASS: Specific problem + defined target market + evidence of real demand.\n- MODERATE: Problem mentioned but too broad, OR market is defined but demand evidence is vague.\n- FAIL: No clear problem. Solution looking for a problem. No market exists.\n\n2. Viability and Scalability (Can it make money and scale?)\n- PASS: Clear revenue model + path to profitability and scalability.\n- MODERATE: Revenue model exists but margins unclear, OR some idea of monetization/scalability but vague.\n- FAIL: No monetization thinking, economics fundamentally don't work, or scaling doesn't seem possible.\n\n3. Feasibility (Can they build it? Focus ONLY on technical/team capability, NOT on whether AI is necessary here.)\n- PASS: Technical capability demonstrated. Realistic build plan.\n- MODERATE: Possible to build but unclear technical capacity or underestimating complexity.\n- FAIL: No technical capability, major legal barriers ignored, unrealistic timeline, or delusional thinking.\n\n4. Defensibility (What's the moat?)\n- PASS: At least ONE of: network effects, proprietary tech/IP, unique data, high switching costs, domain expertise, unique cultural insight, or breakthrough technology.\n- MODERATE: Some differentiation but easily copied, or first-mover only.\n- FAIL: No differentiator. Easily replicable.\n\n5. Affordability (Does it fit India?)\n- PASS: Pricing clearly fits the Indian target segment.\n- MODERATE: Pricing high but may work for a premium Indian segment.\n- FAIL: Pricing does not fit Indian market, or no thought given to this aspect.\n\nReturn a JSON with ONLY these fields. CRITICAL: Every analyst note MUST BE EXACTLY 2 SENTENCES LONG. No more, no less.\n{\n  "desirability_score": "PASS or MODERATE or FAIL",\n  "desirability_note": "Exactly 2 sentences explaining based strictly on the rubric",\n  "viability_score": "PASS or MODERATE or FAIL",\n  "viability_note": "Exactly 2 sentences explaining based strictly on the rubric",\n  "feasibility_score": "PASS or MODERATE or FAIL",\n  "feasibility_note": "Exactly 2 sentences explaining based strictly on the rubric",\n  "defensibility_score": "PASS or MODERATE or FAIL",\n  "defensibility_note": "Exactly 2 sentences explaining based strictly on the rubric",\n  "affordability_score": "PASS or MODERATE or FAIL",\n  "affordability_note": "Exactly 2 sentences explaining based strictly on the rubric"\n}\nOutput RAW JSON ONLY.`,
-    );
-
-    // ── Build scorecard summary for verdict context ──
-    const sc = scorecardData;
-    const scorecardSummary = sc
-        ? `SCORECARD: Desirability=${sc.desirability_score}, Viability=${sc.viability_score}, Feasibility=${sc.feasibility_score}, Defensibility=${sc.defensibility_score}, Affordability=${sc.affordability_score}`
-        : "SCORECARD: Not available";
-
-    const gritSummary = founderData
-        ? `GRIT SCORE: ${founderData.grit_score}`
-        : "GRIT SCORE: Not available";
-
-    // ── Call 4a: Flags (red flags, green flags, mission fit) ──
-    const flagsData = await callLLMForJSON(
-        FlagsChunkSchema,
-        "Flags chunk",
-        ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\n\nCRITICAL: For red_flags and green_flags, do NOT EVER return numbers (e.g., "1 | 2"). You must return the FULL TEXT DESCRIPTION of each flag. Do not use generic flag IDs.\n\nReturn a JSON with ONLY these 3 fields:\n{\n  "red_flags": "full text description of flag 1 | full text description of flag 2 (pipe-separated, or 'None')",\n  "green_flags": "full text description of flag 1 | full text description of flag 2 (pipe-separated, or 'None')",\n  "mission_fit": "HIGH or MEDIUM or LOW"\n}\nOutput RAW JSON ONLY.`,
-    );
-
-    const missionFit = flagsData?.mission_fit || "LOW";
-
-    // ── Call 4b: Verdict (pillar, awareness, reasoning, verdict) ──
-    // Deterministic hard-disqualifier check BEFORE the LLM call
-    const zoneScores = sc ? [sc.desirability_score, sc.viability_score, sc.feasibility_score, sc.defensibility_score, sc.affordability_score] : [];
-    const failCount = zoneScores.filter(z => z === "FAIL").length;
-    const passCount = zoneScores.filter(z => z === "PASS").length;
-    const desirabilityFail = sc?.desirability_score === "FAIL";
-    const gritScore = founderData?.grit_score || "LOW";
-
-    const redFlagsCount = flagsData?.red_flags && flagsData.red_flags !== "None" ? flagsData.red_flags.split("|").length : 0;
-    const greenFlagsCount = flagsData?.green_flags && flagsData.green_flags !== "None" ? flagsData.green_flags.split("|").length : 0;
-
-    let deterministicVerdict: string;
-    let hardDisqualifierNote = "";
-
-    // 1. HARD DISQUALIFIERS (Top Priority)
-    if (failCount >= 3) {
-        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
-        hardDisqualifierNote = `HARD DISQUALIFIER: ${failCount} zones scored FAIL (≥3). The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT regardless of everything else.`;
-    } else if (desirabilityFail) {
-        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
-        hardDisqualifierNote = "HARD DISQUALIFIER: Desirability is FAIL. The verdict MUST be DOESN'T SEEM LIKE A GOOD FIT. Important: mention explicitly in the summary reasoning that since desirability is fail, no market exists for the product and the candidate doesn't seem like a good fit.";
-    }
-    // 2. SEEMS LIKE A GOOD FIT
-    else if (
-        (gritScore === "HIGH" || gritScore === "MEDIUM") &&
-        (failCount === 0 || (failCount === 1 && passCount >= 4 && !desirabilityFail)) &&
-        passCount >= 3 &&
-        (missionFit === "HIGH" || missionFit === "MEDIUM") &&
-        redFlagsCount <= 1
-    ) {
-        deterministicVerdict = "SEEMS LIKE A GOOD FIT";
-    }
-    // 3. DOESN'T SEEM LIKE A GOOD FIT (Criteria match)
-    else if (
-        (gritScore === "LOW" || gritScore === "MEDIUM" || (gritScore === "HIGH" && passCount <= 1)) &&
-        (missionFit === "LOW" || missionFit === "MEDIUM") &&
-        redFlagsCount >= 2 && greenFlagsCount <= 1
-    ) {
-        deterministicVerdict = "DOESN'T SEEM LIKE A GOOD FIT";
-    }
-    // 4. UNSURE — MORE VALIDATION REQUIRED
-    else {
-        deterministicVerdict = "UNSURE — MORE VALIDATION REQUIRED";
+    if (!reportData) {
+        return "ERROR: Analyst flow failed to generate a valid report after maximum retries.";
     }
 
-    // Handle rare edge cases for the prompt instructions
-    if (deterministicVerdict === "DOESN'T SEEM LIKE A GOOD FIT" && gritScore === "HIGH") {
-        hardDisqualifierNote += " NOTE: The founder's grit is HIGH, but other aspects are very weak. Mention explicitly in the reasoning that grit is high but other aspects fall short.";
-    } else if (deterministicVerdict === "UNSURE — MORE VALIDATION REQUIRED" && gritScore === "LOW") {
-        hardDisqualifierNote += " NOTE: The founder's grit is LOW, but other aspects are strong enough to warrant UNSURE. Mention explicitly in the reasoning that grit is low but other signals are strong.";
+    const warnings = validateReportAgainstTranscript(reportData, transcript);
+    if (warnings.length > 0) {
+        console.warn("\n⚠️ TRANSCRIPT VALIDATION WARNINGS (Missing Evidence):\n" + warnings.join("\n") + "\n");
     }
 
-    const verdictData = await callLLMForJSON(
-        VerdictChunkSchema,
-        "Verdict chunk",
-        ANALYST_PROMPT,
-        `${baseContext}\n\n${scorecardSummary}\n${gritSummary}\nMISSION FIT: ${missionFit}\nPASS count: ${passCount}, FAIL count: ${failCount}\n${hardDisqualifierNote}\n\n${INDIAAI_PILLAR_NAMES}\n\nThe VERDICT has been determined as: "${deterministicVerdict}".\n\nReturn a JSON with ONLY these 4 fields:\n{\n  "indiaai_pillar": "one pillar name from the list above, or None",\n  "indiaai_awareness": "Aware or Not aware",\n  "mission_fit_reasoning": "1-2 sentences why",\n  "verdict_reasoning": "3-4 sentences. Reference Founder Grit, Scorecard, Mission Fit, and any flags that drove the decision to grant the verdict of: ${deterministicVerdict}. Make sure to include any explicitly requested notes about desirability failing or grit contradictions."\n}\n\nOutput RAW JSON ONLY.`,
-        5120, // extra tokens for reasoning fields
-    );
+    const scores = computeDeterministicScores(reportData);
 
-    // ── Fallback: if Verdict LLM call failed, use deterministic verdict ──
-    const finalVerdictData = verdictData ?? {
-        indiaai_pillar: "None" as const,
-        indiaai_awareness: "Not aware" as const,
-        mission_fit_reasoning: "Report generation partially failed — verdict determined by scoring rules.",
-        verdict_reasoning: `Verdict determined by scoring rules: Grit=${gritScore}, PASS=${passCount}, FAIL=${failCount}, Mission Fit=${missionFit}.${desirabilityFail ? " Desirability scored FAIL — no clear market exists for the product." : ""}`,
-    };
-
-    // ── Merge & Build Markdown ──
-    return buildMarkdownReport(founderData, solutionData, scorecardData, flagsData, finalVerdictData, deterministicVerdict, companyName, pitchDeckUrl, websiteUrl);
+    return buildMarkdownReport(reportData, scores, warnings, skepticSummary, companyName, pitchDeckUrl, websiteUrl);
 }
 
 // ─── Deterministic Markdown Builder ─────────────────────────────────
 
 function buildMarkdownReport(
-    founder: z.infer<typeof FounderChunkSchema> | null,
-    solution: z.infer<typeof SolutionChunkSchema> | null,
-    scorecard: z.infer<typeof ScorecardChunkSchema> | null,
-    flags: z.infer<typeof FlagsChunkSchema> | null,
-    verdictData: z.infer<typeof VerdictChunkSchema> | null,
-    finalVerdictString: string,
+    report: UnifiedReport,
+    scores: ReturnType<typeof computeDeterministicScores>,
+    warnings: string[],
+    skepticSummary: SkepticSummary,
     companyName?: string,
     pitchDeckUrl?: string,
     websiteUrl?: string,
 ): string {
-    const f = founder || {
-        founder_name: "Unknown", founder_background: "Not available",
-        why_entrepreneurship: "Not available", financial_commitments: "Not available",
-        goals: "Not available", grit_score: "LOW" as const, grit_evidence: "Report generation partially failed.",
-        business_thinking: "Not available", founder_structure: "Not available",
-        hobbies: "Not available",
-    };
-    const s = solution || {
-        idea: "Not available", macro_context: "Not available",
-        why_ai: "Not available", development_stage: "Not available", assets: "Not available",
-    };
-    const sc = scorecard || {
-        desirability_score: "FAIL" as const, desirability_note: "Report generation failed",
-        viability_score: "FAIL" as const, viability_note: "Report generation failed",
-        feasibility_score: "FAIL" as const, feasibility_note: "Report generation failed",
-        defensibility_score: "FAIL" as const, defensibility_note: "Report generation failed",
-        affordability_score: "FAIL" as const, affordability_note: "Report generation failed",
-    };
-    const fl = flags || {
-        red_flags: "Report generation partially failed", green_flags: "None",
-        mission_fit: "LOW" as const,
-    };
-    const v = verdictData || {
-        indiaai_pillar: "None" as const,
-        indiaai_awareness: "Not aware" as const,
-        mission_fit_reasoning: "Report generation partially failed.",
-        verdict_reasoning: "Report generation partially failed.",
-    };
-
     const lines: string[] = [];
 
-    // Title: Applicant Name | Company Name | Date
+    // Title
     const reportDate = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
-    lines.push(`# BUILDAI PITCH EVENT STARTUP EVALUATION | ${f.founder_name} | ${companyName || "Not specified"} | ${reportDate}`);
+    lines.push(`# INDIAAI MISSION STARTUP EVALUATION`);
+    lines.push(`**${report.founder_name} | ${companyName || "Not specified"} | ${reportDate}**`);
+    lines.push("");
+    lines.push("---");
     lines.push("");
 
-    // Section 1
+    // Section 1: Founder Profile
     lines.push("## SECTION 1 — FOUNDER PROFILE");
     lines.push("");
-    lines.push("| Field | Details |");
+    lines.push("| | |");
     lines.push("|---|---|");
-    lines.push(`| **Who They Are** | ${f.founder_background} |`);
-    lines.push(`| **Why Entrepreneurship** | ${f.why_entrepreneurship} |`);
-    lines.push(`| **Financial Commitments** | ${f.financial_commitments} |`);
-    lines.push(`| **Goals** | ${f.goals} |`);
-    lines.push(`| **Grit Score** | ${f.grit_score} <br><br> Evidence: ${f.grit_evidence} |`);
-    lines.push(`| **Business Thinking** | ${f.business_thinking} |`);
-    lines.push(`| **Founder Structure** | ${f.founder_structure} |`);
+    lines.push(`| **Who They Are** | ${report.founder_background} |`);
+    lines.push(`| **Why Entrepreneurship** | ${report.why_entrepreneurship} |`);
+    lines.push(`| **Financial Commitments** | ${report.financial_commitments} |`);
+    lines.push(`| **Goals** | ${report.goals} |`);
+    lines.push(`| **Grit Score [ ${scores.grit} / 5 ]** | ${report.grit_evaluation_reasoning} |`);
+    lines.push(`| **Business Thinking** | ${report.business_thinking} |`);
+    lines.push(`| **Founder Structure** | ${report.founder_structure} |`);
+    lines.push("");
+    lines.push("---");
     lines.push("");
 
-    // Section 2
+    // Section 2: Solution Snapshot
     lines.push("## SECTION 2 — SOLUTION SNAPSHOT");
     lines.push("");
-    lines.push("| Field | Details |");
+    lines.push("| | |");
     lines.push("|---|---|");
-    lines.push(`| **IDEA** | ${s.idea} |`);
-    lines.push(`| **Macro context** | ${s.macro_context} |`);
-    lines.push(`| **Why AI** | ${s.why_ai} |`);
-    lines.push(`| **Development Stage** | ${s.development_stage} |`);
-    lines.push(`| **Assets** | ${s.assets} |`);
-    // Pitch deck & website as table rows in Solution Snapshot
+    lines.push(`| **Idea** | ${report.idea} |`);
+    lines.push(`| **Macro Context** | ${report.macro_context} |`);
+    lines.push(`| **Development Stage** | ${report.development_stage} |`);
+    
+    // Assets
+    let pitchStr = "NO";
     if (pitchDeckUrl) {
         const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
         const fullUrl = `${supabaseUrl}/storage/v1/object/public/pitch-decks/${pitchDeckUrl}`;
-        lines.push(`| **Pitch Deck** | [${pitchDeckUrl.split("/").pop() || "View Pitch Deck"}](${fullUrl}) |`);
-    } else {
-        lines.push(`| **Pitch Deck** | Not provided |`);
+        pitchStr = `YES ([LINK](${fullUrl}))`;
     }
+    let webStr = "NO";
     if (websiteUrl && websiteUrl !== "Not provided") {
-        lines.push(`| **Website** | [${websiteUrl}](${websiteUrl.startsWith("http") ? websiteUrl : "https://" + websiteUrl}) |`);
-    } else {
-        lines.push(`| **Website** | Not provided |`);
+        const fullWebUrl = websiteUrl.startsWith("http") ? websiteUrl : "https://" + websiteUrl;
+        webStr = `YES ([LINK](${fullWebUrl}))`;
     }
+    lines.push(`| **Assets** | Pitch deck: ${pitchStr} \\| Website: ${webStr} |`);
+    lines.push("");
+    lines.push("---");
     lines.push("");
 
-    // Section 3
-    lines.push("## SECTION 3 — 5-ZONE SCORECARD [PASS / MODERATE / FAIL]");
+    // Section 3: 5-Zone Scorecard
+    lines.push("## SECTION 3 — 5-ZONE SCORECARD");
     lines.push("");
     lines.push("| Zone | Score | Analyst Note |");
     lines.push("|---|---|---|");
-    lines.push(`| Desirability | ${sc.desirability_score} | ${sc.desirability_note} |`);
-    lines.push(`| Viability and Scalability | ${sc.viability_score} | ${sc.viability_note} |`);
-    lines.push(`| Feasibility | ${sc.feasibility_score} | ${sc.feasibility_note} |`);
-    lines.push(`| Defensibility | ${sc.defensibility_score} | ${sc.defensibility_note} |`);
-    lines.push(`| Affordability | ${sc.affordability_score} | ${sc.affordability_note} |`);
+    lines.push(`| **Desirability** | **${scores.desirability} / 5** | ${report.desirability_note} |`);
+    lines.push(`| **Viability & Scalability** | **${scores.viability} / 5** | ${report.viability_note} |`);
+    lines.push(`| **Feasibility** | **${scores.feasibility} / 5** | ${report.feasibility_note} |`);
+    lines.push(`| **Defensibility** | **${scores.defensibility} / 5** | ${report.defensibility_note} |`);
+    lines.push(`| **Affordability** | **${scores.affordability} / 5** | ${report.affordability_note} |`);
+    const totalZoneScore = scores.desirability + scores.viability + scores.feasibility + scores.defensibility + scores.affordability;
+    lines.push(`| **TOTAL** | **${totalZoneScore} / 25** | |`);
     lines.push("");
 
-    // Section 4 — Flags as bullet points
+    if (scores.desirability <= 2) {
+        lines.push("> ⚠️ **DESIRABILITY GATE:** If Desirability scores 1 or 2, flag prominently here and in the Overall Summary — a product without a credible market cannot become a viable business regardless of other zone scores.");
+        lines.push("");
+    }
+    lines.push("---");
+    lines.push("");
+
+    // Section 4: Flags
     lines.push("## SECTION 4 — FLAGS");
     lines.push("");
-    lines.push("### 🔴 RED FLAGS");
-    const redItems = fl.red_flags.split("|").map(f => f.trim()).filter(f => f && f !== "None");
-    if (redItems.length > 0) {
-        redItems.forEach(flag => lines.push(`- ${flag}`));
-    } else {
-        lines.push("- None");
-    }
+    lines.push("| 🔴 RED FLAGS | 🟢 GREEN FLAGS |");
+    lines.push("|---|---|");
+    
+    // Format flags using SkepticSummary
+    const buildFlagItem = (f: { category: string, description: string, _evidence: string[] }) => {
+        const evidenceStr = f._evidence && f._evidence.length > 0 
+            ? `<br> *Evidence:* "${f._evidence.join('" / "')}"` 
+            : "";
+        return `<li>**${f.category}:** ${f.description}${evidenceStr}</li>`;
+    };
+
+    const rDisplay = skepticSummary.redFlags.length > 0 
+        ? "<ul>" + skepticSummary.redFlags.map(buildFlagItem).join("\n") + "</ul>" 
+        : "None detected.";
+        
+    const gDisplay = skepticSummary.greenFlags.length > 0 
+        ? "<ul>" + skepticSummary.greenFlags.map(buildFlagItem).join("\n") + "</ul>" 
+        : "None detected.";
+    
+    lines.push(`| ${rDisplay} | ${gDisplay} |`);
     lines.push("");
-    lines.push("### 🟢 GREEN FLAGS");
-    const greenItems = fl.green_flags.split("|").map(f => f.trim()).filter(f => f && f !== "None");
-    if (greenItems.length > 0) {
-        greenItems.forEach(flag => lines.push(`- ${flag}`));
-    } else {
-        lines.push("- None");
-    }
+    lines.push("---");
     lines.push("");
 
-    // Section 5
-    lines.push(`## SECTION 5 — AI MISSION FIT [HIGH / MEDIUM / LOW]`);
+    // Section 5: AI Mission Fit Score
+    lines.push("## SECTION 5 — AI MISSION Fit SCORE");
     lines.push("");
-    lines.push(`**Mission Fit:** ${fl.mission_fit}`);
+    lines.push(`**AI Mission Fit Score: ${scores.missionFit} / 5**`);
     lines.push("");
-    lines.push(`**IndiaAI Pillar:** ${v.indiaai_pillar}`);
+    let pillarPrint: string = report.indiaai_pillar;
+    // Strip the number prefix if there is one e.g "1 — "
+    if (pillarPrint && pillarPrint.includes("—")) {
+        pillarPrint = pillarPrint.split("—")[1].trim();
+    }
+    lines.push(`**IndiaAI Pillar:** ${pillarPrint}`);
     lines.push("");
-    lines.push(`**IndiaAI Mission Awareness:** ${v.indiaai_awareness}`);
+    lines.push(`**Reasoning:**`);
+    lines.push(`${report.mission_fit_reasoning}`);
     lines.push("");
-    lines.push(`**Reasoning:** ${v.mission_fit_reasoning}`);
+    lines.push("---");
     lines.push("");
 
-    // Section 6
-    lines.push(`## SECTION 6 — AI VERDICT [${finalVerdictString}]`);
+    // Section 6: Final Score & Overall Summary
+    lines.push("## SECTION 6 — FINAL SCORE & OVERALL SUMMARY");
     lines.push("");
-    lines.push(`**Verdict:** ${finalVerdictString}`);
+    lines.push("| | Score |");
+    lines.push("|---|---|");
+    lines.push(`| Desirability *(Zone 1)* | ${scores.desirability} / 5 |`);
+    lines.push(`| Viability & Scalability *(Zone 2)* | ${scores.viability} / 5 |`);
+    lines.push(`| Feasibility *(Zone 3)* | ${scores.feasibility} / 5 |`);
+    lines.push(`| Defensibility *(Zone 4)* | ${scores.defensibility} / 5 |`);
+    lines.push(`| Affordability *(Zone 5)* | ${scores.affordability} / 5 |`);
+    lines.push(`| Grit Score | ${scores.grit} / 5 |`);
+    lines.push(`| AI Mission Fit Score | ${scores.missionFit} / 5 |`);
+    lines.push(`| **FINAL SCORE** | **${scores.total} / 35** |`);
     lines.push("");
-    lines.push(`**Reasoning:** ${v.verdict_reasoning}`);
+    lines.push("---");
     lines.push("");
-    lines.push("END OF REPORT");
+    lines.push("**OVERALL SUMMARY**");
+    lines.push("");
+    if (scores.desirability <= 2) {
+        lines.push(`**[DESIRABILITY GATE FAILED]:** ` + report.overall_summary);
+    } else {
+        lines.push(report.overall_summary);
+    }
+    lines.push("");
+    if (warnings.length > 0) {
+        lines.push("---");
+        lines.push("**System Note:** The AI Analyst generated the following citation warnings during evaluation:");
+        warnings.forEach(w => lines.push(`- *${w}*`));
+        lines.push("");
+    }
+
+    lines.push("---");
+    lines.push("");
+    lines.push("*END OF REPORT*");
 
     return lines.join("\n");
 }

@@ -38,90 +38,122 @@ export const ConductorEvalSchema = z.object({
 });
 export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 
-// ─── Report Chunk Schemas (split into 4 small calls) ────────────────
-// NOTE: No z.preprocess — normalization happens in analyst.ts normalizeBeforeZod()
+// ─── Unified Report Schema (Single Call Output) ──────────────────────
 
-export const FounderChunkSchema = z.object({
+export const UnifiedReportSchema = z.object({
+    // SECTION 1 — FOUNDER PROFILE
     founder_name: z.string().max(100),
     founder_background: z.string().max(400),
     why_entrepreneurship: z.string().max(300).default("Not discussed in interview"),
     financial_commitments: z.string().max(200).default("Not discussed in interview"),
     goals: z.string().max(400).default("Not discussed in interview"),
-    grit_score: z.enum(["HIGH", "MEDIUM", "LOW"]).default("LOW"),
-    grit_evidence: z.string().max(250).default("Not discussed in interview"),
+    
+    // Grit Evaluation (1-5 code mappable)
+    grit_evaluation: z.enum([
+        "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.", // 5
+        "Specific failure mentioned with mostly concrete recovery. Lesson articulated — may lack full depth but shows genuine reflection.", // 4
+        "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.", // 3
+        "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.", // 2
+        "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.", // 1
+        "Not discussed in interview" // Will default to 1 or fail
+    ]),
+    grit_evaluation_evidence: z.array(z.string()).describe("Exact transcript quotes supporting the grit evaluation"),
+    grit_evaluation_reasoning: z.string().max(400).describe("3-4 sentences justifying the grit evaluation based on evidence"),
+    
     business_thinking: z.string().max(300).default("Not discussed in interview"),
+    business_thinking_evidence: z.array(z.string()),
+    
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
-    hobbies: z.string().max(200).default("Not discussed in interview"),
-});
 
-export const SolutionChunkSchema = z.object({
+    // SECTION 2 — SOLUTION SNAPSHOT
     idea: z.string().max(500),
+    idea_evidence: z.array(z.string()),
     macro_context: z.string().max(200).default("Not discussed in interview"),
-    why_ai: z.string().max(300).default("Not discussed in interview"),
+    macro_context_evidence: z.array(z.string()),
     development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
-    assets: z.string().max(300).default("Not discussed in interview"),
-});
+    development_stage_evidence: z.array(z.string()),
 
-export const ScorecardChunkSchema = z.object({
-    desirability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    desirability_note: z.string().max(250).default("Not discussed in interview"),
-    viability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    viability_note: z.string().max(250).default("Not discussed in interview"),
-    feasibility_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    feasibility_note: z.string().max(250).default("Not discussed in interview"),
-    defensibility_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    defensibility_note: z.string().max(250).default("Not discussed in interview"),
-    affordability_score: z.enum(["PASS", "MODERATE", "FAIL"]),
-    affordability_note: z.string().max(250).default("Not discussed in interview"),
-});
+    // SECTION 3 — 5-ZONE SCORECARD
+    desirability_evaluation: z.enum([
+        "Specific problem clearly defined. Target user and market clearly defined. Strong evidence of real demand.", // 5
+        "Problem and target user defined. Decent evidence of demand. Minor gaps in specificity.", // 4
+        "Problem mentioned but too broad or slightly vague. Target market defined but vague. No clear evidence of demand.", // 3
+        "Weak problem articulation. No clear user definition. No evidence of demand.", // 2
+        "No clear problem. No market exists or will want this solution. Solution looking for a problem." // 1
+    ]),
+    desirability_evidence: z.array(z.string()),
+    desirability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
 
-export const AssessmentChunkSchema = z.object({
-    red_flags: z.string(),
-    green_flags: z.string(),
-    mission_fit: z.enum(["HIGH", "MEDIUM", "LOW"]),
+    viability_evaluation: z.enum([
+        "Clear revenue model. Convincing path to profitability. Strong scalability thesis.", // 5
+        "Solid revenue model, mostly clear path to profitability. Good scalability thinking. Some minor gaps.", // 4
+        "Revenue model exists but vague. Path to profitability unclear. Some scalability idea but thin and shallow.", // 3
+        "Revenue model not properly defined. Economics don't work. Profitability seems difficult. Scalability not considered meaningfully.", // 2
+        "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered at all." // 1
+    ]),
+    viability_evidence: z.array(z.string()),
+    viability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
+
+    feasibility_evaluation: z.enum([
+        "Technical capability demonstrated. Realistic build plan with clear milestones.", // 5
+        "Technical capability evident. Build plan mostly realistic. Minor complexity underestimated.", // 4
+        "Possible to build but unclear technical capacity and/or underestimating complexity.", // 3
+        "Significant technical gaps. Unclear how they'd actually build this. Legal risks unaddressed. Unrealistic thinking.", // 2
+        "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking." // 1
+    ]),
+    feasibility_evidence: z.array(z.string()),
+    feasibility_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
+
+    defensibility_evaluation: z.enum([
+        "At least ONE strong moat clearly defined: network effects, proprietary tech/IP, unique data, high switching costs, domain expertise, or breakthrough technology / very unique insight.", // 5
+        "One credible moat identified and clearly articulated. Not yet fully built or proven.", // 4
+        "Some differentiation exists but can be easily copied. E.g. first-mover advantage only.", // 3
+        "Very weak differentiation. Easy to replicate. No credible moat identified.", // 2
+        "No differentiator. Completely replicable. No moat thinking. Anyone can build it." // 1
+    ]),
+    defensibility_evidence: z.array(z.string()),
+    defensibility_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
+
+    affordability_evaluation: z.enum([
+        "Pricing clearly fits the Indian target segment. Founder has done proper research on pricing in India in that segment.", // 5
+        "Pricing fits India well. India context considered meaningfully. Minor gaps — e.g. market research not fully conducted.", // 4
+        "Pricing has not been thought of proactively. Has shown some thought of India-first pricing when asked, but had not considered it until then.", // 3
+        "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.", // 2
+        "Delusional pricing that does not fit the Indian market. No thought given to affordability. Trying to go higher and higher in pricing without considering the Indian market." // 1
+    ]),
+    affordability_evidence: z.array(z.string()),
+    affordability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
+
+    // SECTION 4 — FLAGS
+    // (Flags are now injected directly from the Skeptic module, not parsed by Analyst)
+
+    // SECTION 5 — AI MISSION FIT
+    mission_fit_evaluation: z.enum([
+        "Direct, specific connection to a pillar. AI is core — the product fails without it. Solution is India-first by design. Highly empowering to the Indian AI ecosystem. Founder is well aware of the IndiaAI Mission and can articulate how their product contributes.", // 5
+        "Clear connection to a pillar. AI genuinely used, not decorative. Strong India-first thinking. Meaningfully contributes to the Indian AI ecosystem. Founder is aware of the IndiaAI Mission but not deeply — may not have a great answer on specific alignment.", // 4
+        "Connection to a pillar exists. Relevant to India. AI is genuinely being used, but India-first design is not deeply embedded. Founder cannot properly answer how it empowers the Indian AI ecosystem. Not properly aware of the IndiaAI Mission.", // 3
+        "Pillar fit is a stretch. AI feels like an add-on, not a necessity. India connection is surface-level. Limited contribution to the Indian AI ecosystem.", // 2
+        "No credible pillar connection. AI is decorative or repackaged foreign API. Product can be built without AI. India / IndiaAI angle is entirely superficial or retrofitted." // 1
+    ]),
+    mission_fit_evidence: z.array(z.string()),
     indiaai_pillar: z.enum([
-        "IndiaAI Innovation Centre",
-        "IndiaAI Application Development Initiative",
-        "AIKosh",
-        "IndiaAI Compute Capacity",
-        "IndiaAI Startup Financing",
-        "IndiaAI FutureSkills",
-        "Safe & Trusted AI",
+        "1 — IndiaAI Innovation Centre",
+        "2 — IndiaAI Application Development",
+        "3 — AIKosh",
+        "4 — IndiaAI Compute Capacity",
+        "5 — IndiaAI Startup Financing",
+        "6 — IndiaAI FutureSkills",
+        "7 — Safe & Trusted AI",
         "None",
     ]),
-    indiaai_awareness: z.string(),
-    mission_fit_reasoning: z.string(),
-    verdict: z.enum([
-        "SEEMS LIKE A GOOD FIT",
-        "UNSURE — MORE VALIDATION REQUIRED",
-        "DOESN'T SEEM LIKE A GOOD FIT",
-    ]),
-    verdict_reasoning: z.string(),
+    mission_fit_reasoning: z.string().max(600).describe("1 PARAGRAPH — explain the score. Cover: is AI structurally core or decorative? Is the India connection genuine or retrofitted? Does the startup contribute to the IndiaAI ecosystem? What is the founder's awareness of the IndiaAI Mission?"),
+    mission_fit_reasoning_evidence: z.array(z.string()),
+
+    // SECTION 6 — OVERALL SUMMARY
+    overall_summary: z.string().max(1000).describe("4–5 SENTENCES. A holistic, human-readable narrative — not a list of scores. Cover: who they are as a founder, quality of their idea and business thinking, AI conviction and India-first orientation, standout strengths, and any areas of meaningful concern.")
 });
 
-// ─── Split Assessment into smaller chunks for reliability ────────────
-
-export const FlagsChunkSchema = z.object({
-    red_flags: z.string().max(4000).default("None"),
-    green_flags: z.string().max(4000).default("None"),
-    mission_fit: z.enum(["HIGH", "MEDIUM", "LOW"]),
-});
-
-export const VerdictChunkSchema = z.object({
-    indiaai_pillar: z.enum([
-        "IndiaAI Innovation Centre",
-        "IndiaAI Application Development Initiative",
-        "AIKosh",
-        "IndiaAI Compute Capacity",
-        "IndiaAI Startup Financing",
-        "IndiaAI FutureSkills",
-        "Safe & Trusted AI",
-        "None",
-    ]),
-    indiaai_awareness: z.enum(["Aware", "Not aware"]),
-    mission_fit_reasoning: z.string().max(500).default("Not discussed in interview"),
-    verdict_reasoning: z.string().max(800).default("Not discussed in interview"),
-});
+export type UnifiedReport = z.infer<typeof UnifiedReportSchema>;
 
 // ─── Database Row Types ─────────────────────────────────────────────
 
@@ -193,7 +225,8 @@ export interface InterviewState {
     checklist: InterviewChecklist;
     drill_down_counts: Record<string, number>;
     current_phase: string;
-    red_flags: Array<{ category: string; description: string }>;
+    red_flags: Array<{ category: string; description: string; _evidence: string[] }>;
+    green_flags: Array<{ category: string; description: string; _evidence: string[] }>;
     is_complete: boolean;
     pitch_deck_url: string | null;
     pitch_deck_filename: string | null;

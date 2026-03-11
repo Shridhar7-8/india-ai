@@ -1,6 +1,7 @@
 import { inngest } from "./client";
 import { supabase } from "@/lib/supabase";
 import { runAnalyst } from "@/agents/analyst";
+import { buildSkepticSummary } from "@/agents/skeptic";
 import { sendReportEmail } from "@/lib/email";
 import { generateReportPDFBuffer } from "@/components/ReportPDF";
 
@@ -44,7 +45,7 @@ export const finalizeInterview = inngest.createFunction(
     const interviewState = await step.run("fetch-interview-state", async () => {
       const { data, error } = await supabase
         .from("interview_states")
-        .select("red_flags, conversation_summary, vague_topics")
+        .select("red_flags, green_flags, conversation_summary, vague_topics")
         .eq("conversation_id", conversationId)
         .single();
 
@@ -66,9 +67,14 @@ export const finalizeInterview = inngest.createFunction(
         ? `${conversationId}/${pitchDeckFile}`
         : undefined;
 
+      const skepticSummary = buildSkepticSummary(
+          interviewState.red_flags || [],
+          interviewState.green_flags || []
+      );
+
       const report = await runAnalyst({
         conversationHistory,
-        redFlags: interviewState.red_flags || [],
+        skepticSummary,
         companyName: convSummary.company_name || undefined,
         pitchDeckUrl,
         websiteUrl: convSummary.website_url || undefined,

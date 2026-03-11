@@ -240,12 +240,17 @@ export async function POST(req: NextRequest) {
       currentTopic: currentStepId,
       conversationHistory,
       existingRedFlags: interviewState.red_flags || [],
+      existingGreenFlags: interviewState.green_flags || [],
     }).then(async (newFlags) => {
-      if (newFlags.length > 0) {
-        const allFlags = [...(interviewState.red_flags || []), ...newFlags];
+      if (newFlags.redFlags.length > 0 || newFlags.greenFlags.length > 0) {
+        const allRedFlags = [...(interviewState.red_flags || []), ...newFlags.redFlags];
+        const allGreenFlags = [...(interviewState.green_flags || []), ...newFlags.greenFlags];
         await supabase
           .from("interview_states")
-          .update({ red_flags: allFlags })
+          .update({ 
+            red_flags: allRedFlags, 
+            green_flags: allGreenFlags 
+          })
           .eq("conversation_id", convId);
       }
     }).catch((err) => {
