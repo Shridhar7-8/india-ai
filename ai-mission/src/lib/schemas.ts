@@ -43,11 +43,23 @@ export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 export const UnifiedReportSchema = z.object({
     // SECTION 1 — FOUNDER PROFILE
     founder_name: z.string().max(100),
-    founder_background: z.string().max(400),
+    professional_background: z.string().max(300),
+    professional_background_evidence: z.array(z.string()),
+    education_background: z.string().max(200),
+    education_background_evidence: z.array(z.string()),
+    hobbies: z.string().max(200).default("Not discussed in interview"),
+    hobbies_evidence: z.array(z.string()),
     why_entrepreneurship: z.string().max(300).default("Not discussed in interview"),
+    why_entrepreneurship_evidence: z.array(z.string()),
     financial_commitments: z.string().max(200).default("Not discussed in interview"),
-    goals: z.string().max(400).default("Not discussed in interview"),
-    
+    financial_commitments_evidence: z.array(z.string()),
+    goals_6m: z.string().max(200).default("Not discussed in interview"),
+    goals_6m_evidence: z.array(z.string()),
+    goals_2y: z.string().max(200).default("Not discussed in interview"),
+    goals_2y_evidence: z.array(z.string()),
+    goals_5y: z.string().max(200).default("Not discussed in interview"),
+    goals_5y_evidence: z.array(z.string()),
+
     // Grit Evaluation (1-5 code mappable)
     grit_evaluation: z.enum([
         "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.", // 5
@@ -59,11 +71,14 @@ export const UnifiedReportSchema = z.object({
     ]),
     grit_evaluation_evidence: z.array(z.string()).describe("Exact transcript quotes supporting the grit evaluation"),
     grit_evaluation_reasoning: z.string().max(400).describe("3-4 sentences justifying the grit evaluation based on evidence"),
-    
+
     business_thinking: z.string().max(300).default("Not discussed in interview"),
     business_thinking_evidence: z.array(z.string()),
-    
+
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
+    founder_structure_evidence: z.array(z.string()),
+    role_division: z.string().max(300).default("Not discussed in interview").describe("How they plan to manage alone or how the co-founders split roles"),
+    role_division_evidence: z.array(z.string()),
 
     // SECTION 2 — SOLUTION SNAPSHOT
     idea: z.string().max(500),

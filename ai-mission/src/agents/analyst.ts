@@ -145,7 +145,16 @@ function validateReportAgainstTranscript(report: UnifiedReport, transcript: stri
     };
 
     checkArray(report.grit_evaluation_evidence, "grit_evaluation_evidence");
-    checkArray(report.business_thinking_evidence, "business_thinking_evidence");
+    checkArray(report.professional_background_evidence, "professional_background_evidence");
+    checkArray(report.education_background_evidence, "education_background_evidence");
+    checkArray(report.hobbies_evidence, "hobbies_evidence");
+    checkArray(report.why_entrepreneurship_evidence, "why_entrepreneurship_evidence");
+    checkArray(report.financial_commitments_evidence, "financial_commitments_evidence");
+    checkArray(report.goals_6m_evidence, "goals_6m_evidence");
+    checkArray(report.goals_2y_evidence, "goals_2y_evidence");
+    checkArray(report.goals_5y_evidence, "goals_5y_evidence");
+    checkArray(report.founder_structure_evidence, "founder_structure_evidence");
+    checkArray(report.role_division_evidence, "role_division_evidence");
     checkArray(report.idea_evidence, "idea_evidence");
     checkArray(report.macro_context_evidence, "macro_context_evidence");
     checkArray(report.development_stage_evidence, "development_stage_evidence");
@@ -255,13 +264,13 @@ function buildMarkdownReport(
     lines.push("");
     lines.push("| | |");
     lines.push("|---|---|");
-    lines.push(`| **Who They Are** | ${report.founder_background} |`);
+    lines.push(`| **Who They Are** | ${report.education_background} \\| ${report.professional_background} \\| Hobbies: ${report.hobbies} |`);
     lines.push(`| **Why Entrepreneurship** | ${report.why_entrepreneurship} |`);
     lines.push(`| **Financial Commitments** | ${report.financial_commitments} |`);
-    lines.push(`| **Goals** | ${report.goals} |`);
+    lines.push(`| **Goals** | 6 months: ${report.goals_6m} \\| 2 years: ${report.goals_2y} \\| 5 years: ${report.goals_5y} |`);
     lines.push(`| **Grit Score [ ${scores.grit} / 5 ]** | ${report.grit_evaluation_reasoning} |`);
     lines.push(`| **Business Thinking** | ${report.business_thinking} |`);
-    lines.push(`| **Founder Structure** | ${report.founder_structure} |`);
+    lines.push(`| **Founder Structure** | ${report.founder_structure} — ${report.role_division} |`);
     lines.push("");
     lines.push("---");
     lines.push("");
@@ -341,16 +350,9 @@ function buildMarkdownReport(
     lines.push("");
 
     // Section 5: AI Mission Fit Score
-    lines.push("## SECTION 5 — AI MISSION Fit SCORE");
+    lines.push("## SECTION 5 — AI MISSION FIT SCORE");
     lines.push("");
     lines.push(`**AI Mission Fit Score: ${scores.missionFit} / 5**`);
-    lines.push("");
-    let pillarPrint: string = report.indiaai_pillar;
-    // Strip the number prefix if there is one e.g "1 — "
-    if (pillarPrint && pillarPrint.includes("—")) {
-        pillarPrint = pillarPrint.split("—")[1].trim();
-    }
-    lines.push(`**IndiaAI Pillar:** ${pillarPrint}`);
     lines.push("");
     lines.push(`**Reasoning:**`);
     lines.push(`${report.mission_fit_reasoning}`);
