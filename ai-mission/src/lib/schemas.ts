@@ -47,18 +47,18 @@ export const UnifiedReportSchema = z.object({
     professional_background_evidence: z.array(z.string()),
     education_background: z.string().max(200),
     education_background_evidence: z.array(z.string()),
-    hobbies: z.string().max(200).default("Not discussed in interview"),
+    hobbies: z.string().max(200).default("Not specified"),
     hobbies_evidence: z.array(z.string()),
-    why_entrepreneurship: z.string().max(300).default("Not discussed in interview"),
+    why_entrepreneurship: z.string().max(300).default("Not specified"),
     why_entrepreneurship_evidence: z.array(z.string()),
-    financial_commitments: z.string().max(200).default("Not discussed in interview"),
+    financial_commitments: z.string().max(200).default("Not specified"),
     financial_commitments_evidence: z.array(z.string()),
-    goals_6m: z.string().max(200).default("Not discussed in interview"),
-    goals_6m_evidence: z.array(z.string()),
-    goals_2y: z.string().max(200).default("Not discussed in interview"),
-    goals_2y_evidence: z.array(z.string()),
-    goals_5y: z.string().max(200).default("Not discussed in interview"),
-    goals_5y_evidence: z.array(z.string()),
+    goals_short_term: z.string().max(200).default("Not specified").describe("Founder's short-term goals"),
+    goals_short_term_evidence: z.array(z.string()),
+    goals_mid_term: z.string().max(200).default("Not specified").describe("Founder's mid-term goals"),
+    goals_mid_term_evidence: z.array(z.string()),
+    goals_long_term: z.string().max(200).default("Not specified").describe("Founder's long-term goals"),
+    goals_long_term_evidence: z.array(z.string()),
 
     // Grit Evaluation (1-5 code mappable)
     grit_evaluation: z.enum([
@@ -67,23 +67,23 @@ export const UnifiedReportSchema = z.object({
         "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.", // 3
         "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.", // 2
         "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.", // 1
-        "Not discussed in interview" // Will default to 1 or fail
+        "Not specified" // Will default to 1 or fail
     ]),
     grit_evaluation_evidence: z.array(z.string()).describe("Exact transcript quotes supporting the grit evaluation"),
     grit_evaluation_reasoning: z.string().max(400).describe("3-4 sentences justifying the grit evaluation based on evidence"),
 
-    business_thinking: z.string().max(300).default("Not discussed in interview"),
+    business_thinking: z.string().max(300).default("Not specified"),
     business_thinking_evidence: z.array(z.string()),
 
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
     founder_structure_evidence: z.array(z.string()),
-    role_division: z.string().max(300).default("Not discussed in interview").describe("How they plan to manage alone or how the co-founders split roles"),
+    role_division: z.string().max(300).default("Not specified").describe("How they plan to manage alone or how the co-founders split roles"),
     role_division_evidence: z.array(z.string()),
 
     // SECTION 2 — SOLUTION SNAPSHOT
     idea: z.string().max(500),
     idea_evidence: z.array(z.string()),
-    macro_context: z.string().max(200).default("Not discussed in interview"),
+    macro_context: z.string().max(200).default("Not specified"),
     macro_context_evidence: z.array(z.string()),
     development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
     development_stage_evidence: z.array(z.string()),

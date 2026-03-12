@@ -13,7 +13,7 @@ const GRIT_MAP: Record<string, string> = {
     "3": "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.",
     "2": "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.",
     "1": "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.",
-    "not_discussed": "Not discussed in interview",
+    "not_discussed": "Not specified",
 };
 
 const DESIRABILITY_MAP: Record<string, string> = {
@@ -72,30 +72,30 @@ const LLMReportSchema = z.object({
     professional_background_evidence: z.array(z.string()),
     education_background: z.string(),
     education_background_evidence: z.array(z.string()),
-    hobbies: z.string().default("Not discussed in interview"),
+    hobbies: z.string().default("Not specified"),
     hobbies_evidence: z.array(z.string()),
-    why_entrepreneurship: z.string().default("Not discussed in interview"),
+    why_entrepreneurship: z.string().default("Not specified"),
     why_entrepreneurship_evidence: z.array(z.string()),
-    financial_commitments: z.string().default("Not discussed in interview"),
+    financial_commitments: z.string().default("Not specified"),
     financial_commitments_evidence: z.array(z.string()),
-    goals_6m: z.string().default("Not discussed in interview"),
-    goals_6m_evidence: z.array(z.string()),
-    goals_2y: z.string().default("Not discussed in interview"),
-    goals_2y_evidence: z.array(z.string()),
-    goals_5y: z.string().default("Not discussed in interview"),
-    goals_5y_evidence: z.array(z.string()),
+    goals_short_term: z.string().default("Not specified").describe("Founder's short-term goals"),
+    goals_short_term_evidence: z.array(z.string()),
+    goals_mid_term: z.string().default("Not specified").describe("Founder's mid-term goals"),
+    goals_mid_term_evidence: z.array(z.string()),
+    goals_long_term: z.string().default("Not specified").describe("Founder's long-term goals"),
+    goals_long_term_evidence: z.array(z.string()),
     grit_evaluation: z.enum(["5", "4", "3", "2", "1", "not_discussed"]),
     grit_evaluation_evidence: z.array(z.string()),
     grit_evaluation_reasoning: z.string(),
-    business_thinking: z.string().default("Not discussed in interview"),
+    business_thinking: z.string().default("Not specified"),
     business_thinking_evidence: z.array(z.string()),
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
     founder_structure_evidence: z.array(z.string()),
-    role_division: z.string().default("Not discussed in interview"),
+    role_division: z.string().default("Not specified"),
     role_division_evidence: z.array(z.string()),
     idea: z.string(),
     idea_evidence: z.array(z.string()),
-    macro_context: z.string().default("Not discussed in interview"),
+    macro_context: z.string().default("Not specified"),
     macro_context_evidence: z.array(z.string()),
     development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
     development_stage_evidence: z.array(z.string()),
@@ -128,10 +128,83 @@ const LLMReportSchema = z.object({
     ]),
     mission_fit_reasoning: z.string(),
     mission_fit_reasoning_evidence: z.array(z.string()),
-    overall_summary: z.string(),
+    overall_summary: z.string().describe("2-3 paragraph analytical assessment of the founder and startup, covering strengths, risks, and a balanced conclusion. Write like a senior investor analyst."),
 });
 
 type LLMReport = z.infer<typeof LLMReportSchema>;
+
+// ─── Compact Field Manifest (replaces verbose JSON Schema) ──────────
+
+const ANALYST_FIELD_MANIFEST = `
+All fields are REQUIRED. Output valid JSON with these exact keys:
+
+── Identity ──
+founder_name (string) — Full name of the founder
+founder_background (string) — Professional/educational background
+startup_name (string) — Name of the startup or venture
+industry (string) — Industry or sector
+stage (string) — Current startup stage (e.g., idea, MVP, revenue)
+city (string) — City where the startup is based
+state (string) — State where the startup is based
+
+── Problem & Solution ──
+problem_statement (string) — Core problem being solved
+problem_statement_evidence (string[]) — Verbatim quotes supporting the problem statement
+solution_description (string) — How the product/service solves the problem
+solution_description_evidence (string[]) — Verbatim quotes supporting the solution
+
+── Market & Business ──
+target_market (string) — Target customer segment
+revenue_model (string) — How the startup makes or plans to make money
+revenue_model_evidence (string[]) — Verbatim quotes about revenue
+current_revenue (string) — Current revenue figures or status
+current_revenue_evidence (string[]) — Verbatim quotes about current revenue
+financial_commitments (string) — Personal financial investment or commitments
+financial_commitments_evidence (string[]) — Verbatim quotes about financial commitments
+
+── Team & Roles ──
+team_size (string) — Number of team members
+role_division (string) — How roles are divided in the team (or solo founder situation)
+role_division_evidence (string[]) — Verbatim quotes about roles
+
+── Goals ──
+goals_short_term (string) — Goals for the next 6 months
+goals_short_term_evidence (string[]) — Verbatim quotes about short-term goals
+goals_mid_term (string) — Goals for the next 2 years
+goals_mid_term_evidence (string[]) — Verbatim quotes about mid-term goals
+goals_long_term (string) — Goals for the next 5 years
+goals_long_term_evidence (string[]) — Verbatim quotes about long-term goals
+
+── Founder Traits ──
+founder_motivation (string) — Why the founder started this venture
+founder_motivation_evidence (string[]) — Verbatim quotes about motivation
+hobbies (string) — Founder's hobbies or personal interests
+hobbies_evidence (string[]) — Verbatim quotes about hobbies
+commitment_level (string) — Full-time, part-time, or other
+commitment_level_evidence (string[]) — Verbatim quotes about commitment
+
+── Scored Evaluations (use SHORT CODE only) ──
+grit_evaluation ("5"|"4"|"3"|"2"|"1"|"not_discussed") — Resilience and grit score
+grit_evaluation_evidence (string[]) — Verbatim quotes about grit
+desirability_evaluation ("5"|"4"|"3"|"2"|"1") — Market desirability score
+desirability_evaluation_evidence (string[]) — Verbatim quotes about desirability
+viability_evaluation ("5"|"4"|"3"|"2"|"1") — Business viability score
+viability_evaluation_evidence (string[]) — Verbatim quotes about viability
+feasibility_evaluation ("5"|"4"|"3"|"2"|"1") — Technical feasibility score
+feasibility_evaluation_evidence (string[]) — Verbatim quotes about feasibility
+defensibility_evaluation ("5"|"4"|"3"|"2"|"1") — Competitive defensibility score
+defensibility_evaluation_evidence (string[]) — Verbatim quotes about defensibility
+affordability_evaluation ("5"|"4"|"3"|"2"|"1") — Affordability/pricing score
+affordability_evaluation_evidence (string[]) — Verbatim quotes about affordability
+
+── Mission Fit ──
+mission_fit_evaluation ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"None") — Which IndiaAI mission pillar fits best
+mission_fit_reasoning (string) — Why this pillar was chosen
+mission_fit_reasoning_evidence (string[]) — Verbatim quotes supporting mission fit
+
+── Summary ──
+overall_summary (string) — 2-3 paragraph analytical assessment covering strengths, risks, and balanced conclusion. Write like a senior investor analyst.
+`.trim();
 
 // ─── Map LLM Short Codes → Full Enum Descriptions ──────────────────
 
@@ -212,16 +285,16 @@ async function callLLMForJSON<T>(
 ): Promise<T | null> {
     const MAX_RETRIES = 5;
     let lastZodError: string | null = null; // Track last Zod error for feedback
-
-    const stringifiedSchema = JSON.stringify(z.toJSONSchema(schema as any), null, 2);
+    // No JSON Schema sent to LLM — Zod handles validation on our end.
+    // LLM sees only the compact ANALYST_FIELD_MANIFEST.
 
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
-            let effectivePrompt = userPrompt + `\n\nEXPECTED JSON SCHEMA:\n${stringifiedSchema}`;
+            let effectivePrompt = `${userPrompt}\n\n=== OUTPUT FIELDS (your output MUST include every field below) ===\n${ANALYST_FIELD_MANIFEST}\n\nNow output the JSON. Start with {`;
 
             if (lastZodError && attempt > 0) {
                 // Keep feedback concise — just list missing/invalid field names, not full enum values
-                effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION. Fix these fields:\n${lastZodError}\nRefer to the EXPECTED JSON SCHEMA above for valid values. ALL fields are required. Output RAW JSON ONLY.`;
+                effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION. Fix these fields:\n${lastZodError}\nRefer to the OUTPUT FIELDS list above for valid values. ALL fields are required. Output RAW JSON ONLY.`;
                 console.log(`🔄 ${chunkName} retry ${attempt + 1} with error feedback`);
             }
 
@@ -230,6 +303,12 @@ async function callLLMForJSON<T>(
             const promptTokens = Math.ceil(effectivePrompt.length / 4);
             const totalInputTokens = systemTokens + promptTokens;
             console.log(`📐 ${chunkName} token estimate (attempt ${attempt + 1}): system=${systemTokens}, prompt=${promptTokens}, total_input=~${totalInputTokens} tokens (${systemPrompt.length + effectivePrompt.length} chars)`);
+
+            // DEBUG: Print full effective prompt on first attempt
+            if (attempt === 0) {
+                console.log(`\n${"=".repeat(80)}\n🔍 FULL SYSTEM PROMPT (${systemPrompt.length} chars):\n${"=".repeat(80)}\n${systemPrompt}\n${"=".repeat(80)}`);
+                console.log(`\n${"=".repeat(80)}\n🔍 FULL EFFECTIVE PROMPT (${effectivePrompt.length} chars):\n${"=".repeat(80)}\n${effectivePrompt}\n${"=".repeat(80)}\n`);
+            }
 
             const { text, usage } = await generateText({
                 model: getAnalystModel(),
@@ -313,9 +392,9 @@ function validateReportAgainstTranscript(report: UnifiedReport, transcript: stri
     checkArray(report.hobbies_evidence, "hobbies_evidence");
     checkArray(report.why_entrepreneurship_evidence, "why_entrepreneurship_evidence");
     checkArray(report.financial_commitments_evidence, "financial_commitments_evidence");
-    checkArray(report.goals_6m_evidence, "goals_6m_evidence");
-    checkArray(report.goals_2y_evidence, "goals_2y_evidence");
-    checkArray(report.goals_5y_evidence, "goals_5y_evidence");
+    checkArray(report.goals_short_term_evidence, "goals_short_term_evidence");
+    checkArray(report.goals_mid_term_evidence, "goals_mid_term_evidence");
+    checkArray(report.goals_long_term_evidence, "goals_long_term_evidence");
     checkArray(report.founder_structure_evidence, "founder_structure_evidence");
     checkArray(report.role_division_evidence, "role_division_evidence");
     checkArray(report.idea_evidence, "idea_evidence");
@@ -375,14 +454,30 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         ? skepticSummary.greenFlags.map((f) => `- ${f.category}: ${f.description}`).join("\n")
         : "No green flags detected.";
 
-    const baseContext = `INTERVIEW TRANSCRIPT:\n${transcript}\n\nRED FLAGS DETECTED BY SECONDARY AGENT:\n${redFlagsStr}\n\nGREEN FLAGS DETECTED BY SECONDARY AGENT:\n${greenFlagsStr}`;
+    const baseContext = [
+        `=== INTERVIEW TRANSCRIPT ===`,
+        transcript,
+        `=== END OF TRANSCRIPT ===`,
+        ``,
+        `=== TASK ===`,
+        `Read the interview transcript above and produce a structured evaluation report.`,
+        `Follow all system instructions. Return ONLY valid JSON matching the schema at the end.`,
+        `Every field that was discussed has an answer in the transcript — find it.`,
+        ``,
+        `=== FLAGS DETECTED BY SECONDARY AGENT ===`,
+        `RED FLAGS:`,
+        redFlagsStr,
+        ``,
+        `GREEN FLAGS:`,
+        greenFlagsStr,
+    ].join("\n");
 
     console.log("Generating unified report...");
     const llmData = await callLLMForJSON(
         LLMReportSchema,
         "Unified Report",
         ANALYST_PROMPT,
-        `${baseContext}\n\nYou must generate the full report based ONLY on the evidence in the transcript. Your response must be valid JSON matching the EXACT top-level structure of the expected schema.`,
+        baseContext,
         8192,
         0.1 // Temp 0.1 for high determinism
     );
@@ -432,10 +527,10 @@ function buildMarkdownReport(
     lines.push(`| **Who They Are** | ${report.education_background} · ${report.professional_background} · Hobbies: ${report.hobbies} |`);
     lines.push(`| **Why Entrepreneurship** | ${report.why_entrepreneurship} |`);
     lines.push(`| **Financial Commitments** | ${report.financial_commitments} |`);
-    lines.push(`| **Goals** | 6 months: ${report.goals_6m} · 2 years: ${report.goals_2y} · 5 years: ${report.goals_5y} |`);
+    lines.push(`| **Goals** | Short-term: ${report.goals_short_term} · Mid-term: ${report.goals_mid_term} · Long-term: ${report.goals_long_term} |`);
     lines.push(`| **Grit Score [ ${scores.grit} / 5 ]** | ${report.grit_evaluation_reasoning} |`);
     lines.push(`| **Business Thinking** | ${report.business_thinking} |`);
-    lines.push(`| **Founder Structure** | ${report.founder_structure} — ${report.role_division} |`);
+    lines.push(`| **Founder Structure** | ${report.founder_structure} — ${report.role_division !== "Not specified" ? report.role_division : "Role management details not discussed"} |`);
     lines.push("");
     lines.push("---");
     lines.push("");
@@ -496,7 +591,7 @@ function buildMarkdownReport(
     // Format flags using SkepticSummary
     const buildFlagItem = (f: { category: string, description: string, _evidence: string[] }) => {
         const evidenceStr = f._evidence && f._evidence.length > 0
-            ? `<br> *Evidence:* "${f._evidence.join('" / "')}"`
+            ? ` — *"${f._evidence.join('" / "')}"*`
             : "";
         return `<li>**${f.category}:** ${f.description}${evidenceStr}</li>`;
     };

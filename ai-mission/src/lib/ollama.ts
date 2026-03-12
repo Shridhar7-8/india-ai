@@ -3,7 +3,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 // The user's Ollama is exposed via the OpenAI-compatible endpoint (/v1)
 // So we use @ai-sdk/openai with a custom base URL pointing to Ollama
 const ollamaBaseUrl = process.env.OLLAMA_BASE_URL || "http://103.42.51.87/v1";
-const defaultModel = process.env.LLM_MODEL || "nemotron-3-nano:30b";
+const defaultModel = process.env.LLM_MODEL || "gemma3:27b";
 const skepticModel = process.env.SKEPTIC_MODEL || defaultModel;
 
 const ollama = createOpenAI({
@@ -44,7 +44,7 @@ const analystProvider = createOpenAI({
         if (init?.body && typeof init.body === "string") {
             try {
                 const body = JSON.parse(init.body);
-                body.options = { ...body.options, num_ctx: 32768 };
+                body.options = { ...body.options, num_ctx: 40960 };
                 init = { ...init, body: JSON.stringify(body) };
             } catch { /* ignore parse errors */ }
         }
