@@ -403,7 +403,9 @@ const RenderFlagsList = ({ text, colorClass }: { text: string, colorClass: "red"
 };
 
 const cleanField = (field: string) => {
-    return cleanMarkdownSymbols(field).replace(/\*\*/g, "").replace(/\[.*?\]/g, "").trim();
+    // Remove markdown bold (**) but preserve score brackets like [ 3 / 5 ]
+    // Only remove link-style brackets that are followed by parentheses: [text](url)
+    return cleanMarkdownSymbols(field).replace(/\*\*/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").trim();
 };
 
 const RenderCellValue = ({ text }: { text?: string }) => {

@@ -136,74 +136,64 @@ type LLMReport = z.infer<typeof LLMReportSchema>;
 // ─── Compact Field Manifest (replaces verbose JSON Schema) ──────────
 
 const ANALYST_FIELD_MANIFEST = `
-All fields are REQUIRED. Output valid JSON with these exact keys:
+IMPORTANT: Output a FLAT JSON object. Do NOT nest fields inside categories or sub-objects.
+All fields are top-level keys. All fields are REQUIRED.
 
-── Identity ──
+FILL IN THIS ORDER: For each group below, fill the _evidence array FIRST by copying verbatim sentences from the transcript, THEN fill the text/score field based only on what you put in evidence.
+
 founder_name (string) — Full name of the founder
-founder_background (string) — Professional/educational background
-startup_name (string) — Name of the startup or venture
-industry (string) — Industry or sector
-stage (string) — Current startup stage (e.g., idea, MVP, revenue)
-city (string) — City where the startup is based
-state (string) — State where the startup is based
-
-── Problem & Solution ──
-problem_statement (string) — Core problem being solved
-problem_statement_evidence (string[]) — Verbatim quotes supporting the problem statement
-solution_description (string) — How the product/service solves the problem
-solution_description_evidence (string[]) — Verbatim quotes supporting the solution
-
-── Market & Business ──
-target_market (string) — Target customer segment
-revenue_model (string) — How the startup makes or plans to make money
-revenue_model_evidence (string[]) — Verbatim quotes about revenue
-current_revenue (string) — Current revenue figures or status
-current_revenue_evidence (string[]) — Verbatim quotes about current revenue
-financial_commitments (string) — Personal financial investment or commitments
-financial_commitments_evidence (string[]) — Verbatim quotes about financial commitments
-
-── Team & Roles ──
-team_size (string) — Number of team members
-role_division (string) — How roles are divided in the team (or solo founder situation)
-role_division_evidence (string[]) — Verbatim quotes about roles
-
-── Goals ──
-goals_short_term (string) — Goals for the next 6 months
-goals_short_term_evidence (string[]) — Verbatim quotes about short-term goals
-goals_mid_term (string) — Goals for the next 2 years
-goals_mid_term_evidence (string[]) — Verbatim quotes about mid-term goals
-goals_long_term (string) — Goals for the next 5 years
-goals_long_term_evidence (string[]) — Verbatim quotes about long-term goals
-
-── Founder Traits ──
-founder_motivation (string) — Why the founder started this venture
-founder_motivation_evidence (string[]) — Verbatim quotes about motivation
-hobbies (string) — Founder's hobbies or personal interests
-hobbies_evidence (string[]) — Verbatim quotes about hobbies
-commitment_level (string) — Full-time, part-time, or other
-commitment_level_evidence (string[]) — Verbatim quotes about commitment
-
-── Scored Evaluations (use SHORT CODE only) ──
-grit_evaluation ("5"|"4"|"3"|"2"|"1"|"not_discussed") — Resilience and grit score
-grit_evaluation_evidence (string[]) — Verbatim quotes about grit
-desirability_evaluation ("5"|"4"|"3"|"2"|"1") — Market desirability score
-desirability_evaluation_evidence (string[]) — Verbatim quotes about desirability
-viability_evaluation ("5"|"4"|"3"|"2"|"1") — Business viability score
-viability_evaluation_evidence (string[]) — Verbatim quotes about viability
-feasibility_evaluation ("5"|"4"|"3"|"2"|"1") — Technical feasibility score
-feasibility_evaluation_evidence (string[]) — Verbatim quotes about feasibility
-defensibility_evaluation ("5"|"4"|"3"|"2"|"1") — Competitive defensibility score
-defensibility_evaluation_evidence (string[]) — Verbatim quotes about defensibility
-affordability_evaluation ("5"|"4"|"3"|"2"|"1") — Affordability/pricing score
-affordability_evaluation_evidence (string[]) — Verbatim quotes about affordability
-
-── Mission Fit ──
-mission_fit_evaluation ("1"|"2"|"3"|"4"|"5"|"6"|"7"|"None") — Which IndiaAI mission pillar fits best
-mission_fit_reasoning (string) — Why this pillar was chosen
-mission_fit_reasoning_evidence (string[]) — Verbatim quotes supporting mission fit
-
-── Summary ──
-overall_summary (string) — 2-3 paragraph analytical assessment covering strengths, risks, and balanced conclusion. Write like a senior investor analyst.
+professional_background_evidence (string[]) — Copy exact sentences from transcript about work/career
+professional_background (string) — Summarize from evidence above
+education_background_evidence (string[]) — Copy exact sentences from transcript about education
+education_background (string) — Summarize from evidence above
+hobbies_evidence (string[]) — Copy exact sentences from transcript about hobbies
+hobbies (string) — Summarize from evidence above
+why_entrepreneurship_evidence (string[]) — Copy exact sentences from transcript about motivation
+why_entrepreneurship (string) — Summarize from evidence above
+financial_commitments_evidence (string[]) — Copy exact sentences from transcript about financial obligations
+financial_commitments (string) — Summarize from evidence above
+goals_short_term_evidence (string[]) — Copy exact sentences from transcript about short-term goals
+goals_short_term (string) — Summarize from evidence above
+goals_mid_term_evidence (string[]) — Copy exact sentences from transcript about mid-term goals
+goals_mid_term (string) — Summarize from evidence above
+goals_long_term_evidence (string[]) — Copy exact sentences from transcript about long-term goals
+goals_long_term (string) — Summarize from evidence above
+grit_evaluation_evidence (string[]) — Copy exact sentences from transcript about failure/resilience
+grit_evaluation_reasoning (string) — Brief explanation for score based on evidence above
+grit_evaluation ("5"|"4"|"3"|"2"|"1"|"not_discussed") — Score based on evidence above
+business_thinking_evidence (string[]) — Copy exact sentences from transcript about startup-as-business
+business_thinking (string) — Summarize from evidence above
+founder_structure_evidence (string[]) — Copy exact sentences about solo/co-founder
+founder_structure ("Solo founder"|"Co-founder team") — Classify from evidence above
+role_division_evidence (string[]) — Copy exact sentences about how roles are managed
+role_division (string) — Summarize from evidence above
+idea_evidence (string[]) — Copy exact sentences from transcript about the startup idea and problem
+idea (string) — Summarize from evidence above
+macro_context_evidence (string[]) — Copy 1-3 sentences from the transcript that reveal the industry, problem space, target customer segment, or market the founder is entering. Look in the startup idea, desirability, feasibility, and ecosystem answers — there is NO dedicated macro context question. Use the idea description and problem statement sentences.
+macro_context (string) — From those sentences, write 1-2 sentences describing: (1) what industry/space this startup is in, (2) the core problem or opportunity in that space as described by the founder. Do NOT copy sentences verbatim — synthesize a clean industry + problem context statement. NEVER write "Not specified".
+development_stage_evidence (string[]) — Copy exact sentences mentioning a built product/prototype/users (or [] if none)
+development_stage ("Idea"|"Concept"|"Prototype"|"Early MVP"|"MVP"|"Growth"|"Not specified") — If evidence is empty, use "Idea"
+desirability_evidence (string[]) — Copy exact sentences from transcript about the problem, market, customer demand
+desirability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+desirability_note (string) — Brief explanation for score based on evidence above
+viability_evidence (string[]) — Copy exact sentences from transcript about revenue, pricing, business model
+viability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+viability_note (string) — Brief explanation based on evidence above
+feasibility_evidence (string[]) — Copy exact sentences from transcript about technical capability
+feasibility_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+feasibility_note (string) — Brief explanation based on evidence above
+defensibility_evidence (string[]) — Copy exact sentences from transcript about moats, differentiation
+defensibility_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+defensibility_note (string) — Brief explanation based on evidence above
+affordability_evidence (string[]) — Copy exact sentences from transcript about pricing, India affordability
+affordability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+affordability_note (string) — Brief explanation based on evidence above
+mission_fit_evidence (string[]) — Copy exact sentences from transcript about IndiaAI or India ecosystem
+mission_fit_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+indiaai_pillar (string) — MUST be exactly one of: "1 — IndiaAI Innovation Centre", "2 — IndiaAI Application Development", "3 — AIKosh", "4 — IndiaAI Compute Capacity", "5 — IndiaAI Startup Financing", "6 — IndiaAI FutureSkills", "7 — Safe & Trusted AI", "None"
+mission_fit_reasoning_evidence (string[]) — Copy exact sentences supporting pillar choice
+mission_fit_reasoning (string) — Explain pillar choice based on evidence above
+overall_summary (string) — 2-3 paragraph analytical assessment. Use they/them pronouns. Use \\n for newlines.
 `.trim();
 
 // ─── Map LLM Short Codes → Full Enum Descriptions ──────────────────
@@ -270,7 +260,45 @@ function tryRepairJSON(raw: string): string {
     // Remove trailing commas before } or ]
     s = s.replace(/,\s*([}\]])/g, "$1");
 
-    return s;
+    // Strip stray unquoted words that appear after [ or , where a JSON value is expected.
+    // e.g. `[ ait\n    "Short-term..."` → `[ "Short-term..."`
+    // This catches LLM annotation leakage like "ait", "wait", "note:", etc.
+    s = s.replace(/([,\[]\s*)(?!true\b|false\b|null\b|"|-?\d|\{|\[|\])([a-zA-Z_][a-zA-Z_0-9 :]*?)(\s*[\n\r]+\s*(?=["{[\]]))/g, '$1$3');
+
+    // Replace literal control characters inside JSON string values (common LLM error)
+    // State machine: track whether we're inside a quoted string
+    let inString = false;
+    let escaped = false;
+    let result = '';
+    for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (escaped) {
+            result += ch;
+            escaped = false;
+            continue;
+        }
+        if (ch === '\\' && inString) {
+            result += ch;
+            escaped = true;
+            continue;
+        }
+        if (ch === '"') {
+            inString = !inString;
+            result += ch;
+            continue;
+        }
+        if (inString && ch.charCodeAt(0) < 0x20) {
+            // Control character inside a JSON string — escape it
+            if (ch === '\n') result += '\\n';
+            else if (ch === '\r') result += '\\r';
+            else if (ch === '\t') result += '\\t';
+            else result += ''; // strip other control chars
+        } else {
+            result += ch;
+        }
+    }
+
+    return result;
 }
 
 // ─── Generic LLM JSON Call with Zod + Auto-Retry ────────────────────
@@ -588,20 +616,17 @@ function buildMarkdownReport(
     lines.push("| 🔴 RED FLAGS | 🟢 GREEN FLAGS |");
     lines.push("|---|---|");
 
-    // Format flags using SkepticSummary
+    // Format flags using SkepticSummary with markdown bullets
     const buildFlagItem = (f: { category: string, description: string, _evidence: string[] }) => {
-        const evidenceStr = f._evidence && f._evidence.length > 0
-            ? ` — *"${f._evidence.join('" / "')}"*`
-            : "";
-        return `<li>**${f.category}:** ${f.description}${evidenceStr}</li>`;
+        return `• **${f.category}**: ${f.description}`;
     };
 
     const rDisplay = skepticSummary.redFlags.length > 0
-        ? "<ul>" + skepticSummary.redFlags.map(buildFlagItem).join("\n") + "</ul>"
+        ? skepticSummary.redFlags.map(buildFlagItem).join("<br>")
         : "None detected.";
 
     const gDisplay = skepticSummary.greenFlags.length > 0
-        ? "<ul>" + skepticSummary.greenFlags.map(buildFlagItem).join("\n") + "</ul>"
+        ? skepticSummary.greenFlags.map(buildFlagItem).join("<br>")
         : "None detected.";
 
     lines.push(`| ${rDisplay} | ${gDisplay} |`);

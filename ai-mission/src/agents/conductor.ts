@@ -247,9 +247,14 @@ Remember: output RAW JSON only. No markdown.`.trim();
                 const message = parseError instanceof Error ? parseError.message : String(parseError);
                 console.warn(`⚠️ JSON parse error (attempt ${attempt + 1}):`, message);
 
-                // Fallback Attempt 1: Try to fix trailing commas
+                // Fallback Attempt 1: Fix trailing commas + missing values before } or ]
                 try {
-                    const fixedStr = jsonStr.replace(/,\s*([}\]])/g, "$1");
+                    let fixedStr = jsonStr;
+                    // Fix keys with missing values like "answered":} or "answered":,
+                    fixedStr = fixedStr.replace(/:\s*([}\]])/g, ': null$1');
+                    fixedStr = fixedStr.replace(/:\s*,/g, ': null,');
+                    // Fix trailing commas
+                    fixedStr = fixedStr.replace(/,\s*([}\]])/g, "$1");
                     parsed = JSON.parse(fixedStr);
                 } catch (e) {
                     console.error(`❌ FSM json fallback fix failed:`, e);
