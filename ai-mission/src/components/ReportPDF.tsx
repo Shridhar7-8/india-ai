@@ -221,6 +221,15 @@ function parseReportData(markdown: string): ReportData {
         return { ...data, raw: markdown };
     }
 
+    // Helper: split a markdown table line on unescaped pipes only
+    const splitTableRow = (line: string) => {
+        const PLACEHOLDER = '\u00A6'; // ¦ — never appears in our markdown
+        return line.replace(/\\\|/g, PLACEHOLDER)
+            .split('|')
+            .map(s => s.replace(new RegExp(PLACEHOLDER, 'g'), '|').trim())
+            .filter(Boolean);
+    };
+
     // Section 1: Founder Profile
     const s1Lines = sections[1].trim().split('\n');
     let inTable = false;
@@ -228,7 +237,7 @@ function parseReportData(markdown: string): ReportData {
         if (line.includes('| | |')) { inTable = true; continue; }
         if (line.includes('|---|---|')) continue;
         if (inTable && line.startsWith('|')) {
-            const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+            const parts = splitTableRow(line);
             if (parts.length >= 2) data.founderProfile.push({ field: parts[0], value: parts[1] });
         }
     }
@@ -240,7 +249,7 @@ function parseReportData(markdown: string): ReportData {
         if (line.includes('| | |')) { inTable = true; continue; }
         if (line.includes('|---|---|')) continue;
         if (inTable && line.startsWith('|')) {
-            const parts = line.split('|').map(s => s.trim()).filter(Boolean);
+            const parts = splitTableRow(line);
             if (parts.length >= 2) data.solutionSnapshot.push({ field: parts[0], value: parts[1] });
         }
     }
@@ -252,7 +261,7 @@ function parseReportData(markdown: string): ReportData {
         if (line.includes('| Zone | Score | Analyst Note |')) { inTable = true; continue; }
         if (line.includes('|---|---|---|')) continue;
         if (inTable && line.startsWith('|')) {
-            const parts = line.split('|').map((s) => s.trim()).filter(Boolean);
+            const parts = splitTableRow(line);
             if (parts.length >= 2) {
                 // Ignore the empty 3rd column for TOTAL row gracefully
                 data.scorecard.push({
@@ -274,7 +283,7 @@ function parseReportData(markdown: string): ReportData {
          if (line.includes('| 🔴 RED FLAGS | 🟢 GREEN FLAGS |')) { inTable = true; continue; }
          if (line.includes('|---|---|')) continue;
          if (inTable && line.startsWith('|')) {
-             const parts = line.split('|').map((s) => s.trim()).filter(Boolean);
+             const parts = splitTableRow(line);
              if (parts.length >= 2) {
                  data.flags.red = parts[0];
                  data.flags.green = parts[1];
@@ -542,10 +551,6 @@ const ReportTemplate = ({ markdown }: { markdown: string }) => {
                                     {data.missionFit.score || "TBD"}
                                 </Text>
                             </View>
-                        </View>
-                        <View style={styles.tableRow} wrap={false}>
-                            <View style={[styles.tableCol, { width: "30%" }]}><Text style={styles.tableCellHeader}>IndiaAI Pillar</Text></View>
-                            <View style={[styles.tableCol, { width: "70%" }]}><Text style={styles.tableCell}><StripMarkdown text={data.missionFit.pillar} /></Text></View>
                         </View>
                         <View style={styles.tableRow} wrap={false}>
                             <View style={[styles.tableCol, { width: "30%" }]}><Text style={styles.tableCellHeader}>Reasoning</Text></View>

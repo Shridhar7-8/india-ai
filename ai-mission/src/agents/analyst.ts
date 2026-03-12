@@ -1,10 +1,152 @@
 import { generateText } from "ai";
-import { getModel } from "@/lib/ollama";
+import { getAnalystModel } from "@/lib/ollama";
 import { ANALYST_PROMPT } from "./prompts";
 import { UnifiedReportSchema, type UnifiedReport } from "@/lib/schemas";
-import type { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from "zod";
 import type { SkepticSummary } from "./skeptic";
+
+// ─── Enum Score Maps (code → full description) ─────────────────────
+
+const GRIT_MAP: Record<string, string> = {
+    "5": "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.",
+    "4": "Specific failure mentioned with mostly concrete recovery. Lesson articulated — may lack full depth but shows genuine reflection.",
+    "3": "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.",
+    "2": "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.",
+    "1": "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.",
+    "not_discussed": "Not discussed in interview",
+};
+
+const DESIRABILITY_MAP: Record<string, string> = {
+    "5": "Specific problem clearly defined. Target user and market clearly defined. Strong evidence of real demand.",
+    "4": "Problem and target user defined. Decent evidence of demand. Minor gaps in specificity.",
+    "3": "Problem mentioned but too broad or slightly vague. Target market defined but vague. No clear evidence of demand.",
+    "2": "Weak problem articulation. No clear user definition. No evidence of demand.",
+    "1": "No clear problem. No market exists or will want this solution. Solution looking for a problem.",
+};
+
+const VIABILITY_MAP: Record<string, string> = {
+    "5": "Clear revenue model. Convincing path to profitability. Strong scalability thesis.",
+    "4": "Solid revenue model, mostly clear path to profitability. Good scalability thinking. Some minor gaps.",
+    "3": "Revenue model exists but vague. Path to profitability unclear. Some scalability idea but thin and shallow.",
+    "2": "Revenue model not properly defined. Economics don't work. Profitability seems difficult. Scalability not considered meaningfully.",
+    "1": "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered at all.",
+};
+
+const FEASIBILITY_MAP: Record<string, string> = {
+    "5": "Technical capability demonstrated. Realistic build plan with clear milestones.",
+    "4": "Technical capability evident. Build plan mostly realistic. Minor complexity underestimated.",
+    "3": "Possible to build but unclear technical capacity and/or underestimating complexity.",
+    "2": "Significant technical gaps. Unclear how they'd actually build this. Legal risks unaddressed. Unrealistic thinking.",
+    "1": "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking.",
+};
+
+const DEFENSIBILITY_MAP: Record<string, string> = {
+    "5": "At least ONE strong moat clearly defined: network effects, proprietary tech/IP, unique data, high switching costs, domain expertise, or breakthrough technology / very unique insight.",
+    "4": "One credible moat identified and clearly articulated. Not yet fully built or proven.",
+    "3": "Some differentiation exists but can be easily copied. E.g. first-mover advantage only.",
+    "2": "Very weak differentiation. Easy to replicate. No credible moat identified.",
+    "1": "No differentiator. Completely replicable. No moat thinking. Anyone can build it.",
+};
+
+const AFFORDABILITY_MAP: Record<string, string> = {
+    "5": "Pricing clearly fits the Indian target segment. Founder has done proper research on pricing in India in that segment.",
+    "4": "Pricing fits India well. India context considered meaningfully. Minor gaps — e.g. market research not fully conducted.",
+    "3": "Pricing has not been thought of proactively. Has shown some thought of India-first pricing when asked, but had not considered it until then.",
+    "2": "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.",
+    "1": "Delusional pricing that does not fit the Indian market. No thought given to affordability. Trying to go higher and higher in pricing without considering the Indian market.",
+};
+
+const MISSION_FIT_MAP: Record<string, string> = {
+    "5": "Direct, specific connection to a pillar. AI is core — the product fails without it. Solution is India-first by design. Highly empowering to the Indian AI ecosystem. Founder is well aware of the IndiaAI Mission and can articulate how their product contributes.",
+    "4": "Clear connection to a pillar. AI genuinely used, not decorative. Strong India-first thinking. Meaningfully contributes to the Indian AI ecosystem. Founder is aware of the IndiaAI Mission but not deeply — may not have a great answer on specific alignment.",
+    "3": "Connection to a pillar exists. Relevant to India. AI is genuinely being used, but India-first design is not deeply embedded. Founder cannot properly answer how it empowers the Indian AI ecosystem. Not properly aware of the IndiaAI Mission.",
+    "2": "Pillar fit is a stretch. AI feels like an add-on, not a necessity. India connection is surface-level. Limited contribution to the Indian AI ecosystem.",
+    "1": "No credible pillar connection. AI is decorative or repackaged foreign API. Product can be built without AI. India / IndiaAI angle is entirely superficial or retrofitted.",
+};
+
+// ─── LLM-Friendly Schema (short codes instead of long enum strings) ──
+
+const LLMReportSchema = z.object({
+    founder_name: z.string(),
+    professional_background: z.string(),
+    professional_background_evidence: z.array(z.string()),
+    education_background: z.string(),
+    education_background_evidence: z.array(z.string()),
+    hobbies: z.string().default("Not discussed in interview"),
+    hobbies_evidence: z.array(z.string()),
+    why_entrepreneurship: z.string().default("Not discussed in interview"),
+    why_entrepreneurship_evidence: z.array(z.string()),
+    financial_commitments: z.string().default("Not discussed in interview"),
+    financial_commitments_evidence: z.array(z.string()),
+    goals_6m: z.string().default("Not discussed in interview"),
+    goals_6m_evidence: z.array(z.string()),
+    goals_2y: z.string().default("Not discussed in interview"),
+    goals_2y_evidence: z.array(z.string()),
+    goals_5y: z.string().default("Not discussed in interview"),
+    goals_5y_evidence: z.array(z.string()),
+    grit_evaluation: z.enum(["5", "4", "3", "2", "1", "not_discussed"]),
+    grit_evaluation_evidence: z.array(z.string()),
+    grit_evaluation_reasoning: z.string(),
+    business_thinking: z.string().default("Not discussed in interview"),
+    business_thinking_evidence: z.array(z.string()),
+    founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
+    founder_structure_evidence: z.array(z.string()),
+    role_division: z.string().default("Not discussed in interview"),
+    role_division_evidence: z.array(z.string()),
+    idea: z.string(),
+    idea_evidence: z.array(z.string()),
+    macro_context: z.string().default("Not discussed in interview"),
+    macro_context_evidence: z.array(z.string()),
+    development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
+    development_stage_evidence: z.array(z.string()),
+    desirability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    desirability_evidence: z.array(z.string()),
+    desirability_note: z.string(),
+    viability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    viability_evidence: z.array(z.string()),
+    viability_note: z.string(),
+    feasibility_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    feasibility_evidence: z.array(z.string()),
+    feasibility_note: z.string(),
+    defensibility_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    defensibility_evidence: z.array(z.string()),
+    defensibility_note: z.string(),
+    affordability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    affordability_evidence: z.array(z.string()),
+    affordability_note: z.string(),
+    mission_fit_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    mission_fit_evidence: z.array(z.string()),
+    indiaai_pillar: z.enum([
+        "1 — IndiaAI Innovation Centre",
+        "2 — IndiaAI Application Development",
+        "3 — AIKosh",
+        "4 — IndiaAI Compute Capacity",
+        "5 — IndiaAI Startup Financing",
+        "6 — IndiaAI FutureSkills",
+        "7 — Safe & Trusted AI",
+        "None",
+    ]),
+    mission_fit_reasoning: z.string(),
+    mission_fit_reasoning_evidence: z.array(z.string()),
+    overall_summary: z.string(),
+});
+
+type LLMReport = z.infer<typeof LLMReportSchema>;
+
+// ─── Map LLM Short Codes → Full Enum Descriptions ──────────────────
+
+function mapLLMResponseToReport(llm: LLMReport): UnifiedReport {
+    return {
+        ...llm,
+        grit_evaluation: GRIT_MAP[llm.grit_evaluation] as UnifiedReport["grit_evaluation"],
+        desirability_evaluation: DESIRABILITY_MAP[llm.desirability_evaluation] as UnifiedReport["desirability_evaluation"],
+        viability_evaluation: VIABILITY_MAP[llm.viability_evaluation] as UnifiedReport["viability_evaluation"],
+        feasibility_evaluation: FEASIBILITY_MAP[llm.feasibility_evaluation] as UnifiedReport["feasibility_evaluation"],
+        defensibility_evaluation: DEFENSIBILITY_MAP[llm.defensibility_evaluation] as UnifiedReport["defensibility_evaluation"],
+        affordability_evaluation: AFFORDABILITY_MAP[llm.affordability_evaluation] as UnifiedReport["affordability_evaluation"],
+        mission_fit_evaluation: MISSION_FIT_MAP[llm.mission_fit_evaluation] as UnifiedReport["mission_fit_evaluation"],
+    };
+}
 
 interface AnalystInput {
     conversationHistory: Array<{ role: string; content: string }>;
@@ -71,25 +213,36 @@ async function callLLMForJSON<T>(
     const MAX_RETRIES = 5;
     let lastZodError: string | null = null; // Track last Zod error for feedback
 
+    const stringifiedSchema = JSON.stringify(z.toJSONSchema(schema as any), null, 2);
+
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
         try {
-            // Build prompt — on retry, append the Zod error so the LLM can self-correct
-            const stringifiedSchema = JSON.stringify(zodToJsonSchema(schema as any), null, 2);
             let effectivePrompt = userPrompt + `\n\nEXPECTED JSON SCHEMA:\n${stringifiedSchema}`;
 
             if (lastZodError && attempt > 0) {
-                effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION:\n${lastZodError}\nPlease fix the above issues and try again. Use EXACTLY the allowed values listed above. Output RAW JSON ONLY.`;
+                // Keep feedback concise — just list missing/invalid field names, not full enum values
+                effectivePrompt += `\n\n⚠️ YOUR PREVIOUS ATTEMPT FAILED VALIDATION. Fix these fields:\n${lastZodError}\nRefer to the EXPECTED JSON SCHEMA above for valid values. ALL fields are required. Output RAW JSON ONLY.`;
                 console.log(`🔄 ${chunkName} retry ${attempt + 1} with error feedback`);
             }
 
-            const { text } = await generateText({
-                model: getModel(),
+            // Rough token estimate: ~4 chars per token for English text
+            const systemTokens = Math.ceil(systemPrompt.length / 4);
+            const promptTokens = Math.ceil(effectivePrompt.length / 4);
+            const totalInputTokens = systemTokens + promptTokens;
+            console.log(`📐 ${chunkName} token estimate (attempt ${attempt + 1}): system=${systemTokens}, prompt=${promptTokens}, total_input=~${totalInputTokens} tokens (${systemPrompt.length + effectivePrompt.length} chars)`);
+
+            const { text, usage } = await generateText({
+                model: getAnalystModel(),
                 system: systemPrompt,
                 prompt: effectivePrompt,
                 temperature: temperature,
                 maxOutputTokens: maxTokens,
+                maxRetries: 1, // Don't let AI SDK retry on server errors — we handle retries ourselves
             });
 
+            if (usage) {
+                console.log(`📊 ${chunkName} ACTUAL tokens (attempt ${attempt + 1}):`, JSON.stringify(usage));
+            }
             console.log(`📊 ${chunkName} (attempt ${attempt + 1}, ${text.length} chars)`);
 
             if (!text || text.trim().length === 0) {
@@ -108,8 +261,18 @@ async function callLLMForJSON<T>(
             if (!zodResult.success) {
                 const flatError = zodResult.error.flatten();
                 console.warn(`⚠️ ${chunkName} Zod failed (attempt ${attempt + 1}):`, flatError);
-                // Store the error for the next retry prompt
-                lastZodError = JSON.stringify(flatError.fieldErrors);
+                // Store concise error — just field names and short reason, not full enum lists
+                const conciseErrors = Object.entries(flatError.fieldErrors)
+                    .map(([field, msgs]) => {
+                        const msg = (msgs as string[])[0] || "invalid";
+                        // Truncate long "expected one of ..." messages to just "invalid enum value"
+                        if (msg.startsWith("Invalid option:")) return `${field}: invalid enum value (check schema)`;
+                        if (msg.includes("expected array")) return `${field}: must be an array`;
+                        if (msg.includes("expected string")) return `${field}: must be a string`;
+                        return `${field}: ${msg.substring(0, 60)}`;
+                    })
+                    .join("\n");
+                lastZodError = conciseErrors;
                 continue;
             }
 
@@ -177,7 +340,7 @@ function computeDeterministicScores(report: UnifiedReport) {
     const fScore = report.feasibility_evaluation.includes("Technical capability demonstrated") ? 5 : report.feasibility_evaluation.includes("Technical capability evident") ? 4 : report.feasibility_evaluation.includes("Possible to build") ? 3 : report.feasibility_evaluation.includes("Significant technical gaps") ? 2 : 1;
     const defScore = report.defensibility_evaluation.includes("At least ONE strong moat clearly defined") ? 5 : report.defensibility_evaluation.includes("One credible moat identified") ? 4 : report.defensibility_evaluation.includes("Some differentiation exists but can be easily copied") ? 3 : report.defensibility_evaluation.includes("Very weak differentiation") ? 2 : 1;
     const aScore = report.affordability_evaluation.includes("Pricing clearly fits the Indian target segment") ? 5 : report.affordability_evaluation.includes("Pricing fits India well") ? 4 : report.affordability_evaluation.includes("Pricing has not been thought of proactively") ? 3 : report.affordability_evaluation.includes("Pricing not thought through for India") ? 2 : 1;
-    
+
     const gritScore = report.grit_evaluation.includes("Specific failure described in detail") ? 5 : report.grit_evaluation.includes("Specific failure mentioned") ? 4 : report.grit_evaluation.includes("Failure mentioned but vague") ? 3 : report.grit_evaluation.includes("Very vague failure story") ? 2 : 1;
     const missionFitScore = report.mission_fit_evaluation.includes("Direct, specific connection to a pillar") ? 5 : report.mission_fit_evaluation.includes("Clear connection to a pillar") ? 4 : report.mission_fit_evaluation.includes("Connection to a pillar exists") ? 3 : report.mission_fit_evaluation.includes("Pillar fit is a stretch") ? 2 : 1;
 
@@ -215,8 +378,8 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
     const baseContext = `INTERVIEW TRANSCRIPT:\n${transcript}\n\nRED FLAGS DETECTED BY SECONDARY AGENT:\n${redFlagsStr}\n\nGREEN FLAGS DETECTED BY SECONDARY AGENT:\n${greenFlagsStr}`;
 
     console.log("Generating unified report...");
-    const reportData = await callLLMForJSON(
-        UnifiedReportSchema,
+    const llmData = await callLLMForJSON(
+        LLMReportSchema,
         "Unified Report",
         ANALYST_PROMPT,
         `${baseContext}\n\nYou must generate the full report based ONLY on the evidence in the transcript. Your response must be valid JSON matching the EXACT top-level structure of the expected schema.`,
@@ -224,9 +387,11 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         0.1 // Temp 0.1 for high determinism
     );
 
-    if (!reportData) {
+    if (!llmData) {
         return "ERROR: Analyst flow failed to generate a valid report after maximum retries.";
     }
+
+    const reportData = mapLLMResponseToReport(llmData);
 
     const warnings = validateReportAgainstTranscript(reportData, transcript);
     if (warnings.length > 0) {
@@ -264,10 +429,10 @@ function buildMarkdownReport(
     lines.push("");
     lines.push("| | |");
     lines.push("|---|---|");
-    lines.push(`| **Who They Are** | ${report.education_background} \\| ${report.professional_background} \\| Hobbies: ${report.hobbies} |`);
+    lines.push(`| **Who They Are** | ${report.education_background} · ${report.professional_background} · Hobbies: ${report.hobbies} |`);
     lines.push(`| **Why Entrepreneurship** | ${report.why_entrepreneurship} |`);
     lines.push(`| **Financial Commitments** | ${report.financial_commitments} |`);
-    lines.push(`| **Goals** | 6 months: ${report.goals_6m} \\| 2 years: ${report.goals_2y} \\| 5 years: ${report.goals_5y} |`);
+    lines.push(`| **Goals** | 6 months: ${report.goals_6m} · 2 years: ${report.goals_2y} · 5 years: ${report.goals_5y} |`);
     lines.push(`| **Grit Score [ ${scores.grit} / 5 ]** | ${report.grit_evaluation_reasoning} |`);
     lines.push(`| **Business Thinking** | ${report.business_thinking} |`);
     lines.push(`| **Founder Structure** | ${report.founder_structure} — ${report.role_division} |`);
@@ -283,7 +448,7 @@ function buildMarkdownReport(
     lines.push(`| **Idea** | ${report.idea} |`);
     lines.push(`| **Macro Context** | ${report.macro_context} |`);
     lines.push(`| **Development Stage** | ${report.development_stage} |`);
-    
+
     // Assets
     let pitchStr = "NO";
     if (pitchDeckUrl) {
@@ -296,7 +461,7 @@ function buildMarkdownReport(
         const fullWebUrl = websiteUrl.startsWith("http") ? websiteUrl : "https://" + websiteUrl;
         webStr = `YES ([LINK](${fullWebUrl}))`;
     }
-    lines.push(`| **Assets** | Pitch deck: ${pitchStr} \\| Website: ${webStr} |`);
+    lines.push(`| **Assets** | Pitch deck: ${pitchStr} · Website: ${webStr} |`);
     lines.push("");
     lines.push("---");
     lines.push("");
@@ -327,23 +492,23 @@ function buildMarkdownReport(
     lines.push("");
     lines.push("| 🔴 RED FLAGS | 🟢 GREEN FLAGS |");
     lines.push("|---|---|");
-    
+
     // Format flags using SkepticSummary
     const buildFlagItem = (f: { category: string, description: string, _evidence: string[] }) => {
-        const evidenceStr = f._evidence && f._evidence.length > 0 
-            ? `<br> *Evidence:* "${f._evidence.join('" / "')}"` 
+        const evidenceStr = f._evidence && f._evidence.length > 0
+            ? `<br> *Evidence:* "${f._evidence.join('" / "')}"`
             : "";
         return `<li>**${f.category}:** ${f.description}${evidenceStr}</li>`;
     };
 
-    const rDisplay = skepticSummary.redFlags.length > 0 
-        ? "<ul>" + skepticSummary.redFlags.map(buildFlagItem).join("\n") + "</ul>" 
+    const rDisplay = skepticSummary.redFlags.length > 0
+        ? "<ul>" + skepticSummary.redFlags.map(buildFlagItem).join("\n") + "</ul>"
         : "None detected.";
-        
-    const gDisplay = skepticSummary.greenFlags.length > 0 
-        ? "<ul>" + skepticSummary.greenFlags.map(buildFlagItem).join("\n") + "</ul>" 
+
+    const gDisplay = skepticSummary.greenFlags.length > 0
+        ? "<ul>" + skepticSummary.greenFlags.map(buildFlagItem).join("\n") + "</ul>"
         : "None detected.";
-    
+
     lines.push(`| ${rDisplay} | ${gDisplay} |`);
     lines.push("");
     lines.push("---");

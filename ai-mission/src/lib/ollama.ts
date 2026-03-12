@@ -31,3 +31,27 @@ export function getSkepticModel() {
 export function getModelById(modelId: string) {
     return ollama(modelId);
 }
+
+/**
+ * Analyst model with extended context window (num_ctx) for large JSON schemas.
+ * Uses a custom fetch wrapper to inject Ollama-specific options.
+ */
+const analystModel = process.env.ANALYST_MODEL || "gemma3:27b";
+const analystProvider = createOpenAI({
+    baseURL: ollamaBaseUrl,
+    apiKey: "ollama",
+    fetch: async (url, init) => {
+        if (init?.body && typeof init.body === "string") {
+            try {
+                const body = JSON.parse(init.body);
+                body.options = { ...body.options, num_ctx: 32768 };
+                init = { ...init, body: JSON.stringify(body) };
+            } catch { /* ignore parse errors */ }
+        }
+        return globalThis.fetch(url, init);
+    },
+});
+
+export function getAnalystModel() {
+    return analystProvider(analystModel);
+}

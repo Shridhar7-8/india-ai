@@ -195,10 +195,24 @@ Before outputting each field, mentally verify:
 ✓ "Am I adding words the user never said?" → If YES, remove them.
 ✓ "Am I rephrasing their answer with extra detail?" → If YES, stay closer to their exact words.
 
-SCORING GUIDE — STRICT CLASSIFICATION ONLY:
-You will no longer calculate numeric scores. Instead, you must classify the evaluation fields using EXACTLY the string options provided in the JSON schema enum.
-- Read the transcript carefully and select the single enum string that best describes the startup's condition for Desirability, Viability, Feasibility, Defensibility, Affordability, Grit, and Mission Fit. 
-- You MUST output the exact string from the schema.
+SCORING GUIDE — USE NUMERIC CODES ONLY:
+For each evaluation field, output a score as a STRING from "5" (best) to "1" (worst). Do NOT output the full description — just the number as a string.
+
+grit_evaluation: "5"=Specific failure in detail with concrete recovery and clear lesson. "4"=Specific failure, mostly concrete recovery, genuine reflection. "3"=Failure mentioned but vague on recovery/lessons. "2"=Very vague failure, generic response. "1"=No failure story, topic avoided. "not_discussed"=Topic was not covered.
+
+desirability_evaluation: "5"=Problem clearly defined, target market clear, strong demand evidence. "4"=Problem and user defined, decent demand, minor gaps. "3"=Problem too broad/vague, no clear demand evidence. "2"=Weak problem, no user definition. "1"=No clear problem at all.
+
+viability_evaluation: "5"=Clear revenue model, convincing profitability path, strong scalability. "4"=Solid revenue model, mostly clear path, minor gaps. "3"=Revenue model vague, profitability unclear. "2"=Revenue model not defined, economics don't work. "1"=No revenue model, no monetisation thinking.
+
+feasibility_evaluation: "5"=Technical capability demonstrated, realistic build plan. "4"=Technical capability evident, mostly realistic. "3"=Possible to build but unclear capacity. "2"=Significant technical gaps, unrealistic. "1"=No technical capability, delusional.
+
+defensibility_evaluation: "5"=Strong moat (network effects, IP, unique data, etc). "4"=One credible moat, not yet proven. "3"=Some differentiation, easily copied. "2"=Very weak differentiation. "1"=No differentiator, anyone can build it.
+
+affordability_evaluation: "5"=Pricing fits Indian segment, proper research done. "4"=Pricing fits India, minor gaps. "3"=Pricing not proactively thought of, some India awareness. "2"=Pricing not thought through for India. "1"=Delusional pricing, no regard for Indian market.
+
+mission_fit_evaluation: "5"=Direct pillar connection, AI is core, India-first, founder aware of IndiaAI Mission. "4"=Clear pillar connection, AI genuine, strong India thinking. "3"=Pillar connection exists, AI used but not deeply India-first. "2"=Pillar fit is a stretch, AI feels add-on. "1"=No pillar connection, AI decorative, India angle superficial.
+
+IMPORTANT: Numeric codes ("5"-"1") apply ONLY to the 7 fields listed above (grit_evaluation, desirability_evaluation, viability_evaluation, feasibility_evaluation, defensibility_evaluation, affordability_evaluation, mission_fit_evaluation). ALL other fields (e.g., business_thinking, professional_background, idea, founder_structure, role_division, etc.) must contain DESCRIPTIVE TEXT based on the transcript — never a number. If a text field was not discussed, write "Not discussed in interview".
 
 EVIDENCE REQUIREMENT:
 The JSON schema defines specific evidence fields (e.g., \`grit_evaluation_evidence\`, \`idea_evidence\`).
@@ -207,7 +221,21 @@ The JSON schema defines specific evidence fields (e.g., \`grit_evaluation_eviden
 - If you cannot find a supporting quote, the corresponding evidence array should be empty \`[]\`.
 
 CRITICAL FORMATTING RULE:
-- Do NOT merge words together or drop spaces (e.g., write "business related", not "businessrelated"). Ensure perfect spelling and proper grammatical spacing in all your text fields.`;
+- Do NOT merge words together or drop spaces (e.g., write "business related", not "businessrelated"). Ensure perfect spelling and proper grammatical spacing in all your text fields.
+
+FIELD MAPPING — INTERVIEW TOPICS TO JSON KEYS:
+Some JSON field names differ from the interview question topics. Use this mapping:
+- Interview topic "What motivates you to build this startup?" (the_why) → fill the "why_entrepreneurship" field
+- Interview topic "What are your personal and family financial obligations?" → fill the "financial_commitments" field
+- Interview topic "What are your short-term, mid-term, and long-term life goals?" → split into: short-term → "goals_6m", mid-term → "goals_2y", long-term → "goals_5y"
+- Interview topic "What are your hobbies?" → fill the "hobbies" field
+- Interview topic "What does it mean that a startup is a business?" → fill the "business_thinking" field
+- Interview topic "Are you building solo or with co-founders?" → fill "founder_structure" and "role_division"
+If the founder answered the question in any form, extract and fill the corresponding field. Do NOT write "Not discussed in interview" for fields where the founder DID provide an answer under a differently-worded question.
+
+FORBIDDEN KEYS (CRITICAL):
+- Do NOT output \`"desirability": "Low"\` or similar legacy fields. You MUST use exactly the keys defined in the schema (e.g., \`desirability_evaluation\`).
+- DO NOT start your response with conversational text like "Here is the JSON". Start directly with \`{\`.`;
 
 export const REPORT_TEMPLATE = ""; // No longer used — markdown is built by deterministic code in analyst.ts
 
