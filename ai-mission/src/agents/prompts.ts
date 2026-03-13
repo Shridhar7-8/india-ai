@@ -215,6 +215,7 @@ Search the transcript for ASSISTANT questions, then extract the USER's answer.
 
 FOUNDER PROFILE:
 • founder_name → ASSISTANT asks "what is your full name" → extract name
+• company_name → "company name" or "incorporated" → extract name of company (e.g. "LegalMind AI")
 • professional_background → "professional background" or "work experience" → career details
 • education_background → "educational background" → degrees, institutions
 • hobbies → "hobbies" or "interests outside work" → activities mentioned

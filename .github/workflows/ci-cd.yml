@@ -98,9 +98,9 @@ jobs:
             
             # Go back to the repo root
             cd /var/www/buildai
-            git fetch origin main
-            git reset --hard origin/main
+            git reset --hard
             git clean -fd
+            git pull origin main
             
             # Go back to the app directory
             cd $APP_DIR

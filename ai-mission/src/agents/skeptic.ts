@@ -1,5 +1,5 @@
 import { generateText } from "ai";
-import { getSkepticModel } from "@/lib/ollama";
+import { getSkepticModel } from "@/lib/bedrock";
 import { SKEPTIC_PROMPT } from "./prompts";
 
 export interface RedFlag {

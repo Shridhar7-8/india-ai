@@ -1,5 +1,5 @@
 import { generateText } from "ai";
-import { getModel } from "@/lib/ollama";
+import { getModel } from "@/lib/bedrock";
 import { ConductorEvalSchema } from "@/lib/schemas";
 
 // ─── FSM Step Definitions ───────────────────────────────────────────

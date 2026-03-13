@@ -1,5 +1,5 @@
 import { generateText } from "ai";
-import { getAnalystModel } from "@/lib/ollama";
+import { getAnalystModel } from "@/lib/bedrock";
 import { ANALYST_PROMPT } from "./prompts";
 import { UnifiedReportSchema, type UnifiedReport } from "@/lib/schemas";
 import { z } from "zod";
@@ -68,6 +68,8 @@ const MISSION_FIT_MAP: Record<string, string> = {
 
 const LLMReportSchema = z.object({
     founder_name: z.string(),
+    company_name: z.string().default("Not specified"),
+    company_name_evidence: z.array(z.string()),
     professional_background: z.string(),
     professional_background_evidence: z.array(z.string()),
     education_background: z.string(),
@@ -142,6 +144,8 @@ All fields are top-level keys. All fields are REQUIRED.
 FILL IN THIS ORDER: For each group below, fill the _evidence array FIRST by copying verbatim sentences from the transcript, THEN fill the text/score field based only on what you put in evidence.
 
 founder_name (string) — Full name of the founder
+company_name_evidence (string[]) — Copy exact sentences from transcript about the company name or "not mentioned"
+company_name (string) — Extract the company name from evidence above, or use "Not specified"
 professional_background_evidence (string[]) — Copy exact sentences from transcript about work/career
 professional_background (string) — Summarize from evidence above
 education_background_evidence (string[]) — Copy exact sentences from transcript about education
@@ -415,6 +419,7 @@ function validateReportAgainstTranscript(report: UnifiedReport, transcript: stri
     };
 
     checkArray(report.grit_evaluation_evidence, "grit_evaluation_evidence");
+    checkArray(report.company_name_evidence, "company_name_evidence");
     checkArray(report.professional_background_evidence, "professional_background_evidence");
     checkArray(report.education_background_evidence, "education_background_evidence");
     checkArray(report.hobbies_evidence, "hobbies_evidence");
@@ -542,7 +547,10 @@ function buildMarkdownReport(
     // Title
     const reportDate = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
     lines.push(`# INDIAAI MISSION STARTUP EVALUATION`);
-    lines.push(`**${report.founder_name} | ${companyName || "Not specified"} | ${reportDate}**`);
+    const displayCompanyName = (report.company_name && report.company_name !== "Not specified") 
+        ? report.company_name 
+        : (companyName || "Not specified");
+    lines.push(`**${report.founder_name} | ${displayCompanyName} | ${reportDate}**`);
     lines.push("");
     lines.push("---");
     lines.push("");

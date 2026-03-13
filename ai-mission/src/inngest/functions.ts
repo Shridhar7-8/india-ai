@@ -68,8 +68,8 @@ export const finalizeInterview = inngest.createFunction(
         : undefined;
 
       const skepticSummary = buildSkepticSummary(
-          interviewState.red_flags || [],
-          interviewState.green_flags || []
+        interviewState.red_flags || [],
+        interviewState.green_flags || []
       );
 
       const report = await runAnalyst({

@@ -43,6 +43,8 @@ export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 export const UnifiedReportSchema = z.object({
     // SECTION 1 — FOUNDER PROFILE
     founder_name: z.string().max(100),
+    company_name: z.string().max(200).default("Not specified"),
+    company_name_evidence: z.array(z.string()),
     professional_background: z.string().max(300),
     professional_background_evidence: z.array(z.string()),
     education_background: z.string().max(200),
