@@ -5,6 +5,10 @@ import { buildSkepticSummary } from "@/agents/skeptic";
 import { sendReportEmail } from "@/lib/email";
 import { generateReportPDFBuffer } from "@/components/ReportPDF";
 
+// Diagnostic: Log environment status on load (will show in server logs)
+console.log("[Inngest] Functions module loaded. Event Key present:", !!process.env.INNGEST_EVENT_KEY);
+console.log("[Inngest] Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
+
 /**
  * Inngest function: finalize-interview
  * 
@@ -43,18 +47,29 @@ export const finalizeInterview = inngest.createFunction(
 
     // Step 2: Fetch interview state (red flags)
     const interviewState = await step.run("fetch-interview-state", async () => {
+      console.log(`[Inngest] Fetching interview state for convId: ${conversationId}`);
       const { data, error } = await supabase
         .from("interview_states")
         .select("red_flags, green_flags, conversation_summary, vague_topics")
         .eq("conversation_id", conversationId)
-        .single();
+        .maybeSingle();
 
-      if (error) throw new Error(`Failed to fetch interview state: ${error.message}`);
+      if (error) {
+        console.error(`[Inngest] Supabase error fetching state: ${error.message}`);
+        throw new Error(`Failed to fetch interview state from database: ${error.message}`);
+      }
+
+      if (!data) {
+        console.error(`[Inngest] No interview state found for convId: ${conversationId}`);
+        throw new Error(`Critical Error: Interview state record missing for conversation ID ${conversationId}. Background task cannot proceed.`);
+      }
+
       return data;
     });
 
     // Step 3: Run Analyst agent to generate markdown report
     const reportMarkdown = await step.run("generate-report", async () => {
+      console.log(`[Inngest] Running Analyst for convId: ${conversationId}`);
       const conversationHistory = messages.map((m) => ({
         role: m.role,
         content: m.content,
@@ -81,6 +96,7 @@ export const finalizeInterview = inngest.createFunction(
         vagueTopics: interviewState.vague_topics || [],
       });
 
+      console.log(`[Inngest] Report generated successfully for convId: ${conversationId} (Length: ${report.length})`);
       return report;
     });
 
