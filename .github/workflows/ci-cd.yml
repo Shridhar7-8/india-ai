@@ -98,13 +98,15 @@ jobs:
             
             # Go back to the repo root
             cd /var/www/buildai
-            git pull origin main
+            git fetch origin main
+            git reset --hard origin/main
+            git clean -fd
             
             # Go back to the app directory
             cd $APP_DIR
-            
-            npm install
+
+            npm ci
             npm run build
-            
-            pm2 restart buildai || pm2 start npm --name "buildai" -- start
+
+            pm2 restart buildai --update-env || pm2 start npm --name "buildai" -- start
             echo "Deployment successful!"
