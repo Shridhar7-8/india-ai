@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { MessageCreateSchema } from "@/lib/schemas";
 import { runConductorFSM, getInitialChecklist, getInitialSummary, STEPS } from "@/agents/conductor";
 import { runSkeptic } from "@/agents/skeptic";
-import { inngest } from "@/inngest/client";
+import { sendSQSMessage } from "@/lib/sqs";
 
 /**
  * POST /api/chat — Main chat endpoint.
@@ -270,16 +270,13 @@ export async function POST(req: NextRequest) {
         .eq("id", convId);
 
       try {
-        await inngest.send({
-          name: "interview/finalize",
-          data: {
-            conversationId: convId,
-            conversationTitle: title,
-          },
+        await sendSQSMessage("interview/finalize", {
+          conversationId: convId,
+          conversationTitle: title,
         });
-        console.log("✅ Inngest event 'interview/finalize' sent successfully for conversation:", convId);
-      } catch (inngestError) {
-        console.error("❌ Failed to send Inngest event:", inngestError);
+        console.log("✅ SQS message 'interview/finalize' sent successfully for conversation:", convId);
+      } catch (sqsError) {
+        console.error("❌ Failed to send SQS message:", sqsError);
       }
     }
 

@@ -9,11 +9,13 @@
     "lint": "eslint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "worker": "tsx src/sqs-worker.ts"
   },
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^4.0.77",
     "@ai-sdk/openai": "^3.0.37",
+    "@aws-sdk/client-sqs": "^3.1009.0",
     "@clerk/nextjs": "^6.39.0",
     "@react-pdf/renderer": "^4.3.2",
     "@sentry/nextjs": "^10.43.0",
@@ -21,7 +23,6 @@
     "ai": "^6.0.105",
     "dotenv": "^17.3.1",
     "framer-motion": "^12.34.3",
-    "inngest": "^3.52.4",
     "marked": "^17.0.3",
     "next": "16.1.6",
     "nodemailer": "^8.0.1",
@@ -49,6 +50,7 @@
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.1.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.0.18"
   }
