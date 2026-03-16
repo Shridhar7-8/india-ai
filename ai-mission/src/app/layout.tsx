@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
+import { PHProvider } from './providers'
 import AuthHeader from '@/components/AuthHeader'
 import { Poppins } from 'next/font/google'
 import './globals.css'
@@ -40,8 +41,10 @@ export default function RootLayout({
             }
           }}
         >
-          <AuthHeader />
-          {children}
+          <PHProvider>
+            <AuthHeader />
+            {children}
+          </PHProvider>
         </ClerkProvider>
       </body>
     </html>
