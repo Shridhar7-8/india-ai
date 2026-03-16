@@ -1,7 +1,7 @@
 import { generateText } from "ai";
 import { getAnalystModel } from "@/lib/bedrock";
 import { ANALYST_PROMPT } from "./prompts";
-import { UnifiedReportSchema, type UnifiedReport } from "@/lib/schemas";
+import { type UnifiedReport } from "@/lib/schemas";
 import { z } from "zod";
 import type { SkepticSummary } from "./skeptic";
 

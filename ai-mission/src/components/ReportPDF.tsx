@@ -352,8 +352,6 @@ const parseInlineBold = (text: string, defaultColor?: string) => {
             const innerText = part.slice(2, -2);
             // If the text looks like a flag title (ends in :), we can optionally color it
             // but for now just use bold
-            const isRedFlagTitle = defaultColor === "#b91c1c";
-            const isGreenFlagTitle = defaultColor === "#15803d";
             return (
                 <Text key={index} style={{ fontWeight: "bold", color: defaultColor || "inherit" }}>
                     {innerText}

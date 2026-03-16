@@ -274,7 +274,7 @@ export default function ChatInterface({
                                     </div>
                                     <p className="text-xs text-gray-500 mb-4 font-light">
                                         Please provide a link to your pitch deck. <br/>
-                                        <span className="font-medium text-orange-500">Important:</span> Make sure link sharing is set to 'Anyone with the link can view'.
+                                        <span className="font-medium text-orange-500">Important:</span> Make sure link sharing is set to &apos;Anyone with the link can view&apos;.
                                     </p>
                                     <div className="flex gap-2 max-w-lg mx-auto">
                                         <input

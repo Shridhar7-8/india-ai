@@ -24,11 +24,10 @@ export async function POST(req: NextRequest) {
         }
 
         // Update InterviewState with URL directly in the database
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from("interview_states")
             .update({ pitch_deck_url: url })
-            .eq("conversation_id", conversationId)
-            .select();
+            .eq("conversation_id", conversationId);
 
         if (error) {
             console.error("❌ Update error:", error);
