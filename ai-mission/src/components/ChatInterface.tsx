@@ -35,10 +35,10 @@ export default function ChatInterface({
 }: ChatInterfaceProps) {
     const [input, setInput] = useState("");
     const [isUploading, setIsUploading] = useState(false);
+    const [gDriveUrl, setGDriveUrl] = useState("");
     const [uploadedFile, setUploadedFile] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const showUpload = currentStepId === "pitch_deck" && !uploadedFile;
 
@@ -74,48 +74,39 @@ export default function ChatInterface({
         setInput("");
     };
 
-    const handleFileUpload = async (file: File) => {
-        if (!conversationId) return;
+    const handleUrlSubmit = async () => {
+        if (!conversationId || !gDriveUrl.trim()) return;
+
+        // Basic validation for URLs that are generally docs/drive links
+        const isValidUrl = gDriveUrl.includes('drive.google.com') || gDriveUrl.includes('docs.google.com') || gDriveUrl.startsWith('http');
+        if (!isValidUrl) {
+            alert("Please provide a valid URL (e.g. Google Drive link).");
+            return;
+        }
 
         setIsUploading(true);
         try {
-            const formData = new FormData();
-            formData.append("file", file);
-            formData.append("conversationId", String(conversationId));
-
-            const res = await fetch("/api/upload", {
+            const res = await fetch("/api/save-pitch-deck", {
                 method: "POST",
-                body: formData,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ conversationId, url: gDriveUrl }),
             });
 
             if (res.ok) {
-                const data = await res.json();
-                setUploadedFile(data.fileName);
-                // Auto-send a message saying the file was uploaded
-                onSendMessage(`I have uploaded my pitch deck: ${data.fileName}`);
+                setUploadedFile(gDriveUrl);
+                // Auto-send a message saying the file was linked
+                onSendMessage(`I have provided a link to my pitch deck: ${gDriveUrl}`);
             } else {
                 const err = await res.json().catch(() => ({}));
-                alert(err.error || "Upload failed. Please try again.");
+                alert(err.error || "Failed to save link. Please try again.");
             }
         } catch (error) {
-            console.error("Upload error:", error);
-            alert("Upload failed. Please check your connection.");
+            console.error("Save URL error:", error);
+            alert("Failed to save link. Please check your connection.");
         } finally {
             setIsUploading(false);
+            setGDriveUrl("");
         }
-    };
-
-    const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) handleFileUpload(file);
-        // Reset so the same file can be re-selected
-        if (fileInputRef.current) fileInputRef.current.value = "";
-    };
-
-    const handleDrop = (e: React.DragEvent) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files?.[0];
-        if (file) handleFileUpload(file);
     };
 
     // Compute progress
@@ -273,42 +264,49 @@ export default function ChatInterface({
                         <div className="space-y-3">
                             {/* File upload area — only when pitch_deck step is active */}
                             {showUpload && (
-                                <div
-                                    onDrop={handleDrop}
-                                    onDragOver={(e) => e.preventDefault()}
-                                    onClick={() => fileInputRef.current?.click()}
-                                    className="border-2 border-dashed border-orange-200 bg-orange-50/10 rounded-xl p-4 text-center cursor-pointer
-                                               hover:border-orange-400 hover:bg-orange-50/20 transition-all font-light"
-                                >
-                                    <input
-                                        ref={fileInputRef}
-                                        type="file"
-                                        accept=".pdf,.doc,.docx,.ppt,.pptx"
-                                        onChange={handleFileSelect}
-                                        className="hidden"
-                                    />
-                                    {isUploading ? (
-                                        <div className="flex items-center justify-center gap-2 text-green-600">
-                                            <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none">
-                                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                            </svg>
-                                            <span className="text-sm font-medium">Uploading...</span>
-                                        </div>
-                                    ) : (
-                                        <>
-                                            <div className="flex items-center justify-center gap-2 mb-1" style={{ color: '#E8793A' }}>
-                                                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                <div className="border-2 border-dashed border-orange-200 bg-orange-50/10 rounded-xl p-4 md:p-5 text-center transition-all">
+                                    <div className="flex items-center justify-center gap-2 mb-2" style={{ color: '#E8793A' }}>
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                                        </svg>
+                                        <span className="text-sm font-medium">Link Pitch Deck (Google Drive)</span>
+                                    </div>
+                                    <p className="text-xs text-gray-500 mb-4 font-light">
+                                        Please provide a link to your pitch deck. <br/>
+                                        <span className="font-medium text-orange-500">Important:</span> Make sure link sharing is set to 'Anyone with the link can view'.
+                                    </p>
+                                    <div className="flex gap-2 max-w-lg mx-auto">
+                                        <input
+                                            type="url"
+                                            value={gDriveUrl}
+                                            onChange={(e) => setGDriveUrl(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter") {
+                                                    e.preventDefault();
+                                                    handleUrlSubmit();
+                                                }
+                                            }}
+                                            disabled={isUploading}
+                                            placeholder="https://drive.google.com/..."
+                                            className="w-full bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-orange-400 placeholder:font-light disabled:opacity-50"
+                                        />
+                                        <button 
+                                            type="button"
+                                            onClick={handleUrlSubmit}
+                                            disabled={!gDriveUrl.trim() || isUploading}
+                                            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium disabled:opacity-50 transition-colors whitespace-nowrap flex items-center justify-center min-w-[100px]"
+                                        >
+                                            {isUploading ? (
+                                                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                                                 </svg>
-                                                <span className="text-sm font-medium">Upload Pitch Deck</span>
-                                            </div>
-                                            <p className="text-xs text-gray-400">
-                                                Drop a file here or click to browse • PDF, DOC, DOCX, PPT, PPTX (max 10MB)
-                                            </p>
-                                        </>
-                                    )}
+                                            ) : (
+                                                "Submit Link"
+                                            )}
+                                        </button>
+                                    </div>
                                 </div>
                             )}
 

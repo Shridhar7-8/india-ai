@@ -583,9 +583,7 @@ function buildMarkdownReport(
     // Assets
     let pitchStr = "NO";
     if (pitchDeckUrl) {
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-        const fullUrl = `${supabaseUrl}/storage/v1/object/public/pitch-decks/${pitchDeckUrl}`;
-        pitchStr = `YES ([LINK](${fullUrl}))`;
+        pitchStr = `YES ([LINK](${pitchDeckUrl}))`;
     }
     let webStr = "NO";
     if (websiteUrl && websiteUrl !== "Not provided") {

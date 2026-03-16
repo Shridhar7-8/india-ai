@@ -50,7 +50,7 @@ export const finalizeInterview = inngest.createFunction(
       console.log(`[Inngest] Fetching interview state for convId: ${conversationId}`);
       const { data, error } = await supabase
         .from("interview_states")
-        .select("red_flags, green_flags, conversation_summary, vague_topics")
+          .select("red_flags, green_flags, conversation_summary, vague_topics, pitch_deck_url")
         .eq("conversation_id", conversationId)
         .maybeSingle();
 
@@ -76,11 +76,8 @@ export const finalizeInterview = inngest.createFunction(
       }));
 
       const convSummary = interviewState.conversation_summary || {};
-      // Build pitch deck storage URL if file was uploaded
-      const pitchDeckFile = convSummary.pitch_deck_file;
-      const pitchDeckUrl = pitchDeckFile
-        ? `${conversationId}/${pitchDeckFile}`
-        : undefined;
+      // Get pitch deck URL from the state (saved directly as Google Drive Link)
+      const pitchDeckUrl = interviewState.pitch_deck_url || undefined;
 
       const skepticSummary = buildSkepticSummary(
         interviewState.red_flags || [],

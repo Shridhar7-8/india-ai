@@ -76,6 +76,8 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs: [test-and-build, e2e-tests]
+    # Only deploy if tests pass and we are on the main branch (push event)
+    # This prevents deployment on Pull Requests
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
