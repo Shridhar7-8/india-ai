@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: './ai-mission/package-lock.json'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run Linter
         run: npm run lint
@@ -61,7 +61,7 @@ jobs:
           cache-dependency-path: './ai-mission/package-lock.json'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
@@ -107,7 +107,7 @@ jobs:
             # Go back to the app directory
             cd $APP_DIR
 
-            npm install
+            npm ci
             npm run build
 
             pm2 restart buildai --update-env || pm2 start npm --name "buildai" -- start
