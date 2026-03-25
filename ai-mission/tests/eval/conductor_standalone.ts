@@ -6,7 +6,7 @@ import { resolve } from "path";
 // Redirect all debug/info logs to stderr BEFORE dotenv (which logs on config).
 // promptfoo captures stdout as the test output; mixing logs breaks JSON.parse().
 const origStdoutLog = console.log;
-console.log = (...args: any[]) => console.error(...args);
+console.log = (...args: unknown[]) => console.error(...args);
 
 // Load .env from the root directory
 dotenv.config({ path: resolve(process.cwd(), ".env") });
@@ -38,8 +38,9 @@ async function main() {
     const result = await runConductorFSM(input);
     console.log = origStdoutLog;
     process.stdout.write(JSON.stringify(result) + "\n");
-  } catch (error: any) {
-    console.error(JSON.stringify({ error: error.message, stack: error.stack }));
+  } catch (error) {
+    const err = error as Error;
+    console.error(JSON.stringify({ error: err.message, stack: err.stack }));
     process.exit(1);
   }
 }

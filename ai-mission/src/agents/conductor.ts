@@ -178,9 +178,6 @@ export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {
         };
     }
 
-    // ── Determine the NEXT step index ──
-    const nextStepIndex = stepIndex + 1;
-
     // ── Build LLM eval prompt ──
     const recentHistory = conversationHistory.slice(-8)
         .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
@@ -234,7 +231,7 @@ Remember: output RAW JSON only. No markdown.`.trim();
             let parsed;
             try {
                 parsed = JSON.parse(jsonStr);
-            } catch (e) {
+            } catch {
                 console.warn(`⚠️ JSON parse error (attempt ${attempt + 1})`);
                 continue;
             }
@@ -264,7 +261,7 @@ Remember: output RAW JSON only. No markdown.`.trim();
 
             if (effectiveAnswered) {
                 // ── ADVANCE to next step ──
-                let advanceTo = stepIndex + 1;
+                const advanceTo = stepIndex + 1;
                 console.log(`[CONDUCTOR] Advancing from ${stepIndex} to ${advanceTo}`);
 
                 let finalResponse = "";

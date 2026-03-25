@@ -1,14 +1,14 @@
 import { runSkeptic } from "../../src/agents/skeptic";
 
-export default async function provider(prompt: string, vars: any) {
+export default async function provider(prompt: string, vars: Record<string, unknown>) {
   const { userMessage, currentTopic, history, redFlags, greenFlags } = vars;
 
   const input = {
-    userMessage: userMessage || prompt,
-    currentTopic: currentTopic || "unknown",
-    conversationHistory: history || [],
-    existingRedFlags: redFlags || [],
-    existingGreenFlags: greenFlags || [],
+    userMessage: (userMessage as string) || prompt,
+    currentTopic: (currentTopic as string) || "unknown",
+    conversationHistory: (history as Array<{ role: string; content: string }>) || [],
+    existingRedFlags: (redFlags as string[]) || [],
+    existingGreenFlags: (greenFlags as string[]) || [],
   };
 
   try {
@@ -16,9 +16,9 @@ export default async function provider(prompt: string, vars: any) {
     return {
       output: JSON.stringify(result, null, 2),
     };
-  } catch (error: any) {
+  } catch (error) {
     return {
-      error: error.message,
+      error: (error as Error).message,
     };
   }
 }
