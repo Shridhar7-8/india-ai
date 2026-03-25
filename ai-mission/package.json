@@ -20,11 +20,7 @@
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^4.0.77",
     "@ai-sdk/openai": "^3.0.37",
-<<<<<<< HEAD
     "@aws-sdk/client-sqs": "^3.1010.0",
-=======
-    "@aws-sdk/client-sqs": "^3.1009.0",
->>>>>>> bab1d57879f565406e3cec4e5b10a04e1339f383
     "@clerk/nextjs": "^6.39.0",
     "@react-pdf/renderer": "^4.3.2",
     "@sentry/nextjs": "^10.43.0",
