@@ -4,7 +4,11 @@ import { supabase } from "@/lib/supabase";
 import { MessageCreateSchema } from "@/lib/schemas";
 import { runConductorFSM, getInitialChecklist, getInitialSummary, STEPS } from "@/agents/conductor";
 import { runSkeptic } from "@/agents/skeptic";
+<<<<<<< HEAD
+import { sendToQueue } from "@/lib/sqs";
+=======
 import { sendSQSMessage } from "@/lib/sqs";
+>>>>>>> bab1d57879f565406e3cec4e5b10a04e1339f383
 
 /**
  * POST /api/chat — Main chat endpoint.
@@ -217,7 +221,9 @@ export async function POST(req: NextRequest) {
       updatedVagueTopics.push(fsmResult.notedVague);
     }
 
-    await supabase
+    console.log(`[API] Updating interview state for conv ${convId}: step_index ${stepIndex} -> ${fsmResult.nextStepIndex}`);
+
+    const { error: updateError } = await supabase
       .from("interview_states")
       .update({
         checklist: updatedChecklist,
@@ -232,6 +238,12 @@ export async function POST(req: NextRequest) {
         ...(fsmResult.founderIsSolo !== undefined ? { founder_is_solo: fsmResult.founderIsSolo } : {}),
       })
       .eq("conversation_id", convId);
+
+    if (updateError) {
+      console.error(`❌ [API] Failed to update interview state:`, updateError);
+    } else {
+      console.log(`✅ [API] Interview state updated successfully.`);
+    }
 
     // 11. Run Skeptic agent in background (fire-and-forget)
     const currentStepId = stepIndex < STEPS.length ? STEPS[stepIndex].id : "unknown";
@@ -270,7 +282,11 @@ export async function POST(req: NextRequest) {
         .eq("id", convId);
 
       try {
+<<<<<<< HEAD
+        await sendToQueue("interview/finalize", {
+=======
         await sendSQSMessage("interview/finalize", {
+>>>>>>> bab1d57879f565406e3cec4e5b10a04e1339f383
           conversationId: convId,
           conversationTitle: title,
         });

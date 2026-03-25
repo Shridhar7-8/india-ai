@@ -1,17 +1,5 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_SERVER || "smtp.gmail.com",
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false, // STARTTLS
-  auth: {
-    user: process.env.SMTP_USERNAME,
-    pass: process.env.SMTP_PASSWORD,
-  },
-});
-
-const isConfigured = Boolean(process.env.SMTP_USERNAME && process.env.SMTP_PASSWORD);
-
 interface SendReportEmailParams {
   recipientEmail: string;
   pdfBuffer: Buffer;
@@ -22,6 +10,7 @@ interface SendReportEmailParams {
 
 /**
  * Send a FounderCheck report email with a PDF attachment.
+ * Transporter and config are created at call time so env vars are guaranteed to be loaded.
  */
 export async function sendReportEmail({
   recipientEmail,
@@ -30,6 +19,13 @@ export async function sendReportEmail({
   conversationId,
   companyName,
 }: SendReportEmailParams): Promise<boolean> {
+  // Read env vars at call time — NOT at module load time
+  const smtpUser = process.env.SMTP_USERNAME;
+  const smtpPass = process.env.SMTP_PASSWORD;
+  const smtpHost = process.env.SMTP_SERVER || "smtp.gmail.com";
+  const smtpPort = Number(process.env.SMTP_PORT) || 587;
+
+  const isConfigured = Boolean(smtpUser && smtpPass);
   const displayName = companyName || "Startup";
   const dateStr = new Date().toISOString().split("T")[0];
   const filename = companyName
@@ -40,17 +36,28 @@ export async function sendReportEmail({
     console.log(`⚠️  EMAIL CONFIG MISSING — Would send to: ${recipientEmail}`);
     console.log(`📧 Subject: FounderCheck ${displayName} Analysis Report`);
     console.log(`📎 Attachment: ${filename} (${pdfBuffer.length.toLocaleString()} bytes)`);
+    console.log(`   SMTP_USERNAME=${smtpUser ?? "undefined"}, SMTP_PASSWORD=${smtpPass ? "set" : "undefined"}`);
     return true;
   }
 
-  // Parse comma-separated recipients
+  // Create transporter at call time with live env vars
+  const transporter = nodemailer.createTransport({
+    host: smtpHost,
+    port: smtpPort,
+    secure: false, // STARTTLS
+    auth: {
+      user: smtpUser,
+      pass: smtpPass,
+    },
+  });
+
   const recipients = recipientEmail.split(",").map((e) => e.trim()).filter(Boolean);
 
-  try {
-    const fromString = process.env.FROM_EMAIL
-      ? `"${process.env.FROM_NAME || 'FounderCheck'}" <${process.env.FROM_EMAIL}>`
-      : `"FounderCheck Reports" <${process.env.SMTP_USERNAME}>`;
+  const fromString = process.env.FROM_EMAIL
+    ? `"${process.env.FROM_NAME || "FounderCheck"}" <${process.env.FROM_EMAIL}>`
+    : `"FounderCheck Reports" <${smtpUser}>`;
 
+  try {
     await transporter.sendMail({
       from: fromString,
       to: recipients.join(", "),

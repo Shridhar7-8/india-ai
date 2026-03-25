@@ -7,61 +7,88 @@ import type { SkepticSummary } from "./skeptic";
 
 // ─── Enum Score Maps (code → full description) ─────────────────────
 
+// Failure Story / Grit — out of 2 marks
 const GRIT_MAP: Record<string, string> = {
-    "5": "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.",
-    "4": "Specific failure mentioned with mostly concrete recovery. Lesson articulated — may lack full depth but shows genuine reflection.",
-    "3": "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.",
-    "2": "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.",
-    "1": "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.",
+    "2":   "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.",
+    "1.5": "Specific failure mentioned with mostly concrete recovery. Lesson articulated, may lack full depth but shows genuine reflection.",
+    "0.5": "Failure mentioned but vague on recovery steps and lessons learned.",
+    "0":   "No failure story or very vague failure story. Topic avoided. No evidence of recovery, resilience or learning.",
     "not_discussed": "Not specified",
 };
 
+// Team Division — out of 1 mark
+const TEAM_DIVISION_MAP: Record<string, string> = {
+    "1":   "2 or 3 total co-founders.",
+    "0.5": "4 or more total co-founders.",
+    "0":   "Solo founder. No co-founders.",
+};
+
+// Financial Commitments — out of 1 mark
+const FINANCIAL_EVAL_MAP: Record<string, string> = {
+    "1": "No financial commitments or obligations.",
+    "0": "Financial commitments or obligations exist.",
+};
+
+// Business Thinking — out of 1 mark
+const BUSINESS_THINKING_MAP: Record<string, string> = {
+    "1": "Founder clearly explains how a startup is about running, operating and growing a business beyond just technology.",
+    "0": "Founder unable to clearly explain how a startup is not just technology but about running, operating and growing a business.",
+};
+
+// Desirability — out of 5 marks
 const DESIRABILITY_MAP: Record<string, string> = {
-    "5": "Specific problem clearly defined. Target user and market clearly defined. Strong evidence of real demand.",
-    "4": "Problem and target user defined. Decent evidence of demand. Minor gaps in specificity.",
-    "3": "Problem mentioned but too broad or slightly vague. Target market defined but vague. No clear evidence of demand.",
-    "2": "Weak problem articulation. No clear user definition. No evidence of demand.",
-    "1": "No clear problem. No market exists or will want this solution. Solution looking for a problem.",
+    "5":   "Problem and target user defined very clearly with specifics provided and clear evidence of demand mentioned.",
+    "4":   "Problem and target user defined very clearly with specifics provided but no clear evidence of demand mentioned.",
+    "2.5": "Problem and target user defined however minor gaps in specificity and no clear evidence of demand mentioned.",
+    "1":   "Problem mentioned but too broad. Target market not clearly defined and evidence of demand not mentioned.",
+    "0.5": "Weak problem articulation. No clear user definition. No evidence of demand.",
+    "0":   "No clear problem. No market exists or will want this solution. Solution looking for a problem.",
 };
 
+// Viability — out of 5 marks
 const VIABILITY_MAP: Record<string, string> = {
-    "5": "Clear revenue model. Convincing path to profitability. Strong scalability thesis.",
-    "4": "Solid revenue model, mostly clear path to profitability. Good scalability thinking. Some minor gaps.",
-    "3": "Revenue model exists but vague. Path to profitability unclear. Some scalability idea but thin and shallow.",
-    "2": "Revenue model not properly defined. Economics don't work. Profitability seems difficult. Scalability not considered meaningfully.",
-    "1": "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered at all.",
+    "5":   "Solid well-defined revenue model and profitability and scalability seems quite possible.",
+    "4":   "Solid well-defined revenue model but profitability and scalability is unclear.",
+    "2":   "Revenue model exists but vague. Path to profitability and scalability is unclear.",
+    "0.5": "Revenue model mentioned but not defined properly. Economics don't seem to work. Profitability seems difficult. Scalability doesn't seem possible.",
+    "0":   "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered.",
 };
 
+// Feasibility — out of 5 marks
 const FEASIBILITY_MAP: Record<string, string> = {
-    "5": "Technical capability demonstrated. Realistic build plan with clear milestones.",
-    "4": "Technical capability evident. Build plan mostly realistic. Minor complexity underestimated.",
-    "3": "Possible to build but unclear technical capacity and/or underestimating complexity.",
-    "2": "Significant technical gaps. Unclear how they'd actually build this. Legal risks unaddressed. Unrealistic thinking.",
-    "1": "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking.",
+    "5":   "Technical capability clearly explained. Realistic build plan provided.",
+    "4":   "Technical capability evident. Build plan mostly realistic. Minor complexity underestimated.",
+    "2.5": "Technical capability evident but build plan doesn't exist.",
+    "1":   "Possible to build but unclear technical capacity and underestimating complexity.",
+    "0.5": "Significant technical gaps. Unclear how they'd actually build this. Unrealistic thinking.",
+    "0":   "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking.",
 };
 
+// Defensibility — out of 5 marks
 const DEFENSIBILITY_MAP: Record<string, string> = {
-    "5": "At least ONE strong moat clearly defined: network effects, proprietary tech/IP, unique data, high switching costs, domain expertise, or breakthrough technology / very unique insight.",
-    "4": "One credible moat identified and clearly articulated. Not yet fully built or proven.",
-    "3": "Some differentiation exists but can be easily copied. E.g. first-mover advantage only.",
-    "2": "Very weak differentiation. Easy to replicate. No credible moat identified.",
-    "1": "No differentiator. Completely replicable. No moat thinking. Anyone can build it.",
+    "5":   "At least 1 strong moat clearly defined and proven: very strong network, proprietary tech/IP, unique data, breakthrough technology, or very unique insight.",
+    "3.5": "One credible moat identified and clearly articulated but only exists on paper, not yet fully built or proven.",
+    "2":   "Some differentiation exists but doesn't create a strong competitive advantage. E.g. first-mover advantage only.",
+    "0.5": "Very weak differentiation. Very easy to replicate. No credible moat identified.",
+    "0":   "No differentiator. Completely replicable. No moat thinking. Anyone can build it very easily.",
 };
 
+// Affordability — out of 5 marks
 const AFFORDABILITY_MAP: Record<string, string> = {
-    "5": "Pricing clearly fits the Indian target segment. Founder has done proper research on pricing in India in that segment.",
-    "4": "Pricing fits India well. India context considered meaningfully. Minor gaps — e.g. market research not fully conducted.",
-    "3": "Pricing has not been thought of proactively. Has shown some thought of India-first pricing when asked, but had not considered it until then.",
-    "2": "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.",
-    "1": "Delusional pricing that does not fit the Indian market. No thought given to affordability. Trying to go higher and higher in pricing without considering the Indian market.",
+    "5":   "Pricing clearly fits the Indian target segment. Founder has defined exact pricing with proper research about pricing in India in that segment.",
+    "3.5": "India context considered meaningfully but pricing is not yet fully defined.",
+    "2":   "Pricing and affordability not considered proactively. Has shown some thought of India-first pricing when asked but had not considered it until now.",
+    "0.5": "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.",
+    "0":   "Delusional pricing that does not fit the Indian market. No thought given to affordability.",
 };
 
+// AI Mission Fit — out of 3 marks (cumulative criteria)
 const MISSION_FIT_MAP: Record<string, string> = {
-    "5": "Direct, specific connection to a pillar. AI is core — the product fails without it. Solution is India-first by design. Highly empowering to the Indian AI ecosystem. Founder is well aware of the IndiaAI Mission and can articulate how their product contributes.",
-    "4": "Clear connection to a pillar. AI genuinely used, not decorative. Strong India-first thinking. Meaningfully contributes to the Indian AI ecosystem. Founder is aware of the IndiaAI Mission but not deeply — may not have a great answer on specific alignment.",
-    "3": "Connection to a pillar exists. Relevant to India. AI is genuinely being used, but India-first design is not deeply embedded. Founder cannot properly answer how it empowers the Indian AI ecosystem. Not properly aware of the IndiaAI Mission.",
-    "2": "Pillar fit is a stretch. AI feels like an add-on, not a necessity. India connection is surface-level. Limited contribution to the Indian AI ecosystem.",
-    "1": "No credible pillar connection. AI is decorative or repackaged foreign API. Product can be built without AI. India / IndiaAI angle is entirely superficial or retrofitted.",
+    "3":   "AI is indispensable to the product, credible pillar connection, clear ecosystem contribution, and founder is aware of IndiaAI Mission.",
+    "2.5": "AI is indispensable to the product, credible pillar connection, clear ecosystem contribution, but founder is unaware of IndiaAI Mission.",
+    "2":   "AI is indispensable to the product, credible pillar connection, but ecosystem contribution is unclear and founder is unaware of IndiaAI Mission.",
+    "1":   "AI is indispensable to the product but no credible pillar connection, ecosystem contribution is unclear and founder is unaware of IndiaAI Mission.",
+    "0":   "No credible AI mission pillar connection. AI is decorative or an add-on feature. Product can be built without AI. Founder is unaware of IndiaAI Mission.",
 };
 
 // ─── LLM-Friendly Schema (short codes instead of long enum strings) ──
@@ -86,37 +113,40 @@ const LLMReportSchema = z.object({
     goals_mid_term_evidence: z.array(z.string()),
     goals_long_term: z.string().default("Not specified").describe("Founder's long-term goals"),
     goals_long_term_evidence: z.array(z.string()),
-    grit_evaluation: z.enum(["5", "4", "3", "2", "1", "not_discussed"]),
+    grit_evaluation: z.enum(["2", "1.5", "0.5", "0", "not_discussed"]),
     grit_evaluation_evidence: z.array(z.string()),
     grit_evaluation_reasoning: z.string(),
+    business_thinking_evaluation: z.enum(["1", "0"]),
     business_thinking: z.string().default("Not specified"),
     business_thinking_evidence: z.array(z.string()),
     founder_structure: z.enum(["Solo founder", "Co-founder team"]).default("Solo founder"),
     founder_structure_evidence: z.array(z.string()),
     role_division: z.string().default("Not specified"),
     role_division_evidence: z.array(z.string()),
+    team_division_evaluation: z.enum(["1", "0.5", "0"]),
+    financial_commitments_evaluation: z.enum(["1", "0"]),
     idea: z.string(),
     idea_evidence: z.array(z.string()),
     macro_context: z.string().default("Not specified"),
     macro_context_evidence: z.array(z.string()),
     development_stage: z.enum(["Idea", "Concept", "Prototype", "Early MVP", "MVP", "Growth", "Not specified"]).default("Not specified"),
     development_stage_evidence: z.array(z.string()),
-    desirability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    desirability_evaluation: z.enum(["5", "4", "2.5", "1", "0.5", "0"]),
     desirability_evidence: z.array(z.string()),
     desirability_note: z.string(),
-    viability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    viability_evaluation: z.enum(["5", "4", "2", "0.5", "0"]),
     viability_evidence: z.array(z.string()),
     viability_note: z.string(),
-    feasibility_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    feasibility_evaluation: z.enum(["5", "4", "2.5", "1", "0.5", "0"]),
     feasibility_evidence: z.array(z.string()),
     feasibility_note: z.string(),
-    defensibility_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    defensibility_evaluation: z.enum(["5", "3.5", "2", "0.5", "0"]),
     defensibility_evidence: z.array(z.string()),
     defensibility_note: z.string(),
-    affordability_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    affordability_evaluation: z.enum(["5", "3.5", "2", "0.5", "0"]),
     affordability_evidence: z.array(z.string()),
     affordability_note: z.string(),
-    mission_fit_evaluation: z.enum(["5", "4", "3", "2", "1"]),
+    mission_fit_evaluation: z.enum(["3", "2.5", "2", "1", "0"]),
     mission_fit_evidence: z.array(z.string()),
     indiaai_pillar: z.enum([
         "1 — IndiaAI Innovation Centre",
@@ -164,13 +194,16 @@ goals_long_term_evidence (string[]) — Copy exact sentences from transcript abo
 goals_long_term (string) — Summarize from evidence above
 grit_evaluation_evidence (string[]) — Copy exact sentences from transcript about failure/resilience
 grit_evaluation_reasoning (string) — Brief explanation for score based on evidence above
-grit_evaluation ("5"|"4"|"3"|"2"|"1"|"not_discussed") — Score based on evidence above
+grit_evaluation ("2"|"1.5"|"0.5"|"0"|"not_discussed") — Score: "2"=specific failure+concrete recovery+clear lesson, "1.5"=specific failure+mostly concrete recovery, "0.5"=failure mentioned but vague recovery/lesson, "0"=no story or very vague, "not_discussed"=not covered
 business_thinking_evidence (string[]) — Copy exact sentences from transcript about startup-as-business
 business_thinking (string) — Summarize from evidence above
+business_thinking_evaluation ("1"|"0") — "1"=founder clearly explains startup is about running/operating/growing a business beyond tech, "0"=founder unable to explain this
 founder_structure_evidence (string[]) — Copy exact sentences about solo/co-founder
 founder_structure ("Solo founder"|"Co-founder team") — Classify from evidence above
 role_division_evidence (string[]) — Copy exact sentences about how roles are managed
 role_division (string) — Summarize from evidence above
+team_division_evaluation ("1"|"0.5"|"0") — Count TOTAL founders (including the main founder): "1"=2 or 3 total founders, "0.5"=4 or more total founders, "0"=solo founder (1 person only)
+financial_commitments_evaluation ("1"|"0") — "1"=founder has no financial commitments or obligations, "0"=financial commitments or obligations exist
 idea_evidence (string[]) — Copy exact sentences from transcript about the startup idea and problem
 idea (string) — Summarize from evidence above
 macro_context_evidence (string[]) — Copy 1-3 sentences from the transcript that reveal the industry, problem space, target customer segment, or market the founder is entering. Look in the startup idea, desirability, feasibility, and ecosystem answers — there is NO dedicated macro context question. Use the idea description and problem statement sentences.
@@ -178,22 +211,22 @@ macro_context (string) — From those sentences, write 1-2 sentences describing:
 development_stage_evidence (string[]) — Copy exact sentences mentioning a built product/prototype/users (or [] if none)
 development_stage ("Idea"|"Concept"|"Prototype"|"Early MVP"|"MVP"|"Growth"|"Not specified") — If evidence is empty, use "Idea"
 desirability_evidence (string[]) — Copy exact sentences from transcript about the problem, market, customer demand
-desirability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+desirability_evaluation ("5"|"4"|"2.5"|"1"|"0.5"|"0") — "5"=problem+user very clearly defined+specifics+clear demand evidence, "4"=very clearly defined+specifics but NO demand evidence, "2.5"=defined but minor gaps in specificity+no demand, "1"=too broad+market unclear+no demand, "0.5"=weak articulation+no user+no demand, "0"=no clear problem+solution looking for problem
 desirability_note (string) — Brief explanation for score based on evidence above
 viability_evidence (string[]) — Copy exact sentences from transcript about revenue, pricing, business model
-viability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+viability_evaluation ("5"|"4"|"2"|"0.5"|"0") — "5"=solid revenue model+profitability+scalability all possible, "4"=solid revenue model but profitability/scalability unclear, "2"=revenue model vague+path unclear, "0.5"=model not defined+economics don't work, "0"=no revenue model at all
 viability_note (string) — Brief explanation based on evidence above
 feasibility_evidence (string[]) — Copy exact sentences from transcript about technical capability
-feasibility_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+feasibility_evaluation ("5"|"4"|"2.5"|"1"|"0.5"|"0") — "5"=tech capability clearly explained+realistic build plan, "4"=tech evident+build plan mostly realistic, "2.5"=tech evident but no build plan, "1"=possible to build but unclear capacity+underestimates complexity, "0.5"=significant gaps+unrealistic, "0"=no capability+delusional
 feasibility_note (string) — Brief explanation based on evidence above
 defensibility_evidence (string[]) — Copy exact sentences from transcript about moats, differentiation
-defensibility_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+defensibility_evaluation ("5"|"3.5"|"2"|"0.5"|"0") — "5"=strong proven moat (network/IP/unique data/breakthrough tech), "3.5"=credible moat articulated but only on paper/unproven, "2"=some differentiation but easily copied (e.g. first-mover only), "0.5"=very weak+easy to replicate, "0"=no differentiator at all
 defensibility_note (string) — Brief explanation based on evidence above
 affordability_evidence (string[]) — Copy exact sentences from transcript about pricing, India affordability
-affordability_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+affordability_evaluation ("5"|"3.5"|"2"|"0.5"|"0") — "5"=exact India pricing defined+proper research done, "3.5"=India context considered meaningfully but pricing not yet defined, "2"=not proactively considered+showed some thought only when asked, "0.5"=not thought through for India+weak context, "0"=delusional pricing+no India consideration
 affordability_note (string) — Brief explanation based on evidence above
-mission_fit_evidence (string[]) — Copy exact sentences from transcript about IndiaAI or India ecosystem
-mission_fit_evaluation ("5"|"4"|"3"|"2"|"1") — Score based on evidence above
+mission_fit_evidence (string[]) — Copy exact sentences from transcript about IndiaAI, AI necessity, ecosystem contribution
+mission_fit_evaluation ("3"|"2.5"|"2"|"1"|"0") — Cumulative criteria: "3"=AI indispensable+credible pillar+clear ecosystem contribution+founder AWARE of IndiaAI Mission, "2.5"=AI indispensable+credible pillar+clear ecosystem contribution+founder UNAWARE, "2"=AI indispensable+credible pillar+ecosystem UNCLEAR+founder UNAWARE, "1"=AI indispensable+NO pillar+ecosystem UNCLEAR+founder UNAWARE, "0"=AI NOT indispensable or decorative
 indiaai_pillar (string) — MUST be exactly one of: "1 — IndiaAI Innovation Centre", "2 — IndiaAI Application Development", "3 — AIKosh", "4 — IndiaAI Compute Capacity", "5 — IndiaAI Startup Financing", "6 — IndiaAI FutureSkills", "7 — Safe & Trusted AI", "None"
 mission_fit_reasoning_evidence (string[]) — Copy exact sentences supporting pillar choice
 mission_fit_reasoning (string) — Explain pillar choice based on evidence above
@@ -206,6 +239,9 @@ function mapLLMResponseToReport(llm: LLMReport): UnifiedReport {
     return {
         ...llm,
         grit_evaluation: GRIT_MAP[llm.grit_evaluation] as UnifiedReport["grit_evaluation"],
+        business_thinking_evaluation: BUSINESS_THINKING_MAP[llm.business_thinking_evaluation] as UnifiedReport["business_thinking_evaluation"],
+        team_division_evaluation: TEAM_DIVISION_MAP[llm.team_division_evaluation] as UnifiedReport["team_division_evaluation"],
+        financial_commitments_evaluation: FINANCIAL_EVAL_MAP[llm.financial_commitments_evaluation] as UnifiedReport["financial_commitments_evaluation"],
         desirability_evaluation: DESIRABILITY_MAP[llm.desirability_evaluation] as UnifiedReport["desirability_evaluation"],
         viability_evaluation: VIABILITY_MAP[llm.viability_evaluation] as UnifiedReport["viability_evaluation"],
         feasibility_evaluation: FEASIBILITY_MAP[llm.feasibility_evaluation] as UnifiedReport["feasibility_evaluation"],
@@ -313,7 +349,7 @@ async function callLLMForJSON<T>(
     systemPrompt: string,
     userPrompt: string,
     maxTokens: number = 8192,
-    temperature: number = 0.1,
+    temperature: number = 0,
 ): Promise<T | null> {
     const MAX_RETRIES = 5;
     let lastZodError: string | null = null; // Track last Zod error for feedback
@@ -445,28 +481,46 @@ function validateReportAgainstTranscript(report: UnifiedReport, transcript: stri
 }
 
 // ─── Deterministic Scoring Logic ────────────────────────────────────
+// Scores are parsed directly from the LLM's numeric string codes (e.g. "2.5", "4").
+// This avoids all fragile substring matching on description strings.
 
-function computeDeterministicScores(report: UnifiedReport) {
-    const dScore = report.desirability_evaluation.includes("Specific problem clearly defined") ? 5 : report.desirability_evaluation.includes("Problem and target user defined") ? 4 : report.desirability_evaluation.includes("Problem mentioned but too broad") ? 3 : report.desirability_evaluation.includes("Weak problem articulation") ? 2 : 1;
-    const vScore = report.viability_evaluation.includes("Clear revenue model") ? 5 : report.viability_evaluation.includes("Solid revenue model") ? 4 : report.viability_evaluation.includes("Revenue model exists but vague") ? 3 : report.viability_evaluation.includes("Revenue model not properly defined") ? 2 : 1;
-    const fScore = report.feasibility_evaluation.includes("Technical capability demonstrated") ? 5 : report.feasibility_evaluation.includes("Technical capability evident") ? 4 : report.feasibility_evaluation.includes("Possible to build") ? 3 : report.feasibility_evaluation.includes("Significant technical gaps") ? 2 : 1;
-    const defScore = report.defensibility_evaluation.includes("At least ONE strong moat clearly defined") ? 5 : report.defensibility_evaluation.includes("One credible moat identified") ? 4 : report.defensibility_evaluation.includes("Some differentiation exists but can be easily copied") ? 3 : report.defensibility_evaluation.includes("Very weak differentiation") ? 2 : 1;
-    const aScore = report.affordability_evaluation.includes("Pricing clearly fits the Indian target segment") ? 5 : report.affordability_evaluation.includes("Pricing fits India well") ? 4 : report.affordability_evaluation.includes("Pricing has not been thought of proactively") ? 3 : report.affordability_evaluation.includes("Pricing not thought through for India") ? 2 : 1;
+function computeDeterministicScores(llm: LLMReport) {
+    // ── Founder Profile sub-scores (/5 total) ──
+    const teamDivisionScore    = parseFloat(llm.team_division_evaluation);          // "1" | "0.5" | "0"
+    const financialScore       = parseFloat(llm.financial_commitments_evaluation);  // "1" | "0"
+    const failureScore         = llm.grit_evaluation === "not_discussed" ? 0 : parseFloat(llm.grit_evaluation); // "2" | "1.5" | "0.5" | "0"
+    const businessThinkingScore = parseFloat(llm.business_thinking_evaluation);     // "1" | "0"
 
-    const gritScore = report.grit_evaluation.includes("Specific failure described in detail") ? 5 : report.grit_evaluation.includes("Specific failure mentioned") ? 4 : report.grit_evaluation.includes("Failure mentioned but vague") ? 3 : report.grit_evaluation.includes("Very vague failure story") ? 2 : 1;
-    const missionFitScore = report.mission_fit_evaluation.includes("Direct, specific connection to a pillar") ? 5 : report.mission_fit_evaluation.includes("Clear connection to a pillar") ? 4 : report.mission_fit_evaluation.includes("Connection to a pillar exists") ? 3 : report.mission_fit_evaluation.includes("Pillar fit is a stretch") ? 2 : 1;
+    const founderProfileTotal  = teamDivisionScore + financialScore + failureScore + businessThinkingScore;
 
-    const totalScore = dScore + vScore + fScore + defScore + aScore + gritScore + missionFitScore;
+    // ── 5-Zone Business Scorecard (/25 total) ──
+    const dScore   = parseFloat(llm.desirability_evaluation);   // "5" | "4" | "2.5" | "1" | "0.5" | "0"
+    const vScore   = parseFloat(llm.viability_evaluation);      // "5" | "4" | "2"   | "0.5" | "0"
+    const fScore   = parseFloat(llm.feasibility_evaluation);    // "5" | "4" | "2.5" | "1" | "0.5" | "0"
+    const defScore = parseFloat(llm.defensibility_evaluation);  // "5" | "3.5" | "2" | "0.5" | "0"
+    const aScore   = parseFloat(llm.affordability_evaluation);  // "5" | "3.5" | "2" | "0.5" | "0"
+
+    const zoneTotal = dScore + vScore + fScore + defScore + aScore;
+
+    // ── AI Mission Fit (/3 total) ──
+    const missionFitScore = parseFloat(llm.mission_fit_evaluation); // "3" | "2.5" | "2" | "1" | "0"
+
+    const total = founderProfileTotal + zoneTotal + missionFitScore;
 
     return {
+        teamDivision: teamDivisionScore,
+        financial: financialScore,
+        failure: failureScore,
+        businessThinking: businessThinkingScore,
+        founderProfile: founderProfileTotal,
         desirability: dScore,
         viability: vScore,
         feasibility: fScore,
         defensibility: defScore,
         affordability: aScore,
-        grit: gritScore,
+        zoneTotal,
         missionFit: missionFitScore,
-        total: totalScore
+        total,
     };
 }
 
@@ -526,7 +580,7 @@ export async function runAnalyst(input: AnalystInput): Promise<string> {
         console.warn("\n⚠️ TRANSCRIPT VALIDATION WARNINGS (Missing Evidence):\n" + warnings.join("\n") + "\n");
     }
 
-    const scores = computeDeterministicScores(reportData);
+    const scores = computeDeterministicScores(llmData);
 
     return buildMarkdownReport(reportData, scores, warnings, skepticSummary, companyName, pitchDeckUrl, websiteUrl);
 }
@@ -562,11 +616,11 @@ function buildMarkdownReport(
     lines.push("|---|---|");
     lines.push(`| **Who They Are** | ${report.education_background} · ${report.professional_background} · Hobbies: ${report.hobbies} |`);
     lines.push(`| **Why Entrepreneurship** | ${report.why_entrepreneurship} |`);
-    lines.push(`| **Financial Commitments** | ${report.financial_commitments} |`);
+    lines.push(`| **Financial Commitments [${scores.financial} / 1]** | ${report.financial_commitments} |`);
     lines.push(`| **Goals** | Short-term: ${report.goals_short_term} · Mid-term: ${report.goals_mid_term} · Long-term: ${report.goals_long_term} |`);
-    lines.push(`| **Grit Score [ ${scores.grit} / 5 ]** | ${report.grit_evaluation_reasoning} |`);
-    lines.push(`| **Business Thinking** | ${report.business_thinking} |`);
-    lines.push(`| **Founder Structure** | ${report.founder_structure} — ${report.role_division !== "Not specified" ? report.role_division : "Role management details not discussed"} |`);
+    lines.push(`| **Grit Score [${scores.failure} / 2]** | ${report.grit_evaluation_reasoning} |`);
+    lines.push(`| **Business Thinking [${scores.businessThinking} / 1]** | ${report.business_thinking} |`);
+    lines.push(`| **Founder Structure [${scores.teamDivision} / 1]** | ${report.founder_structure} — ${report.role_division !== "Not specified" ? report.role_division : "Role management details not discussed"} |`);
     lines.push("");
     lines.push("---");
     lines.push("");
@@ -605,12 +659,11 @@ function buildMarkdownReport(
     lines.push(`| **Feasibility** | **${scores.feasibility} / 5** | ${report.feasibility_note} |`);
     lines.push(`| **Defensibility** | **${scores.defensibility} / 5** | ${report.defensibility_note} |`);
     lines.push(`| **Affordability** | **${scores.affordability} / 5** | ${report.affordability_note} |`);
-    const totalZoneScore = scores.desirability + scores.viability + scores.feasibility + scores.defensibility + scores.affordability;
-    lines.push(`| **TOTAL** | **${totalZoneScore} / 25** | |`);
+    lines.push(`| **TOTAL** | **${scores.zoneTotal} / 25** | |`);
     lines.push("");
 
-    if (scores.desirability <= 2) {
-        lines.push("> ⚠️ **DESIRABILITY GATE:** If Desirability scores 1 or 2, flag prominently here and in the Overall Summary — a product without a credible market cannot become a viable business regardless of other zone scores.");
+    if (scores.desirability <= 1) {
+        lines.push("> ⚠️ **DESIRABILITY GATE:** Desirability scored 0 or 0.5 — a product without a credible market cannot become a viable business regardless of other zone scores.");
         lines.push("");
     }
     lines.push("---");
@@ -643,8 +696,8 @@ function buildMarkdownReport(
     // Section 5: AI Mission Fit Score
     lines.push("## SECTION 5 — AI MISSION FIT SCORE");
     lines.push("");
-    lines.push(`**AI Mission Fit Score: ${scores.missionFit} / 5**`);
-    lines.push("");
+    lines.push(`**AI Mission Fit Score: ${scores.missionFit} / 3**`);
+    lines.push(``);
     lines.push(`**Reasoning:**`);
     lines.push(`${report.mission_fit_reasoning}`);
     lines.push("");
@@ -661,15 +714,18 @@ function buildMarkdownReport(
     lines.push(`| Feasibility *(Zone 3)* | ${scores.feasibility} / 5 |`);
     lines.push(`| Defensibility *(Zone 4)* | ${scores.defensibility} / 5 |`);
     lines.push(`| Affordability *(Zone 5)* | ${scores.affordability} / 5 |`);
-    lines.push(`| Grit Score | ${scores.grit} / 5 |`);
-    lines.push(`| AI Mission Fit Score | ${scores.missionFit} / 5 |`);
-    lines.push(`| **FINAL SCORE** | **${scores.total} / 35** |`);
+    lines.push(`| Grit Score | ${scores.failure} / 2 |`);
+    lines.push(`| Financial Commitments | ${scores.financial} / 1 |`);
+    lines.push(`| Business Thinking | ${scores.businessThinking} / 1 |`);
+    lines.push(`| Founder Structure | ${scores.teamDivision} / 1 |`);
+    lines.push(`| AI Mission Fit Score | ${scores.missionFit} / 3 |`);
+    lines.push(`| **FINAL SCORE** | **${scores.total} / 33** |`);
     lines.push("");
     lines.push("---");
     lines.push("");
     lines.push("**OVERALL SUMMARY**");
     lines.push("");
-    if (scores.desirability <= 2) {
+    if (scores.desirability <= 1) {
         lines.push(`**[DESIRABILITY GATE FAILED]:** ` + report.overall_summary);
     } else {
         lines.push(report.overall_summary);

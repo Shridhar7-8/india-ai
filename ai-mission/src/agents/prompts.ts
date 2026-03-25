@@ -125,27 +125,29 @@ Each flag object MUST have this exact shape:
   "_evidence": ["Exact verbatim quote 1 from user", "Exact verbatim quote 2 from user"]
 }
 
-CRITICAL RULE: NO QUOTE = NO FLAG
+CRITICAL RULE — CATEGORY NAMES: Use the category string EXACTLY as listed below. No underscores instead of spaces, no CamelCase, no abbreviations. "Ecosystem Thinking" not "EcosystemThinking". "AI Conviction" not "AI_Conviction".
+
+CRITICAL RULE — NO QUOTE = NO FLAG:
 Every flag MUST include an \`_evidence\` array containing EXACT VERBATIM quotes from the user's transcript that prove the flag. Do NOT paraphrase. Do NOT quote the interviewer. If you cannot find a verbatim quote to support a flag, DO NOT RAISE THE FLAG.
 
-🔴 RED FLAG CATEGORIES:
-- LOGIC_GAP: User contradicts previous statements (e.g., claims revenue but later says "haven't launched").
+🔴 RED FLAG CATEGORIES (use these EXACT strings, no variations):
+- LOGIC_GAP: A contradiction exists — either between two statements in the SAME message, or between the current message and a prior one. TRIGGER EXAMPLES: (a) "I am a solo founder" + "our team of 10 engineers" in the same message. (b) "We launched last week" + "we have 10 million users". Even if the user seems unaware of the contradiction, raise the flag.
 - VAGUE_FLUFF: Buzzwords WITHOUT specifics or data (e.g., "Huge market" with no TAM). Exception: buzzword + specific data = NOT vague.
 - EVASION: Avoiding questions, defensive tone, or repeated vagueness after follow-ups.
-- SHALLOW_DEPTH: Critical topics lack substance (e.g., failure story has no concrete recovery).
+- SHALLOW_DEPTH: Critical topic lacks substance. For failure_story: no specific cause named, no concrete amount/scale, no actionable lesson = SHALLOW_DEPTH. "I kept going" is NOT a lesson. Generic resilience phrases are NOT recovery. The answer must name WHAT went wrong and WHAT the founder does differently now.
 - CLARITY_GAP: Cannot provide clarity after follow-ups.
 - AI_WASHING: The AI is actually a rule-based algorithm, simple lookup, or repackaged foreign API. Struggles to explain WHY product needs AI.
 
-🟢 GREEN FLAG CATEGORIES:
+🟢 GREEN FLAG CATEGORIES (use these EXACT strings, no variations):
 - Problem Clarity: Articulates the pain point sharply and specifically, not just broadly.
 - Commercial Awareness: Correctly identifies customer vs user, B2B vs B2C, or revenue dynamics unprompted.
 - Ecosystem Thinking: Thinks beyond their own product — impact on India's AI ecosystem, data, talent etc.
-- Domain Expertise: Demonstrates specific prior experience directly relevant to the problem.
+- Domain Expertise: Demonstrates specific prior experience DIRECTLY relevant to the PROBLEM being solved — not just general tech experience. Must show deep knowledge of the problem domain itself.
 - India-First Design: Embedded India-specific constraints into the product or pricing, not just launch geography.
 - AI Conviction: Clearly articulates why AI is structurally necessary — not just that it uses AI.
 - Grit Signal: Describes a specific failure with concrete recovery — not generic "I kept going".
-- Prior Build Experience: Has shipped something before — product, prototype, or in a prior role.
-- Honest Self-Awareness: Acknowledges a gap or weakness without being prompted, without deflecting.
+- Prior Build Experience: Has shipped something before — product, prototype, or in a prior role. Use ONLY when the answer does NOT also demonstrate direct domain relevance (otherwise use Domain Expertise).
+- Honest Self-Awareness: Founder PROACTIVELY acknowledges a personal gap, weakness, or blind spot WITHOUT being directly asked about that weakness. The acknowledgement must be self-initiated — if the interviewer explicitly asked "what are your weaknesses?" it does NOT count. TRIGGER EXAMPLE: "I want to be upfront: sales is not my strength" said while answering a feasibility question.
 
 DO NOT FLAG:
 - User refining previous answer (clarification, not contradiction)
@@ -198,15 +200,23 @@ For evidence arrays: these MUST be exact verbatim quotes from USER messages. No 
 For scores ("5"-"1"): use the scoring rubrics below.
 
 === SCORING RUBRICS (NUMERIC CODES ONLY) ===
-Output scores as STRING from "5" (best) to "1" (worst). Do NOT output full descriptions.
+Output scores as STRING codes EXACTLY as listed below. Do NOT output full descriptions.
 
-grit_evaluation: "5"=Specific failure in detail, concrete recovery, clear lesson. "4"=Specific failure, mostly concrete recovery. "3"=Failure mentioned but vague. "2"=Very vague failure. "1"=No failure story. "not_discussed"=Not covered.
-desirability_evaluation: "5"=Problem+market+demand clearly defined. "4"=Defined with minor gaps. "3"=Too broad/vague. "2"=Weak articulation. "1"=No clear problem.
-viability_evaluation: "5"=Clear revenue model+profitability+scalability. "4"=Solid, minor gaps. "3"=Vague. "2"=Not defined. "1"=No revenue thinking.
-feasibility_evaluation: "5"=Technical capability+realistic plan. "4"=Mostly realistic. "3"=Unclear capacity. "2"=Significant gaps. "1"=No capability.
-defensibility_evaluation: "5"=Strong moat. "4"=Credible moat, unproven. "3"=Easily copied. "2"=Very weak. "1"=No differentiator.
-affordability_evaluation: "5"=India pricing researched. "4"=Fits India, minor gaps. "3"=Not proactively considered. "2"=Not thought through. "1"=Delusional pricing.
-mission_fit_evaluation: "5"=Direct pillar connection, AI core, India-first. "4"=Clear connection, AI genuine. "3"=Exists but shallow. "2"=Stretch. "1"=No connection.
+FOUNDER PROFILE (output these codes):
+grit_evaluation: "2"=Specific failure in detail+concrete recovery+clear lesson. "1.5"=Specific failure+mostly concrete recovery+lesson. "0.5"=Failure mentioned but vague on recovery/lesson. "0"=No story or very vague. "not_discussed"=Not covered.
+business_thinking_evaluation: "1"=Founder clearly explains startup is about running/operating/growing a business beyond tech. "0"=Cannot explain this.
+team_division_evaluation: "1"=2 or 3 total founders (including main founder). "0.5"=4 or more total founders. "0"=Solo founder only.
+financial_commitments_evaluation: "1"=No financial commitments or obligations. "0"=Financial commitments or obligations exist.
+
+5-ZONE SCORECARD (output these codes):
+desirability_evaluation: "5"=Very clearly defined problem+user+specifics+clear demand evidence. "4"=Very clearly defined+specifics but NO demand evidence. "2.5"=Defined but minor gaps+no demand. "1"=Too broad+market unclear+no demand. "0.5"=Weak articulation+no user+no demand. "0"=No clear problem.
+viability_evaluation: "5"=Solid revenue model+profitability+scalability all possible. "4"=Solid revenue model but profitability/scalability unclear. "2"=Revenue model vague+path unclear. "0.5"=Model not defined+economics don't work. "0"=No revenue model at all.
+feasibility_evaluation: "5"=Tech clearly explained+realistic build plan. "4"=Tech evident+build plan mostly realistic. "2.5"=Tech evident but NO build plan. "1"=Possible to build but unclear capacity+underestimates complexity. "0.5"=Significant gaps+unrealistic. "0"=No capability+delusional.
+defensibility_evaluation: "5"=Strong proven moat (network/IP/unique data/breakthrough tech/very unique insight). "3.5"=Credible moat articulated but only on paper/unproven. "2"=Some differentiation but easily copied (e.g. first-mover only). "0.5"=Very weak+easy to replicate. "0"=No differentiator at all.
+affordability_evaluation: "5"=Exact India pricing defined+proper research done. "3.5"=India context considered meaningfully but pricing not yet defined. "2"=Not proactively considered+showed some India thought only when asked. "0.5"=Not thought through for India+weak context. "0"=Delusional pricing+no India consideration.
+
+AI MISSION FIT — cumulative criteria (output these codes):
+mission_fit_evaluation: "3"=AI indispensable+credible pillar+clear ecosystem contribution+founder AWARE of IndiaAI Mission. "2.5"=AI indispensable+credible pillar+clear ecosystem contribution+founder UNAWARE. "2"=AI indispensable+credible pillar+ecosystem UNCLEAR+founder UNAWARE. "1"=AI indispensable+NO pillar+ecosystem UNCLEAR+founder UNAWARE. "0"=AI NOT indispensable (decorative/add-on/can be built without AI).
 
 IMPORTANT: Numeric codes apply ONLY to the 7 evaluation fields above. ALL other fields must contain DESCRIPTIVE TEXT — never a number.
 

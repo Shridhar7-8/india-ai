@@ -1,0 +1,165 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 04 — Conductor Special Logic
+# Tests for hardcoded FSM behaviours:
+#   - name step strictness (greeting-only, single word, full name)
+#   - founder_status branching (solo vs co-founder)
+#   - founder_status_step2 first-call returns question (drillCount=0)
+#   - force-advance at maxDrills
+#   - interview completion guard (stepIndex >= STEPS.length)
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── name step strictness ──────────────────────────────────────────────────────
+
+- description: "Name step: greeting only ('Hi!') must NOT advance — strictness guard"
+  vars:
+    userMessage: "Hi!"
+    stepIndex: 0
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 0 && out.isComplete === false;
+
+- description: "Name step: 'Hello there' greeting must NOT advance"
+  vars:
+    userMessage: "Hello there"
+    stepIndex: 0
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 0;"
+
+- description: "Name step: single word first name triggers follow-up for full name"
+  vars:
+    userMessage: "Rahul"
+    stepIndex: 0
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 0;"
+
+- description: "Name step: full first + last name advances to step 1"
+  vars:
+    userMessage: "My name is Priya Sharma"
+    stepIndex: 0
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 1;"
+
+- description: "Name step: at maxDrills=1, any input (including short) force-advances"
+  vars:
+    userMessage: "Just call me Raj"
+    stepIndex: 0
+    drillCount: 1
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 1;"
+
+# ── founder_status branching ──────────────────────────────────────────────────
+
+- description: "founder_status_step1: 'solo' keyword sets founderIsSolo=true, response asks about managing alone"
+  vars:
+    userMessage: "I am a solo founder. I am building this entirely by myself."
+    stepIndex: 5
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.founderIsSolo === true &&
+          out.nextStepIndex === 6 &&
+          out.nextDrillCount === 1;
+    - type: icontains
+      value: "yourself"
+
+- description: "founder_status_step1: 'co-founder' keyword sets founderIsSolo=false, response asks about team split"
+  vars:
+    userMessage: "I have a co-founder who handles the technical side. We work together."
+    stepIndex: 5
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.founderIsSolo === false &&
+          out.nextStepIndex === 6;
+    - type: icontains
+      value: "team"
+
+- description: "founder_status_step1: 'we are building together' implies co-founder"
+  vars:
+    userMessage: "We are building this together as a team of two."
+    stepIndex: 5
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.founderIsSolo === false;"
+
+- description: "founder_status_step2: drillCount=0 returns hardcoded question and stays on step 6"
+  vars:
+    userMessage: "I have a co-founder"
+    stepIndex: 6
+    drillCount: 0
+    founderIsSolo: false
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 6 && out.nextDrillCount === 1;
+
+# ── interview completion guard ────────────────────────────────────────────────
+
+- description: "stepIndex=26 (past end): guard returns isComplete=true immediately"
+  vars:
+    userMessage: "Hello"
+    stepIndex: 26
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.isComplete === true;
+
+- description: "stepIndex=100 (far past end): guard returns isComplete=true"
+  vars:
+    userMessage: "anything"
+    stepIndex: 100
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.isComplete === true;"
+
+# ── graceful refusal is accepted as answered ──────────────────────────────────
+
+- description: "Graceful refusal on financial_obligations (maxDrills=0) advances normally"
+  vars:
+    userMessage: "I'd rather not share my personal financial details."
+    stepIndex: 7
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 8;"
+
+- description: "Graceful refusal on life_goals (maxDrills=2) is accepted and advances"
+  vars:
+    userMessage: "I'd rather not discuss my personal goals in detail."
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 4;"

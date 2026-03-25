@@ -34,7 +34,6 @@ export const ConductorEvalSchema = z.object({
     answered: z.boolean(),          // Did the user adequately answer the topic?
     response: z.string(),           // LLM's generated question or follow-up text (can be empty string)
     is_off_topic: z.boolean().default(false), // Flag if the user input is completely irrelevant/rubbish
-    is_next_topic_answered: z.boolean().default(false), // Flag if the user ALREADY answered the NEXT hardcoded question in their message
 });
 export type ConductorEval = z.infer<typeof ConductorEvalSchema>;
 
@@ -62,17 +61,22 @@ export const UnifiedReportSchema = z.object({
     goals_long_term: z.string().max(200).default("Not specified").describe("Founder's long-term goals"),
     goals_long_term_evidence: z.array(z.string()),
 
-    // Grit Evaluation (1-5 code mappable)
+    // Grit / Failure Story Evaluation (out of 2)
     grit_evaluation: z.enum([
-        "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.", // 5
-        "Specific failure mentioned with mostly concrete recovery. Lesson articulated — may lack full depth but shows genuine reflection.", // 4
-        "Failure mentioned but vague on recovery steps or lessons. Some self-awareness present.", // 3
-        "Very vague failure story. Recovery not described meaningfully. Generic response even after follow-up.", // 2
-        "No failure story offered. Topic avoided. Answer entirely generic. No evidence of resilience or learning.", // 1
-        "Not specified" // Will default to 1 or fail
+        "Specific failure described in detail. Concrete recovery actions taken. Clear lesson learned that visibly shaped how they think or work today.", // 2
+        "Specific failure mentioned with mostly concrete recovery. Lesson articulated, may lack full depth but shows genuine reflection.", // 1.5
+        "Failure mentioned but vague on recovery steps and lessons learned.", // 0.5
+        "No failure story or very vague failure story. Topic avoided. No evidence of recovery, resilience or learning.", // 0
+        "Not specified" // 0
     ]),
     grit_evaluation_evidence: z.array(z.string()).describe("Exact transcript quotes supporting the grit evaluation"),
     grit_evaluation_reasoning: z.string().max(400).describe("3-4 sentences justifying the grit evaluation based on evidence"),
+
+    // Business Thinking Evaluation (out of 1)
+    business_thinking_evaluation: z.enum([
+        "Founder clearly explains how a startup is about running, operating and growing a business beyond just technology.", // 1
+        "Founder unable to clearly explain how a startup is not just technology but about running, operating and growing a business.", // 0
+    ]),
 
     business_thinking: z.string().max(300).default("Not specified"),
     business_thinking_evidence: z.array(z.string()),
@@ -81,6 +85,19 @@ export const UnifiedReportSchema = z.object({
     founder_structure_evidence: z.array(z.string()),
     role_division: z.string().max(300).default("Not specified").describe("How they plan to manage alone or how the co-founders split roles"),
     role_division_evidence: z.array(z.string()),
+
+    // Team Division Evaluation (out of 1)
+    team_division_evaluation: z.enum([
+        "2 or 3 total co-founders.", // 1
+        "4 or more total co-founders.", // 0.5
+        "Solo founder. No co-founders.", // 0
+    ]),
+
+    // Financial Commitments Evaluation (out of 1)
+    financial_commitments_evaluation: z.enum([
+        "No financial commitments or obligations.", // 1
+        "Financial commitments or obligations exist.", // 0
+    ]),
 
     // SECTION 2 — SOLUTION SNAPSHOT
     idea: z.string().max(500),
@@ -92,51 +109,53 @@ export const UnifiedReportSchema = z.object({
 
     // SECTION 3 — 5-ZONE SCORECARD
     desirability_evaluation: z.enum([
-        "Specific problem clearly defined. Target user and market clearly defined. Strong evidence of real demand.", // 5
-        "Problem and target user defined. Decent evidence of demand. Minor gaps in specificity.", // 4
-        "Problem mentioned but too broad or slightly vague. Target market defined but vague. No clear evidence of demand.", // 3
-        "Weak problem articulation. No clear user definition. No evidence of demand.", // 2
-        "No clear problem. No market exists or will want this solution. Solution looking for a problem." // 1
+        "Problem and target user defined very clearly with specifics provided and clear evidence of demand mentioned.", // 5
+        "Problem and target user defined very clearly with specifics provided but no clear evidence of demand mentioned.", // 4
+        "Problem and target user defined however minor gaps in specificity and no clear evidence of demand mentioned.", // 2.5
+        "Problem mentioned but too broad. Target market not clearly defined and evidence of demand not mentioned.", // 1
+        "Weak problem articulation. No clear user definition. No evidence of demand.", // 0.5
+        "No clear problem. No market exists or will want this solution. Solution looking for a problem.", // 0
     ]),
     desirability_evidence: z.array(z.string()),
     desirability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
 
     viability_evaluation: z.enum([
-        "Clear revenue model. Convincing path to profitability. Strong scalability thesis.", // 5
-        "Solid revenue model, mostly clear path to profitability. Good scalability thinking. Some minor gaps.", // 4
-        "Revenue model exists but vague. Path to profitability unclear. Some scalability idea but thin and shallow.", // 3
-        "Revenue model not properly defined. Economics don't work. Profitability seems difficult. Scalability not considered meaningfully.", // 2
-        "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered at all." // 1
+        "Solid well-defined revenue model and profitability and scalability seems quite possible.", // 5
+        "Solid well-defined revenue model but profitability and scalability is unclear.", // 4
+        "Revenue model exists but vague. Path to profitability and scalability is unclear.", // 2
+        "Revenue model mentioned but not defined properly. Economics don't seem to work. Profitability seems difficult. Scalability doesn't seem possible.", // 0.5
+        "No revenue model defined. No monetisation thinking. Economics fundamentally don't work. Scalability not considered.", // 0
     ]),
     viability_evidence: z.array(z.string()),
     viability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
 
     feasibility_evaluation: z.enum([
-        "Technical capability demonstrated. Realistic build plan with clear milestones.", // 5
+        "Technical capability clearly explained. Realistic build plan provided.", // 5
         "Technical capability evident. Build plan mostly realistic. Minor complexity underestimated.", // 4
-        "Possible to build but unclear technical capacity and/or underestimating complexity.", // 3
-        "Significant technical gaps. Unclear how they'd actually build this. Legal risks unaddressed. Unrealistic thinking.", // 2
-        "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking." // 1
+        "Technical capability evident but build plan doesn't exist.", // 2.5
+        "Possible to build but unclear technical capacity and underestimating complexity.", // 1
+        "Significant technical gaps. Unclear how they'd actually build this. Unrealistic thinking.", // 0.5
+        "No technical capability. Major legal barriers ignored. Delusional or unrealistic thinking.", // 0
     ]),
     feasibility_evidence: z.array(z.string()),
     feasibility_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
 
     defensibility_evaluation: z.enum([
-        "At least ONE strong moat clearly defined: network effects, proprietary tech/IP, unique data, high switching costs, domain expertise, or breakthrough technology / very unique insight.", // 5
-        "One credible moat identified and clearly articulated. Not yet fully built or proven.", // 4
-        "Some differentiation exists but can be easily copied. E.g. first-mover advantage only.", // 3
-        "Very weak differentiation. Easy to replicate. No credible moat identified.", // 2
-        "No differentiator. Completely replicable. No moat thinking. Anyone can build it." // 1
+        "At least 1 strong moat clearly defined and proven: very strong network, proprietary tech/IP, unique data, breakthrough technology, or very unique insight.", // 5
+        "One credible moat identified and clearly articulated but only exists on paper, not yet fully built or proven.", // 3.5
+        "Some differentiation exists but doesn't create a strong competitive advantage. E.g. first-mover advantage only.", // 2
+        "Very weak differentiation. Very easy to replicate. No credible moat identified.", // 0.5
+        "No differentiator. Completely replicable. No moat thinking. Anyone can build it very easily.", // 0
     ]),
     defensibility_evidence: z.array(z.string()),
     defensibility_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
 
     affordability_evaluation: z.enum([
-        "Pricing clearly fits the Indian target segment. Founder has done proper research on pricing in India in that segment.", // 5
-        "Pricing fits India well. India context considered meaningfully. Minor gaps — e.g. market research not fully conducted.", // 4
-        "Pricing has not been thought of proactively. Has shown some thought of India-first pricing when asked, but had not considered it until then.", // 3
-        "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.", // 2
-        "Delusional pricing that does not fit the Indian market. No thought given to affordability. Trying to go higher and higher in pricing without considering the Indian market." // 1
+        "Pricing clearly fits the Indian target segment. Founder has defined exact pricing with proper research about pricing in India in that segment.", // 5
+        "India context considered meaningfully but pricing is not yet fully defined.", // 3.5
+        "Pricing and affordability not considered proactively. Has shown some thought of India-first pricing when asked but had not considered it until now.", // 2
+        "Pricing not thought through for India. Weak India context. Doesn't show much regard for Indian context in pricing.", // 0.5
+        "Delusional pricing that does not fit the Indian market. No thought given to affordability.", // 0
     ]),
     affordability_evidence: z.array(z.string()),
     affordability_note: z.string().max(300).describe("Exactly 2 sentences explaining why"),
@@ -144,13 +163,13 @@ export const UnifiedReportSchema = z.object({
     // SECTION 4 — FLAGS
     // (Flags are now injected directly from the Skeptic module, not parsed by Analyst)
 
-    // SECTION 5 — AI MISSION FIT
+    // SECTION 5 — AI MISSION FIT (out of 3)
     mission_fit_evaluation: z.enum([
-        "Direct, specific connection to a pillar. AI is core — the product fails without it. Solution is India-first by design. Highly empowering to the Indian AI ecosystem. Founder is well aware of the IndiaAI Mission and can articulate how their product contributes.", // 5
-        "Clear connection to a pillar. AI genuinely used, not decorative. Strong India-first thinking. Meaningfully contributes to the Indian AI ecosystem. Founder is aware of the IndiaAI Mission but not deeply — may not have a great answer on specific alignment.", // 4
-        "Connection to a pillar exists. Relevant to India. AI is genuinely being used, but India-first design is not deeply embedded. Founder cannot properly answer how it empowers the Indian AI ecosystem. Not properly aware of the IndiaAI Mission.", // 3
-        "Pillar fit is a stretch. AI feels like an add-on, not a necessity. India connection is surface-level. Limited contribution to the Indian AI ecosystem.", // 2
-        "No credible pillar connection. AI is decorative or repackaged foreign API. Product can be built without AI. India / IndiaAI angle is entirely superficial or retrofitted." // 1
+        "AI is indispensable to the product, credible pillar connection, clear ecosystem contribution, and founder is aware of IndiaAI Mission.", // 3
+        "AI is indispensable to the product, credible pillar connection, clear ecosystem contribution, but founder is unaware of IndiaAI Mission.", // 2.5
+        "AI is indispensable to the product, credible pillar connection, but ecosystem contribution is unclear and founder is unaware of IndiaAI Mission.", // 2
+        "AI is indispensable to the product but no credible pillar connection, ecosystem contribution is unclear and founder is unaware of IndiaAI Mission.", // 1
+        "No credible AI mission pillar connection. AI is decorative or an add-on feature. Product can be built without AI. Founder is unaware of IndiaAI Mission.", // 0
     ]),
     mission_fit_evidence: z.array(z.string()),
     indiaai_pillar: z.enum([

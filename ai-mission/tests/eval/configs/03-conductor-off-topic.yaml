@@ -1,0 +1,97 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 03 — Conductor Off-Topic Handling
+# Off-topic inputs on steps with maxDrills>0 must:
+#   1. NOT advance the step (nextStepIndex === stepIndex)
+#   2. Return a redirect response
+# Note: On maxDrills=0 steps, the FSM force-advances regardless (by design).
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Life goals step — completely unrelated factual question
+- description: "Off-topic: factual question on life_goals step does not advance"
+  vars:
+    userMessage: "What is the capital of France?"
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 3;
+
+# Startup idea step — asking the conductor about itself
+- description: "Off-topic: meta-question about the interview on startup_idea step does not advance"
+  vars:
+    userMessage: "How many questions are left in this interview? Can you tell me the full structure?"
+    stepIndex: 11
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 11;"
+
+# AI necessity step — completely unrelated topic
+- description: "Off-topic: weather question on ai_necessity step does not advance"
+  vars:
+    userMessage: "What will the weather be like in Mumbai this weekend?"
+    stepIndex: 18
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 18;"
+
+# Desirability step — asking a joke
+- description: "Off-topic: joke request on desirability step does not advance"
+  vars:
+    userMessage: "Tell me a funny joke."
+    stepIndex: 12
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 12;"
+
+# Gibberish input on a step with drills
+- description: "Off-topic: gibberish on life_goals step does not advance"
+  vars:
+    userMessage: "asdfghjklqwertyuiop zxcvbnm"
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 3;"
+
+# Asking to skip ahead
+- description: "Off-topic: asking to skip to a different topic does not advance incorrectly"
+  vars:
+    userMessage: "Can we skip this and talk about my startup idea instead?"
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 3;"
+
+# Phase 2 — completely wrong domain answer
+- description: "Off-topic: answering with sports trivia on viability step does not advance"
+  vars:
+    userMessage: "Sachin Tendulkar scored 100 international centuries in cricket."
+    stepIndex: 13
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 13;"
+
+# Indiaai alignment — changing the subject entirely
+- description: "Off-topic: asking about government schemes unrelated to IndiaAI does not advance alignment step"
+  vars:
+    userMessage: "Can you tell me about PM MUDRA Yojana? I want to apply for a loan."
+    stepIndex: 21
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 21;"

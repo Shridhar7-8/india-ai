@@ -1,0 +1,753 @@
+════════════════════════════════════════════════════════════
+  FounderCheck Analyze Trigger — Run Log
+  Started : 2026-03-24T09:58:39.207Z
+  Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-58-39.log
+════════════════════════════════════════════════════════════
+
+[2026-03-24T09:58:39.208Z] ─────────────────────────────────────────
+[2026-03-24T09:58:39.208Z] 📬 Email Config Check:
+[2026-03-24T09:58:39.217Z]    SMTP_USERNAME      : ✅ buildai@itelfoundation.in
+[2026-03-24T09:58:39.217Z]    SMTP_PASSWORD      : ✅ loaded (hidden)
+[2026-03-24T09:58:39.217Z]    REPORT_RECIPIENT   : ✅ karthikoff87@gmail.com
+[2026-03-24T09:58:39.217Z] ✅ Email is configured — report will be sent.
+[2026-03-24T09:58:39.218Z] ─────────────────────────────────────────
+
+[2026-03-24T09:58:39.237Z] 🔍 Fetching all completed real conversations since 2026-03-15...
+[2026-03-24T09:58:40.411Z] 
+📋 Found 194 completed conversations since 2026-03-15
+[2026-03-24T09:58:40.412Z]    → 1 skipped (test users)
+[2026-03-24T09:58:40.413Z]    → 193 real conversations to process
+[2026-03-24T09:58:40.413Z]    → Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-58-39.log
+[2026-03-24T09:58:40.413Z] ─────────────────────────────────────────
+
+CONVERSATION LIST:
+    1. convId=229 | 2026-03-15 | MediVault AI
+    2. convId=231 | 2026-03-15 | JantaFlash
+    3. convId=236 | 2026-03-16 | Srishti Shaw Interview
+    4. convId=251 | 2026-03-16 | New Conversation
+    5. convId=256 | 2026-03-16 | KAL
+    6. convId=257 | 2026-03-16 | Wise Drop
+    7. convId=262 | 2026-03-16 | build private ltd
+    8. convId=265 | 2026-03-16 | Reach-out AI Technologies pvt Ltd
+    9. convId=266 | 2026-03-16 | VidyaVerse
+   10. convId=268 | 2026-03-16 | Y labs
+   11. convId=273 | 2026-03-16 | AgentIC
+   12. convId=275 | 2026-03-16 | Tvara
+   13. convId=280 | 2026-03-16 | Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon
+   14. convId=281 | 2026-03-16 | Lehio Solution PVT LTD
+The startup name is Vidhik AI
+   15. convId=284 | 2026-03-16 | Will my information that I share about my product be safe here
+   16. convId=285 | 2026-03-16 | OPERATION SINDOOR.AI
+   17. convId=290 | 2026-03-16 | Whisperwave
+   18. convId=291 | 2026-03-16 | and also cse with ai/ml
+   19. convId=293 | 2026-03-16 | Massxg
+   20. convId=297 | 2026-03-16 | LotusAI
+   21. convId=303 | 2026-03-16 | Wetroo Automation
+   22. convId=305 | 2026-03-16 | ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org
+   23. convId=306 | 2026-03-16 | FactoryBrain
+   24. convId=307 | 2026-03-16 | Alfa Hawk
+   25. convId=309 | 2026-03-16 | Huia Labs
+   26. convId=311 | 2026-03-16 | MetricAI, BlaiseLogic Technology Private Limited
+   27. convId=313 | 2026-03-16 | Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name
+   28. convId=314 | 2026-03-16 | Nebils
+   29. convId=315 | 2026-03-16 | Nyayamitra
+   30. convId=316 | 2026-03-16 | Sylithe
+   31. convId=318 | 2026-03-16 | Fluxi Technologies Private Limited
+   32. convId=325 | 2026-03-17 | The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India
+   33. convId=328 | 2026-03-17 | Witting AI Private Limited
+   34. convId=330 | 2026-03-17 | gem pvt ltd
+   35. convId=331 | 2026-03-17 | My name is Vishal Raina
+   36. convId=333 | 2026-03-17 | Trishul Space
+   37. convId=335 | 2026-03-17 | Pooja Malakar Interview
+   38. convId=336 | 2026-03-17 | PetsGo and PetsDoor Pvt Ltd
+   39. convId=337 | 2026-03-17 | Slaab.ai
+   40. convId=339 | 2026-03-17 | ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited)
+   41. convId=341 | 2026-03-17 | VYGOT
+   42. convId=350 | 2026-03-17 | Ayush Arya Interview
+   43. convId=363 | 2026-03-17 | I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector
+   44. convId=371 | 2026-03-17 | Crynie is name of startup not registered yet and burpsie is our ecosystem name
+   45. convId=380 | 2026-03-17 | Siddhant Gujar Interview
+   46. convId=382 | 2026-03-17 | New Conversation
+   47. convId=394 | 2026-03-17 | LeadPe
+   48. convId=396 | 2026-03-17 | Friday Intellytics
+   49. convId=399 | 2026-03-18 | Charky Labs Pvt. Ltd
+   50. convId=401 | 2026-03-18 | AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem
+   51. convId=402 | 2026-03-18 | Wharf Street Studios
+   52. convId=436 | 2026-03-18 | Beaver tech
+   53. convId=439 | 2026-03-18 | Venturelens
+   54. convId=442 | 2026-03-18 | Qualentra Global
+   55. convId=455 | 2026-03-18 | Aloukik Bhatnagar Interview
+   56. convId=456 | 2026-03-18 | BODH-Ai
+   57. convId=466 | 2026-03-18 | InsightFlow AI, focused on turning complex content into clear, actionable insights using AI
+   58. convId=468 | 2026-03-18 | Dr. ViKi
+   59. convId=479 | 2026-03-18 | Vaibhav Mahato Interview
+   60. convId=481 | 2026-03-18 | A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs)
+   61. convId=482 | 2026-03-18 | godyns
+   62. convId=488 | 2026-03-18 | 97 group
+   63. convId=489 | 2026-03-18 | VAIL synonym with Vetri AI Labs
+   64. convId=491 | 2026-03-18 | Invariant Labs
+   65. convId=493 | 2026-03-18 | Aptenix Software Technologies Private Limited
+   66. convId=505 | 2026-03-18 | Zeex AI
+   67. convId=511 | 2026-03-18 | Pashudhan AI
+   68. convId=514 | 2026-03-18 | Resurgenix Technologies
+   69. convId=515 | 2026-03-18 | TechTeenu AI
+   70. convId=516 | 2026-03-18 | Artograph AI
+   71. convId=522 | 2026-03-19 | ekithab
+   72. convId=527 | 2026-03-19 | Zenith
+   73. convId=531 | 2026-03-19 | Urban mind AI-smart city decision making platform
+   74. convId=533 | 2026-03-19 | Indilingo Labs LLP
+   75. convId=534 | 2026-03-19 | HireMind AI
+   76. convId=535 | 2026-03-19 | Yamini Parashar Interview
+   77. convId=538 | 2026-03-19 | Amit Tiwari Interview
+   78. convId=543 | 2026-03-19 | AVYRA AI
+   79. convId=548 | 2026-03-19 | SafeNet AI
+   80. convId=550 | 2026-03-19 | Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In)
+   81. convId=555 | 2026-03-19 | VentureThrust
+   82. convId=563 | 2026-03-19 | Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point
+   83. convId=565 | 2026-03-19 | Company Name : Provaantech and their products Name: Prohirey and ToxBox AI
+   84. convId=566 | 2026-03-19 | The product name is MindShield. The start-up name is yet to be finalised. It's in the process
+   85. convId=567 | 2026-03-19 | Dezion
+   86. convId=569 | 2026-03-19 | Finigenie
+   87. convId=571 | 2026-03-19 | MindBlix
+   88. convId=573 | 2026-03-19 | DiaX.AI as start up in Diabwellness Private Limited as company
+   89. convId=577 | 2026-03-19 | Capabloo med tech pvt ltd
+   90. convId=579 | 2026-03-20 | NIRAM
+   91. convId=580 | 2026-03-20 | Nexvern Technology
+   92. convId=590 | 2026-03-20 | Shyam Bhakti Rasik
+   93. convId=591 | 2026-03-20 | Nexvern Technologies
+   94. convId=592 | 2026-03-20 | Capabloo med tech pvt ltd
+   95. convId=593 | 2026-03-20 | Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding."
+   96. convId=596 | 2026-03-20 | I couldn't name at this time
+   97. convId=597 | 2026-03-20 | DecodeDocs
+   98. convId=599 | 2026-03-20 | Memro
+   99. convId=600 | 2026-03-20 | Smart Eye a brand under KA IKSANATECH INDIA LLP
+  100. convId=601 | 2026-03-20 | Unmaster (Ergastirio Vaccua LLP)
+  101. convId=604 | 2026-03-20 | I am still in the process of getting my legal entity
+  102. convId=605 | 2026-03-20 | DAILYPLANNER APP ( AASHUKAY TECH PVT LTD)
+  103. convId=609 | 2026-03-20 | Charumathi Kumaraswamy Interview
+  104. convId=611 | 2026-03-20 | Punal Legacy Labs Pvt. Ltd
+  105. convId=617 | 2026-03-20 | Datamatrix.AI Pvt Ltd
+  106. convId=618 | 2026-03-20 | Micro Chrome Bio Private Limited
+  107. convId=620 | 2026-03-20 | AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions
+  108. convId=623 | 2026-03-20 | OPERATION SINDOOR.AI (MSME)
+  109. convId=625 | 2026-03-20 | Sevakk.io A First Trust Hyperlocal Service Platform
+  110. convId=627 | 2026-03-20 | Halosafe Private Limited
+  111. convId=628 | 2026-03-20 | ArtemysX
+  112. convId=630 | 2026-03-20 | S. Meditech
+  113. convId=631 | 2026-03-20 | WAHEfilms, focused on building and scaling AI-driven filmmaking and content production
+  114. convId=632 | 2026-03-20 | Ananta intelligence
+  115. convId=635 | 2026-03-20 | Agronova
+  116. convId=638 | 2026-03-20 | GATI AI LABS is my startup and the name of saas is not decided yet
+  117. convId=642 | 2026-03-20 | Neurix
+  118. convId=645 | 2026-03-20 | Dnyandip Patil Interview
+  119. convId=646 | 2026-03-20 | Olynk AI
+  120. convId=647 | 2026-03-20 | Dhruv Kumar Jha Interview
+  121. convId=655 | 2026-03-21 | FLAC
+  122. convId=657 | 2026-03-21 | Socio-Matics private limited
+  123. convId=658 | 2026-03-21 | Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses
+  124. convId=661 | 2026-03-21 | The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction
+  125. convId=667 | 2026-03-21 | IO ROBOTIC PRIVATE LIMITED
+  126. convId=669 | 2026-03-21 | Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems
+  127. convId=672 | 2026-03-21 | Ashvya Services Private Limited
+  128. convId=683 | 2026-03-21 | The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform
+  129. convId=693 | 2026-03-21 | AgroShield AI
+  130. convId=694 | 2026-03-21 | BidCoPilot AI
+  131. convId=695 | 2026-03-21 | As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80
+  132. convId=696 | 2026-03-21 | Niksla Energy
+  133. convId=698 | 2026-03-21 | Kdo
+  134. convId=701 | 2026-03-21 | ICOSVG technology
+  135. convId=703 | 2026-03-21 | Jeevana
+  136. convId=706 | 2026-03-21 | Purelife Innovations Private limited
+  137. convId=712 | 2026-03-21 | Urbanpark solution private limited
+  138. convId=713 | 2026-03-21 | Kirana Shankar Chawan Interview
+  139. convId=716 | 2026-03-21 | Corpogn
+  140. convId=719 | 2026-03-22 | Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling
+  141. convId=721 | 2026-03-22 | SpareMatch
+  142. convId=722 | 2026-03-22 | Prompt Library
+  143. convId=734 | 2026-03-22 | Mano Veda - An Alzheimer Detection App
+  144. convId=738 | 2026-03-22 | Already i told
+  145. convId=742 | 2026-03-22 | Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India
+  146. convId=745 | 2026-03-22 | Edify ai
+  147. convId=746 | 2026-03-22 | Jobply
+  148. convId=747 | 2026-03-22 | Corridors.ai
+  149. convId=749 | 2026-03-22 | DriveGuard Systems
+  150. convId=754 | 2026-03-22 | Zerofalse
+  151. convId=764 | 2026-03-22 | Satyam Singh Interview
+  152. convId=765 | 2026-03-22 | CoheRex
+  153. convId=769 | 2026-03-22 | Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM)
+  154. convId=770 | 2026-03-22 | BristleTech Pvt Lts
+  155. convId=772 | 2026-03-22 | Joshua Lawrence Interview
+  156. convId=777 | 2026-03-23 | Redipath health ops private limited
+  157. convId=780 | 2026-03-23 | Vitalens
+  158. convId=785 | 2026-03-23 | Beyond Space Technologies
+  159. convId=787 | 2026-03-23 | more info plce contact ok
+  160. convId=793 | 2026-03-23 | company : ROOT
+product name : Hiredai
+  161. convId=794 | 2026-03-23 | AgriCPS
+  162. convId=795 | 2026-03-23 | "Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses
+  163. convId=809 | 2026-03-23 | Aasvaa Universal Private Limited
+  164. convId=814 | 2026-03-23 | CRATER Computing
+  165. convId=819 | 2026-03-23 | Anteratic Solutions
+  166. convId=820 | 2026-03-23 | SahayLink
+  167. convId=821 | 2026-03-23 | SecurePay Shield
+  168. convId=823 | 2026-03-23 | Kenesis Labs Private Limited
+  169. convId=824 | 2026-03-23 | Currently, i have not decided
+  170. convId=825 | 2026-03-23 | ML BIZ LLP (globally we operate as ZkAGI)
+  171. convId=829 | 2026-03-23 | DRAFTMATE PVT LTD
+  172. convId=832 | 2026-03-23 | Indilingo Labs
+  173. convId=833 | 2026-03-23 | Alchimera
+  174. convId=836 | 2026-03-23 | Kuldeep Pramod Pathak Interview
+  175. convId=838 | 2026-03-23 | Dentalverse
+  176. convId=840 | 2026-03-23 | ScaleMyStartup is the name of our startup
+  177. convId=842 | 2026-03-23 | Snapbooks
+  178. convId=843 | 2026-03-23 | SafeRide
+  179. convId=844 | 2026-03-23 | JobFlow
+  180. convId=851 | 2026-03-23 | preet singh rajput jan seva kendra
+  181. convId=859 | 2026-03-23 | likemystory.com, and it operates under the registered entity name Storyverse
+  182. convId=862 | 2026-03-23 | ClawDuck
+  183. convId=863 | 2026-03-23 | Preto.ai
+  184. convId=870 | 2026-03-24 | would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users
+  185. convId=871 | 2026-03-24 | InnoVibe Mobility India Pvt Ltd
+  186. convId=882 | 2026-03-24 | tileview.ai
+  187. convId=883 | 2026-03-24 | Ashish Kumar Interview
+  188. convId=887 | 2026-03-24 | Operon
+  189. convId=888 | 2026-03-24 | Scriptonia AI Pvt Ltd
+  190. convId=891 | 2026-03-24 | Bugbusterslabs Private Limited
+  191. convId=899 | 2026-03-24 | GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems
+  192. convId=902 | 2026-03-24 | Bunderbrains pvt ltd is the company, platform is misrut
+  193. convId=906 | 2026-03-24 | Hybrid Octopus OS
+
+PROCESSING LOG:
+[2026-03-24T09:58:40.451Z] [1/193] convId=229 "MediVault AI" ... ✅ DONE  (23.8s | 24s total | ETA calculating...)
+[2026-03-24T09:59:06.240Z] [2/193] convId=231 "JantaFlash" ... ✅ DONE  (14.3s | 40s total | ETA ~83m)
+[2026-03-24T09:59:22.583Z] [3/193] convId=236 "Srishti Shaw Interview" ... ✅ DONE  (51.2s | 93s total | ETA ~67m)
+[2026-03-24T10:00:15.797Z] [4/193] convId=251 "New Conversation" ... ✅ DONE  (44.1s | 139s total | ETA ~101m)
+[2026-03-24T10:01:01.931Z] [5/193] convId=256 "KAL" ... ✅ DONE  (21.5s | 163s total | ETA ~111m)
+[2026-03-24T10:01:25.434Z] [6/193] convId=257 "Wise Drop" ... ✅ DONE  (14.5s | 179s total | ETA ~103m)
+[2026-03-24T10:01:41.904Z] [7/193] convId=262 "build private ltd" ... ✅ DONE  (15.6s | 197s total | ETA ~94m)
+[2026-03-24T10:01:59.496Z] [8/193] convId=265 "Reach-out AI Technologies pvt Ltd" ... ✅ DONE  (12.4s | 211s total | ETA ~88m)
+[2026-03-24T10:02:13.898Z] [9/193] convId=266 "VidyaVerse" ... ✅ DONE  (27.3s | 241s total | ETA ~82m)
+[2026-03-24T10:02:43.181Z] [10/193] convId=268 "Y labs" ... ✅ DONE  (26.0s | 269s total | ETA ~83m)
+[2026-03-24T10:03:11.148Z] [11/193] convId=273 "AgentIC" ... ✅ DONE  (13.9s | 285s total | ETA ~83m)
+[2026-03-24T10:03:27.074Z] [12/193] convId=275 "Tvara" ... ✅ DONE  (18.7s | 305s total | ETA ~79m)
+[2026-03-24T10:03:47.818Z] [13/193] convId=280 "Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon" ... ✅ DONE  (24.5s | 332s total | ETA ~77m)
+[2026-03-24T10:04:14.344Z] [14/193] convId=281 "Lehio Solution PVT LTD
+The startup name is Vidhik AI" ... ✅ DONE  (38.0s | 372s total | ETA ~77m)
+[2026-03-24T10:04:54.311Z] [15/193] convId=284 "Will my information that I share about my product be safe here" ... ✅ DONE  (12.0s | 386s total | ETA ~80m)
+[2026-03-24T10:05:08.286Z] [16/193] convId=285 "OPERATION SINDOOR.AI" ... ✅ DONE  (25.5s | 413s total | ETA ~77m)
+[2026-03-24T10:05:35.774Z] [17/193] convId=290 "Whisperwave" ... ✅ DONE  (21.6s | 437s total | ETA ~77m)
+[2026-03-24T10:05:59.377Z] [18/193] convId=291 "and also cse with ai/ml" ... ✅ DONE  (14.9s | 454s total | ETA ~76m)
+[2026-03-24T10:06:16.253Z] [19/193] convId=293 "Massxg" ... ✅ DONE  (21.3s | 477s total | ETA ~74m)
+[2026-03-24T10:06:39.577Z] [20/193] convId=297 "LotusAI" ... ✅ DONE  (33.6s | 513s total | ETA ~73m)
+[2026-03-24T10:07:15.171Z] [21/193] convId=303 "Wetroo Automation" ... ✅ DONE  (13.0s | 528s total | ETA ~74m)
+[2026-03-24T10:07:30.200Z] [22/193] convId=305 "ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org" ... ✅ DONE  (34.3s | 564s total | ETA ~72m)
+[2026-03-24T10:08:06.464Z] [23/193] convId=306 "FactoryBrain" ... ✅ DONE  (51.2s | 617s total | ETA ~73m)
+[2026-03-24T10:08:59.630Z] [24/193] convId=307 "Alfa Hawk" ... ✅ DONE  (23.4s | 643s total | ETA ~76m)
+[2026-03-24T10:09:25.037Z] [25/193] convId=309 "Huia Labs" ... ✅ DONE  (10.8s | 655s total | ETA ~76m)
+[2026-03-24T10:09:37.893Z] [26/193] convId=311 "MetricAI, BlaiseLogic Technology Private Limited" ... ✅ DONE  (36.5s | 694s total | ETA ~74m)
+[2026-03-24T10:10:16.451Z] [27/193] convId=313 "Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name" ... ✅ DONE  (15.1s | 711s total | ETA ~75m)
+[2026-03-24T10:10:33.562Z] [28/193] convId=314 "Nebils" ... ✅ DONE  (42.3s | 755s total | ETA ~73m)
+[2026-03-24T10:11:17.860Z] [29/193] convId=315 "Nyayamitra" ... ✅ DONE  (30.3s | 788s total | ETA ~74m)
+[2026-03-24T10:11:50.179Z] [30/193] convId=316 "Sylithe" ... ✅ DONE  (24.3s | 814s total | ETA ~74m)
+[2026-03-24T10:12:16.495Z] [31/193] convId=318 "Fluxi Technologies Private Limited" ... ✅ DONE  (16.6s | 833s total | ETA ~74m)
+[2026-03-24T10:12:35.102Z] [32/193] convId=325 "The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India" ... ✅ DONE  (22.4s | 857s total | ETA ~73m)
+[2026-03-24T10:12:59.506Z] [33/193] convId=328 "Witting AI Private Limited" ... ✅ DONE  (17.3s | 876s total | ETA ~72m)
+[2026-03-24T10:13:18.844Z] [34/193] convId=330 "gem pvt ltd" ... ✅ DONE  (20.2s | 899s total | ETA ~71m)
+[2026-03-24T10:13:41.055Z] [35/193] convId=331 "My name is Vishal Raina" ... ✅ DONE  (20.4s | 921s total | ETA ~70m)
+[2026-03-24T10:14:03.477Z] [36/193] convId=333 "Trishul Space" ... ✅ DONE  (59.2s | 982s total | ETA ~69m)
+[2026-03-24T10:15:04.714Z] [37/193] convId=335 "Pooja Malakar Interview" ... ✅ DONE  (38.6s | 1023s total | ETA ~72m)
+[2026-03-24T10:15:45.352Z] [38/193] convId=336 "PetsGo and PetsDoor Pvt Ltd" ... ✅ DONE  (20.3s | 1045s total | ETA ~72m)
+[2026-03-24T10:16:07.666Z] [39/193] convId=337 "Slaab.ai" ... ✅ DONE  (23.4s | 1071s total | ETA ~71m)
+[2026-03-24T10:16:33.110Z] [40/193] convId=339 "ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited)" ... ✅ DONE  (41.6s | 1114s total | ETA ~71m)
+[2026-03-24T10:17:16.764Z] [41/193] convId=341 "VYGOT" ... ✅ DONE  (19.6s | 1136s total | ETA ~71m)
+[2026-03-24T10:17:38.351Z] [42/193] convId=350 "Ayush Arya Interview" ... ✅ DONE  (43.5s | 1181s total | ETA ~70m)
+[2026-03-24T10:18:23.833Z] [43/193] convId=363 "I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector" ... ✅ DONE  (31.5s | 1215s total | ETA ~71m)
+[2026-03-24T10:18:57.344Z] [44/193] convId=371 "Crynie is name of startup not registered yet and burpsie is our ecosystem name" ... ✅ DONE  (31.2s | 1248s total | ETA ~71m)
+[2026-03-24T10:19:30.517Z] [45/193] convId=380 "Siddhant Gujar Interview" ... ✅ DONE  (13.5s | 1264s total | ETA ~71m)
+[2026-03-24T10:19:46.055Z] [46/193] convId=382 "New Conversation" ... ✅ DONE  (19.3s | 1285s total | ETA ~69m)
+[2026-03-24T10:20:07.408Z] [47/193] convId=394 "LeadPe" ... ✅ DONE  (32.5s | 1319s total | ETA ~69m)
+[2026-03-24T10:20:41.935Z] [48/193] convId=396 "Friday Intellytics" ... ✅ DONE  (20.8s | 1342s total | ETA ~68m)
+[2026-03-24T10:21:04.732Z] [49/193] convId=399 "Charky Labs Pvt. Ltd" ... ✅ DONE  (17.5s | 1362s total | ETA ~68m)
+[2026-03-24T10:21:24.263Z] [50/193] convId=401 "AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem" ... ✅ DONE  (31.4s | 1395s total | ETA ~67m)
+[2026-03-24T10:21:57.709Z] [51/193] convId=402 "Wharf Street Studios" ... ✅ DONE  (20.1s | 1417s total | ETA ~67m)
+[2026-03-24T10:22:19.776Z] [52/193] convId=436 "Beaver tech" ... ✅ DONE  (41.0s | 1460s total | ETA ~66m)
+[2026-03-24T10:23:02.806Z] [53/193] convId=439 "Venturelens" ... ✅ DONE  (25.9s | 1488s total | ETA ~66m)
+[2026-03-24T10:23:30.724Z] [54/193] convId=442 "Qualentra Global" ... ✅ DONE  (31.7s | 1522s total | ETA ~66m)
+[2026-03-24T10:24:04.478Z] [55/193] convId=455 "Aloukik Bhatnagar Interview" ... ✅ DONE  (21.1s | 1545s total | ETA ~65m)
+[2026-03-24T10:24:27.634Z] [56/193] convId=456 "BODH-Ai" ... ✅ DONE  (37.2s | 1584s total | ETA ~65m)
+[2026-03-24T10:25:06.828Z] [57/193] convId=466 "InsightFlow AI, focused on turning complex content into clear, actionable insights using AI" ... ✅ DONE  (24.7s | 1611s total | ETA ~65m)
+[2026-03-24T10:25:33.529Z] [58/193] convId=468 "Dr. ViKi" ... ✅ DONE  (42.9s | 1656s total | ETA ~64m)
+[2026-03-24T10:26:18.466Z] [59/193] convId=479 "Vaibhav Mahato Interview" ... ✅ DONE  (18.1s | 1676s total | ETA ~64m)
+[2026-03-24T10:26:38.580Z] [60/193] convId=481 "A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs)" ... ✅ DONE  (20.3s | 1698s total | ETA ~64m)
+[2026-03-24T10:27:00.899Z] [61/193] convId=482 "godyns" ... ✅ DONE  (32.9s | 1733s total | ETA ~63m)
+[2026-03-24T10:27:35.769Z] [62/193] convId=488 "97 group" ... ✅ DONE  (16.9s | 1752s total | ETA ~63m)
+[2026-03-24T10:27:54.656Z] [63/193] convId=489 "VAIL synonym with Vetri AI Labs" ... ✅ DONE  (69.1s | 1823s total | ETA ~62m)
+[2026-03-24T10:29:05.732Z] [64/193] convId=491 "Invariant Labs" ... ✅ DONE  (28.6s | 1854s total | ETA ~63m)
+[2026-03-24T10:29:36.300Z] [65/193] convId=493 "Aptenix Software Technologies Private Limited" ... ✅ DONE  (20.5s | 1876s total | ETA ~62m)
+[2026-03-24T10:29:58.832Z] [66/193] convId=505 "Zeex AI" ... ✅ DONE  (16.5s | 1895s total | ETA ~62m)
+[2026-03-24T10:30:17.391Z] [67/193] convId=511 "Pashudhan AI" ... ✅ DONE  (19.1s | 1916s total | ETA ~61m)
+[2026-03-24T10:30:38.547Z] [68/193] convId=514 "Resurgenix Technologies" ... ✅ DONE  (15.7s | 1934s total | ETA ~60m)
+[2026-03-24T10:30:56.301Z] [69/193] convId=515 "TechTeenu AI" ... ✅ DONE  (38.7s | 1975s total | ETA ~59m)
+[2026-03-24T10:31:36.997Z] [70/193] convId=516 "Artograph AI" ... ✅ DONE  (14.9s | 1991s total | ETA ~59m)
+[2026-03-24T10:31:53.895Z] [71/193] convId=522 "ekithab" ... ✅ DONE  (22.1s | 2016s total | ETA ~58m)
+[2026-03-24T10:32:18.023Z] [72/193] convId=527 "Zenith" ... ✅ DONE  (13.5s | 2031s total | ETA ~58m)
+[2026-03-24T10:32:33.541Z] [73/193] convId=531 "Urban mind AI-smart city decision making platform" ... ✅ DONE  (17.4s | 2050s total | ETA ~57m)
+[2026-03-24T10:32:52.944Z] [74/193] convId=533 "Indilingo Labs LLP" ... ✅ DONE  (17.9s | 2070s total | ETA ~56m)
+[2026-03-24T10:33:12.822Z] [75/193] convId=534 "HireMind AI" ... ✅ DONE  (38.3s | 2111s total | ETA ~56m)
+[2026-03-24T10:33:53.166Z] [76/193] convId=535 "Yamini Parashar Interview" ... ✅ DONE  (25.3s | 2138s total | ETA ~55m)
+[2026-03-24T10:34:20.488Z] [77/193] convId=538 "Amit Tiwari Interview" ... ✅ DONE  (15.4s | 2155s total | ETA ~55m)
+[2026-03-24T10:34:37.919Z] [78/193] convId=543 "AVYRA AI" ... ✅ DONE  (23.2s | 2181s total | ETA ~54m)
+[2026-03-24T10:35:03.152Z] [79/193] convId=548 "SafeNet AI" ... ✅ DONE  (31.2s | 2214s total | ETA ~54m)
+[2026-03-24T10:35:36.393Z] [80/193] convId=550 "Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In)" ... ✅ DONE  (41.1s | 2257s total | ETA ~53m)
+[2026-03-24T10:36:19.513Z] [81/193] convId=555 "VentureThrust" ... ✅ DONE  (16.7s | 2276s total | ETA ~53m)
+[2026-03-24T10:36:38.225Z] [82/193] convId=563 "Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point" ... ✅ DONE  (17.7s | 2295s total | ETA ~52m)
+[2026-03-24T10:36:57.895Z] [83/193] convId=565 "Company Name : Provaantech and their products Name: Prohirey and ToxBox AI" ... ✅ DONE  (21.5s | 2319s total | ETA ~52m)
+[2026-03-24T10:37:21.447Z] [84/193] convId=566 "The product name is MindShield. The start-up name is yet to be finalised. It's in the process" ... ✅ DONE  (15.0s | 2336s total | ETA ~51m)
+[2026-03-24T10:37:38.429Z] [85/193] convId=567 "Dezion" ... ✅ DONE  (35.1s | 2373s total | ETA ~51m)
+[2026-03-24T10:38:15.572Z] [86/193] convId=569 "Finigenie" ... ✅ DONE  (19.4s | 2395s total | ETA ~50m)
+[2026-03-24T10:38:37.015Z] [87/193] convId=571 "MindBlix" ... ✅ DONE  (56.5s | 2453s total | ETA ~50m)
+[2026-03-24T10:39:35.548Z] [88/193] convId=573 "DiaX.AI as start up in Diabwellness Private Limited as company" ... ✅ DONE  (17.3s | 2472s total | ETA ~50m)
+[2026-03-24T10:39:54.815Z] [89/193] convId=577 "Capabloo med tech pvt ltd" ... ✅ DONE  (13.7s | 2488s total | ETA ~49m)
+[2026-03-24T10:40:10.482Z] [90/193] convId=579 "NIRAM" ... ✅ DONE  (18.5s | 2509s total | ETA ~48m)
+[2026-03-24T10:40:30.968Z] [91/193] convId=580 "Nexvern Technology" ... ✅ DONE  (28.1s | 2539s total | ETA ~48m)
+[2026-03-24T10:41:01.059Z] [92/193] convId=590 "Shyam Bhakti Rasik" ... ✅ DONE  (23.8s | 2564s total | ETA ~47m)
+[2026-03-24T10:41:26.841Z] [93/193] convId=591 "Nexvern Technologies" ... ✅ DONE  (23.4s | 2590s total | ETA ~47m)
+[2026-03-24T10:41:52.250Z] [94/193] convId=592 "Capabloo med tech pvt ltd" ... ✅ DONE  (12.7s | 2605s total | ETA ~46m)
+[2026-03-24T10:42:06.962Z] [95/193] convId=593 "Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding."" ... ✅ DONE  (17.2s | 2624s total | ETA ~46m)
+[2026-03-24T10:42:26.166Z] [96/193] convId=596 "I couldn't name at this time" ... ✅ DONE  (11.6s | 2637s total | ETA ~45m)
+[2026-03-24T10:42:39.762Z] [97/193] convId=597 "DecodeDocs" ... ✅ DONE  (26.9s | 2666s total | ETA ~44m)
+[2026-03-24T10:43:08.656Z] [98/193] convId=599 "Memro" ... ✅ DONE  (28.2s | 2696s total | ETA ~44m)
+[2026-03-24T10:43:38.859Z] [99/193] convId=600 "Smart Eye a brand under KA IKSANATECH INDIA LLP" ... ✅ DONE  (64.0s | 2762s total | ETA ~44m)
+[2026-03-24T10:44:44.858Z] [100/193] convId=601 "Unmaster (Ergastirio Vaccua LLP)" ... ✅ DONE  (55.8s | 2820s total | ETA ~44m)
+[2026-03-24T10:45:42.697Z] [101/193] convId=604 "I am still in the process of getting my legal entity" ... ✅ DONE  (20.4s | 2843s total | ETA ~44m)
+[2026-03-24T10:46:05.091Z] [102/193] convId=605 "DAILYPLANNER APP ( AASHUKAY TECH PVT LTD)" ... ✅ DONE  (38.4s | 2883s total | ETA ~43m)
+[2026-03-24T10:46:45.509Z] [103/193] convId=609 "Charumathi Kumaraswamy Interview" ... ✅ DONE  (36.1s | 2921s total | ETA ~43m)
+[2026-03-24T10:47:23.641Z] [104/193] convId=611 "Punal Legacy Labs Pvt. Ltd" ... ✅ DONE  (36.3s | 2959s total | ETA ~43m)
+[2026-03-24T10:48:01.905Z] [105/193] convId=617 "Datamatrix.AI Pvt Ltd" ... ✅ DONE  (21.2s | 2983s total | ETA ~42m)
+[2026-03-24T10:48:25.091Z] [106/193] convId=618 "Micro Chrome Bio Private Limited" ... ✅ DONE  (13.2s | 2998s total | ETA ~42m)
+[2026-03-24T10:48:40.298Z] [107/193] convId=620 "AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions" ... ✅ DONE  (45.6s | 3045s total | ETA ~41m)
+[2026-03-24T10:49:27.938Z] [108/193] convId=623 "OPERATION SINDOOR.AI (MSME)" ... ✅ DONE  (10.2s | 3058s total | ETA ~41m)
+[2026-03-24T10:49:40.138Z] [109/193] convId=625 "Sevakk.io A First Trust Hyperlocal Service Platform" ... ✅ DONE  (39.7s | 3099s total | ETA ~40m)
+[2026-03-24T10:50:21.853Z] [110/193] convId=627 "Halosafe Private Limited" ... ✅ DONE  (33.7s | 3135s total | ETA ~40m)
+[2026-03-24T10:50:57.528Z] [111/193] convId=628 "ArtemysX" ... ✅ DONE  (18.9s | 3156s total | ETA ~39m)
+[2026-03-24T10:51:18.416Z] [112/193] convId=630 "S. Meditech" ... ✅ DONE  (25.5s | 3183s total | ETA ~39m)
+[2026-03-24T10:51:45.875Z] [113/193] convId=631 "WAHEfilms, focused on building and scaling AI-driven filmmaking and content production" ... ✅ DONE  (57.0s | 3242s total | ETA ~38m)
+[2026-03-24T10:52:44.851Z] [114/193] convId=632 "Ananta intelligence" ... ✅ DONE  (48.2s | 3293s total | ETA ~38m)
+[2026-03-24T10:53:35.053Z] [115/193] convId=635 "Agronova" ... ✅ DONE  (14.7s | 3309s total | ETA ~38m)
+[2026-03-24T10:53:51.733Z] [116/193] convId=638 "GATI AI LABS is my startup and the name of saas is not decided yet" ... ✅ DONE  (67.7s | 3379s total | ETA ~37m)
+[2026-03-24T10:55:01.405Z] [117/193] convId=642 "Neurix" ... ✅ DONE  (17.5s | 3398s total | ETA ~37m)
+[2026-03-24T10:55:20.884Z] [118/193] convId=645 "Dnyandip Patil Interview" ... ✅ DONE  (79.0s | 3479s total | ETA ~37m)
+[2026-03-24T10:56:41.882Z] [119/193] convId=646 "Olynk AI" ... ✅ DONE  (59.6s | 3541s total | ETA ~37m)
+[2026-03-24T10:57:43.537Z] [120/193] convId=647 "Dhruv Kumar Jha Interview" ... ✅ DONE  (22.9s | 3566s total | ETA ~37m)
+[2026-03-24T10:58:08.426Z] [121/193] convId=655 "FLAC" ... ✅ DONE  (14.2s | 3582s total | ETA ~36m)
+[2026-03-24T10:58:24.648Z] [122/193] convId=657 "Socio-Matics private limited" ... ✅ DONE  (25.0s | 3609s total | ETA ~36m)
+[2026-03-24T10:58:51.668Z] [123/193] convId=658 "Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses" ... ✅ DONE  (22.3s | 3633s total | ETA ~35m)
+[2026-03-24T10:59:15.921Z] [124/193] convId=661 "The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction" ... ✅ DONE  (21.7s | 3657s total | ETA ~34m)
+[2026-03-24T10:59:39.668Z] [125/193] convId=667 "IO ROBOTIC PRIVATE LIMITED" ... ✅ DONE  (20.4s | 3680s total | ETA ~34m)
+[2026-03-24T11:00:02.081Z] [126/193] convId=669 "Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems" ... ✅ DONE  (24.8s | 3706s total | ETA ~33m)
+[2026-03-24T11:00:28.932Z] [127/193] convId=672 "Ashvya Services Private Limited" ... ✅ DONE  (34.8s | 3743s total | ETA ~33m)
+[2026-03-24T11:01:05.724Z] [128/193] convId=683 "The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform" ... ✅ DONE  (17.9s | 3763s total | ETA ~32m)
+[2026-03-24T11:01:25.648Z] [129/193] convId=693 "AgroShield AI" ... ✅ DONE  (16.6s | 3782s total | ETA ~32m)
+[2026-03-24T11:01:44.272Z] [130/193] convId=694 "BidCoPilot AI" ... ✅ DONE  (34.5s | 3818s total | ETA ~31m)
+[2026-03-24T11:02:20.786Z] [131/193] convId=695 "As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80" ... ✅ DONE  (20.0s | 3840s total | ETA ~31m)
+[2026-03-24T11:02:42.778Z] [132/193] convId=696 "Niksla Energy" ... ✅ DONE  (57.7s | 3900s total | ETA ~30m)
+[2026-03-24T11:03:42.487Z] [133/193] convId=698 "Kdo" ... ✅ DONE  (13.5s | 3916s total | ETA ~30m)
+[2026-03-24T11:03:58.021Z] [134/193] convId=701 "ICOSVG technology" ... ✅ DONE  (42.5s | 3960s total | ETA ~29m)
+[2026-03-24T11:04:42.493Z] [135/193] convId=703 "Jeevana" ... ✅ DONE  (22.1s | 3984s total | ETA ~29m)
+[2026-03-24T11:05:06.552Z] [136/193] convId=706 "Purelife Innovations Private limited" ... ✅ DONE  (45.0s | 4031s total | ETA ~29m)
+[2026-03-24T11:05:53.537Z] [137/193] convId=712 "Urbanpark solution private limited" ... ✅ DONE  (40.8s | 4074s total | ETA ~28m)
+[2026-03-24T11:06:36.371Z] [138/193] convId=713 "Kirana Shankar Chawan Interview" ... ✅ DONE  (28.0s | 4104s total | ETA ~28m)
+[2026-03-24T11:07:06.398Z] [139/193] convId=716 "Corpogn" ... ✅ DONE  (31.3s | 4137s total | ETA ~27m)
+[2026-03-24T11:07:39.698Z] [140/193] convId=719 "Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling" ... ✅ DONE  (16.6s | 4156s total | ETA ~27m)
+[2026-03-24T11:07:58.285Z] [141/193] convId=721 "SpareMatch" ... ✅ DONE  (44.8s | 4203s total | ETA ~26m)
+[2026-03-24T11:08:45.114Z] [142/193] convId=722 "Prompt Library" ... ✅ DONE  (27.1s | 4232s total | ETA ~26m)
+[2026-03-24T11:09:14.185Z] [143/193] convId=734 "Mano Veda - An Alzheimer Detection App" ... ✅ DONE  (77.9s | 4312s total | ETA ~25m)
+[2026-03-24T11:10:34.062Z] [144/193] convId=738 "Already i told" ... ✅ DONE  (18.4s | 4332s total | ETA ~25m)
+[2026-03-24T11:10:54.472Z] [145/193] convId=742 "Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India" ... ✅ DONE  (30.8s | 4365s total | ETA ~25m)
+[2026-03-24T11:11:27.243Z] [146/193] convId=745 "Edify ai" ... ✅ DONE  (18.2s | 4385s total | ETA ~24m)
+[2026-03-24T11:11:47.426Z] [147/193] convId=746 "Jobply" ... ✅ DONE  (34.0s | 4421s total | ETA ~24m)
+[2026-03-24T11:12:23.432Z] [148/193] convId=747 "Corridors.ai" ... ✅ DONE  (28.6s | 4452s total | ETA ~23m)
+[2026-03-24T11:12:54.054Z] [149/193] convId=749 "DriveGuard Systems" ... ✅ DONE  (44.5s | 4498s total | ETA ~23m)
+[2026-03-24T11:13:40.581Z] [150/193] convId=754 "Zerofalse" ... ✅ DONE  (19.1s | 4519s total | ETA ~22m)
+[2026-03-24T11:14:01.679Z] [151/193] convId=764 "Satyam Singh Interview" ... ✅ DONE  (22.0s | 4543s total | ETA ~22m)
+[2026-03-24T11:14:25.650Z] [152/193] convId=765 "CoheRex" ... ✅ DONE  (63.5s | 4609s total | ETA ~21m)
+[2026-03-24T11:15:31.112Z] [153/193] convId=769 "Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM)" ... ✅ DONE  (25.4s | 4636s total | ETA ~21m)
+[2026-03-24T11:15:58.474Z] [154/193] convId=770 "BristleTech Pvt Lts" ... ✅ DONE  (51.1s | 4689s total | ETA ~20m)
+[2026-03-24T11:16:51.621Z] [155/193] convId=772 "Joshua Lawrence Interview" ... ✅ DONE  (51.6s | 4743s total | ETA ~20m)
+[2026-03-24T11:17:45.238Z] [156/193] convId=777 "Redipath health ops private limited" ... ✅ DONE  (41.7s | 4786s total | ETA ~19m)
+[2026-03-24T11:18:28.915Z] [157/193] convId=780 "Vitalens" ... ✅ DONE  (28.3s | 4817s total | ETA ~19m)
+[2026-03-24T11:18:59.214Z] [158/193] convId=785 "Beyond Space Technologies" ... ✅ DONE  (49.2s | 4868s total | ETA ~18m)
+[2026-03-24T11:19:50.396Z] [159/193] convId=787 "more info plce contact ok" ... ✅ DONE  (22.2s | 4892s total | ETA ~18m)
+[2026-03-24T11:20:14.617Z] [160/193] convId=793 "company : ROOT
+product name : Hiredai" ... ✅ DONE  (57.8s | 4952s total | ETA ~17m)
+[2026-03-24T11:21:14.402Z] [161/193] convId=794 "AgriCPS" ... ✅ DONE  (39.2s | 4993s total | ETA ~17m)
+[2026-03-24T11:21:55.603Z] [162/193] convId=795 ""Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses" ... ✅ DONE  (21.7s | 5017s total | ETA ~17m)
+[2026-03-24T11:22:19.319Z] [163/193] convId=809 "Aasvaa Universal Private Limited" ... ✅ DONE  (19.5s | 5038s total | ETA ~16m)
+[2026-03-24T11:22:40.833Z] [164/193] convId=814 "CRATER Computing" ... ✅ DONE  (48.6s | 5089s total | ETA ~15m)
+[2026-03-24T11:23:31.456Z] [165/193] convId=819 "Anteratic Solutions" ... ✅ DONE  (63.6s | 5155s total | ETA ~15m)
+[2026-03-24T11:24:37.108Z] [166/193] convId=820 "SahayLink" ... ✅ DONE  (19.8s | 5176s total | ETA ~15m)
+[2026-03-24T11:24:58.878Z] [167/193] convId=821 "SecurePay Shield" ... ✅ DONE  (17.3s | 5196s total | ETA ~14m)
+[2026-03-24T11:25:18.199Z] [168/193] convId=823 "Kenesis Labs Private Limited" ... ✅ DONE  (48.8s | 5247s total | ETA ~13m)
+[2026-03-24T11:26:08.977Z] [169/193] convId=824 "Currently, i have not decided" ... ✅ DONE  (20.6s | 5269s total | ETA ~13m)
+[2026-03-24T11:26:31.536Z] [170/193] convId=825 "ML BIZ LLP (globally we operate as ZkAGI)" ... ✅ DONE  (14.9s | 5286s total | ETA ~12m)
+[2026-03-24T11:26:48.429Z] [171/193] convId=829 "DRAFTMATE PVT LTD" ... ✅ DONE  (29.4s | 5317s total | ETA ~12m)
+[2026-03-24T11:27:19.790Z] [172/193] convId=832 "Indilingo Labs" ... ✅ DONE  (36.4s | 5356s total | ETA ~11m)
+[2026-03-24T11:27:58.155Z] [173/193] convId=833 "Alchimera" ... ✅ DONE  (11.2s | 5369s total | ETA ~11m)
+[2026-03-24T11:28:11.392Z] [174/193] convId=836 "Kuldeep Pramod Pathak Interview" ... ✅ DONE  (20.0s | 5391s total | ETA ~10m)
+[2026-03-24T11:28:33.416Z] [175/193] convId=838 "Dentalverse" ... ✅ DONE  (43.2s | 5436s total | ETA ~10m)
+[2026-03-24T11:29:18.666Z] [176/193] convId=840 "ScaleMyStartup is the name of our startup" ... ✅ DONE  (40.5s | 5479s total | ETA ~9m)
+[2026-03-24T11:30:01.193Z] [177/193] convId=842 "Snapbooks" ... ✅ DONE  (49.3s | 5530s total | ETA ~9m)
+[2026-03-24T11:30:52.466Z] [178/193] convId=843 "SafeRide" ... ✅ DONE  (61.5s | 5593s total | ETA ~8m)
+[2026-03-24T11:31:55.925Z] [179/193] convId=844 "JobFlow" ... ✅ DONE  (52.5s | 5648s total | ETA ~8m)
+[2026-03-24T11:32:50.447Z] [180/193] convId=851 "preet singh rajput jan seva kendra" ... ✅ DONE  (32.7s | 5683s total | ETA ~7m)
+[2026-03-24T11:33:25.154Z] [181/193] convId=859 "likemystory.com, and it operates under the registered entity name Storyverse" ... ✅ DONE  (22.7s | 5707s total | ETA ~7m)
+[2026-03-24T11:33:49.866Z] [182/193] convId=862 "ClawDuck" ... ✅ DONE  (27.8s | 5737s total | ETA ~6m)
+[2026-03-24T11:34:19.716Z] [183/193] convId=863 "Preto.ai" ... ✅ DONE  (57.9s | 5797s total | ETA ~6m)
+[2026-03-24T11:35:19.644Z] [184/193] convId=870 "would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users" ... ✅ DONE  (56.1s | 5855s total | ETA ~5m)
+[2026-03-24T11:36:17.798Z] [185/193] convId=871 "InnoVibe Mobility India Pvt Ltd" ... ✅ DONE  (59.3s | 5917s total | ETA ~5m)
+[2026-03-24T11:37:19.100Z] [186/193] convId=882 "tileview.ai" ... ✅ DONE  (26.7s | 5945s total | ETA ~4m)
+[2026-03-24T11:37:47.767Z] [187/193] convId=883 "Ashish Kumar Interview" ... ✅ DONE  (18.1s | 5965s total | ETA ~4m)
+[2026-03-24T11:38:07.851Z] [188/193] convId=887 "Operon" ... ✅ DONE  (15.9s | 5983s total | ETA ~3m)
+[2026-03-24T11:38:25.702Z] [189/193] convId=888 "Scriptonia AI Pvt Ltd" ... ✅ DONE  (19.0s | 6004s total | ETA ~3m)
+[2026-03-24T11:38:46.711Z] [190/193] convId=891 "Bugbusterslabs Private Limited" ... ✅ DONE  (21.8s | 6028s total | ETA ~2m)
+[2026-03-24T11:39:10.495Z] [191/193] convId=899 "GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems" ... ✅ DONE  (17.6s | 6048s total | ETA ~2m)
+[2026-03-24T11:39:30.074Z] [192/193] convId=902 "Bunderbrains pvt ltd is the company, platform is misrut" ... ✅ DONE  (35.4s | 6085s total | ETA ~1m)
+[2026-03-24T11:40:07.440Z] [193/193] convId=906 "Hybrid Octopus OS" ... ✅ DONE  (17.8s | 6105s total | ETA ~1m)
+
+════════════════════════════════════════════════════════════
+  BATCH COMPLETE — SUMMARY
+════════════════════════════════════════════════════════════
+  Finished    : 2026-03-24T11:40:25.280Z
+  Total       : 193
+  ✅ Success  : 193
+  ❌ Failed   : 0
+  ⏱ Time      : 101.7 minutes
+
+  COMPLETED CONVERSATIONS:
+    ✅ convId=229 | 23.8s | MediVault AI
+    ✅ convId=231 | 14.3s | JantaFlash
+    ✅ convId=236 | 51.2s | Srishti Shaw Interview
+    ✅ convId=251 | 44.1s | New Conversation
+    ✅ convId=256 | 21.5s | KAL
+    ✅ convId=257 | 14.5s | Wise Drop
+    ✅ convId=262 | 15.6s | build private ltd
+    ✅ convId=265 | 12.4s | Reach-out AI Technologies pvt Ltd
+    ✅ convId=266 | 27.3s | VidyaVerse
+    ✅ convId=268 | 26.0s | Y labs
+    ✅ convId=273 | 13.9s | AgentIC
+    ✅ convId=275 | 18.7s | Tvara
+    ✅ convId=280 | 24.5s | Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon
+    ✅ convId=281 | 38.0s | Lehio Solution PVT LTD
+The startup name is Vidhik AI
+    ✅ convId=284 | 12.0s | Will my information that I share about my product be safe here
+    ✅ convId=285 | 25.5s | OPERATION SINDOOR.AI
+    ✅ convId=290 | 21.6s | Whisperwave
+    ✅ convId=291 | 14.9s | and also cse with ai/ml
+    ✅ convId=293 | 21.3s | Massxg
+    ✅ convId=297 | 33.6s | LotusAI
+    ✅ convId=303 | 13.0s | Wetroo Automation
+    ✅ convId=305 | 34.3s | ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org
+    ✅ convId=306 | 51.2s | FactoryBrain
+    ✅ convId=307 | 23.4s | Alfa Hawk
+    ✅ convId=309 | 10.8s | Huia Labs
+    ✅ convId=311 | 36.5s | MetricAI, BlaiseLogic Technology Private Limited
+    ✅ convId=313 | 15.1s | Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name
+    ✅ convId=314 | 42.3s | Nebils
+    ✅ convId=315 | 30.3s | Nyayamitra
+    ✅ convId=316 | 24.3s | Sylithe
+    ✅ convId=318 | 16.6s | Fluxi Technologies Private Limited
+    ✅ convId=325 | 22.4s | The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India
+    ✅ convId=328 | 17.3s | Witting AI Private Limited
+    ✅ convId=330 | 20.2s | gem pvt ltd
+    ✅ convId=331 | 20.4s | My name is Vishal Raina
+    ✅ convId=333 | 59.2s | Trishul Space
+    ✅ convId=335 | 38.6s | Pooja Malakar Interview
+    ✅ convId=336 | 20.3s | PetsGo and PetsDoor Pvt Ltd
+    ✅ convId=337 | 23.4s | Slaab.ai
+    ✅ convId=339 | 41.6s | ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited)
+    ✅ convId=341 | 19.6s | VYGOT
+    ✅ convId=350 | 43.5s | Ayush Arya Interview
+    ✅ convId=363 | 31.5s | I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector
+    ✅ convId=371 | 31.2s | Crynie is name of startup not registered yet and burpsie is our ecosystem name
+    ✅ convId=380 | 13.5s | Siddhant Gujar Interview
+    ✅ convId=382 | 19.3s | New Conversation
+    ✅ convId=394 | 32.5s | LeadPe
+    ✅ convId=396 | 20.8s | Friday Intellytics
+    ✅ convId=399 | 17.5s | Charky Labs Pvt. Ltd
+    ✅ convId=401 | 31.4s | AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem
+    ✅ convId=402 | 20.1s | Wharf Street Studios
+    ✅ convId=436 | 41.0s | Beaver tech
+    ✅ convId=439 | 25.9s | Venturelens
+    ✅ convId=442 | 31.7s | Qualentra Global
+    ✅ convId=455 | 21.1s | Aloukik Bhatnagar Interview
+    ✅ convId=456 | 37.2s | BODH-Ai
+    ✅ convId=466 | 24.7s | InsightFlow AI, focused on turning complex content into clear, actionable insights using AI
+    ✅ convId=468 | 42.9s | Dr. ViKi
+    ✅ convId=479 | 18.1s | Vaibhav Mahato Interview
+    ✅ convId=481 | 20.3s | A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs)
+    ✅ convId=482 | 32.9s | godyns
+    ✅ convId=488 | 16.9s | 97 group
+    ✅ convId=489 | 69.1s | VAIL synonym with Vetri AI Labs
+    ✅ convId=491 | 28.6s | Invariant Labs
+    ✅ convId=493 | 20.5s | Aptenix Software Technologies Private Limited
+    ✅ convId=505 | 16.5s | Zeex AI
+    ✅ convId=511 | 19.1s | Pashudhan AI
+    ✅ convId=514 | 15.7s | Resurgenix Technologies
+    ✅ convId=515 | 38.7s | TechTeenu AI
+    ✅ convId=516 | 14.9s | Artograph AI
+    ✅ convId=522 | 22.1s | ekithab
+    ✅ convId=527 | 13.5s | Zenith
+    ✅ convId=531 | 17.4s | Urban mind AI-smart city decision making platform
+    ✅ convId=533 | 17.9s | Indilingo Labs LLP
+    ✅ convId=534 | 38.3s | HireMind AI
+    ✅ convId=535 | 25.3s | Yamini Parashar Interview
+    ✅ convId=538 | 15.4s | Amit Tiwari Interview
+    ✅ convId=543 | 23.2s | AVYRA AI
+    ✅ convId=548 | 31.2s | SafeNet AI
+    ✅ convId=550 | 41.1s | Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In)
+    ✅ convId=555 | 16.7s | VentureThrust
+    ✅ convId=563 | 17.7s | Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point
+    ✅ convId=565 | 21.5s | Company Name : Provaantech and their products Name: Prohirey and ToxBox AI
+    ✅ convId=566 | 15.0s | The product name is MindShield. The start-up name is yet to be finalised. It's in the process
+    ✅ convId=567 | 35.1s | Dezion
+    ✅ convId=569 | 19.4s | Finigenie
+    ✅ convId=571 | 56.5s | MindBlix
+    ✅ convId=573 | 17.3s | DiaX.AI as start up in Diabwellness Private Limited as company
+    ✅ convId=577 | 13.7s | Capabloo med tech pvt ltd
+    ✅ convId=579 | 18.5s | NIRAM
+    ✅ convId=580 | 28.1s | Nexvern Technology
+    ✅ convId=590 | 23.8s | Shyam Bhakti Rasik
+    ✅ convId=591 | 23.4s | Nexvern Technologies
+    ✅ convId=592 | 12.7s | Capabloo med tech pvt ltd
+    ✅ convId=593 | 17.2s | Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding."
+    ✅ convId=596 | 11.6s | I couldn't name at this time
+    ✅ convId=597 | 26.9s | DecodeDocs
+    ✅ convId=599 | 28.2s | Memro
+    ✅ convId=600 | 64.0s | Smart Eye a brand under KA IKSANATECH INDIA LLP
+    ✅ convId=601 | 55.8s | Unmaster (Ergastirio Vaccua LLP)
+    ✅ convId=604 | 20.4s | I am still in the process of getting my legal entity
+    ✅ convId=605 | 38.4s | DAILYPLANNER APP ( AASHUKAY TECH PVT LTD)
+    ✅ convId=609 | 36.1s | Charumathi Kumaraswamy Interview
+    ✅ convId=611 | 36.3s | Punal Legacy Labs Pvt. Ltd
+    ✅ convId=617 | 21.2s | Datamatrix.AI Pvt Ltd
+    ✅ convId=618 | 13.2s | Micro Chrome Bio Private Limited
+    ✅ convId=620 | 45.6s | AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions
+    ✅ convId=623 | 10.2s | OPERATION SINDOOR.AI (MSME)
+    ✅ convId=625 | 39.7s | Sevakk.io A First Trust Hyperlocal Service Platform
+    ✅ convId=627 | 33.7s | Halosafe Private Limited
+    ✅ convId=628 | 18.9s | ArtemysX
+    ✅ convId=630 | 25.5s | S. Meditech
+    ✅ convId=631 | 57.0s | WAHEfilms, focused on building and scaling AI-driven filmmaking and content production
+    ✅ convId=632 | 48.2s | Ananta intelligence
+    ✅ convId=635 | 14.7s | Agronova
+    ✅ convId=638 | 67.7s | GATI AI LABS is my startup and the name of saas is not decided yet
+    ✅ convId=642 | 17.5s | Neurix
+    ✅ convId=645 | 79.0s | Dnyandip Patil Interview
+    ✅ convId=646 | 59.6s | Olynk AI
+    ✅ convId=647 | 22.9s | Dhruv Kumar Jha Interview
+    ✅ convId=655 | 14.2s | FLAC
+    ✅ convId=657 | 25.0s | Socio-Matics private limited
+    ✅ convId=658 | 22.3s | Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses
+    ✅ convId=661 | 21.7s | The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction
+    ✅ convId=667 | 20.4s | IO ROBOTIC PRIVATE LIMITED
+    ✅ convId=669 | 24.8s | Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems
+    ✅ convId=672 | 34.8s | Ashvya Services Private Limited
+    ✅ convId=683 | 17.9s | The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform
+    ✅ convId=693 | 16.6s | AgroShield AI
+    ✅ convId=694 | 34.5s | BidCoPilot AI
+    ✅ convId=695 | 20.0s | As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80
+    ✅ convId=696 | 57.7s | Niksla Energy
+    ✅ convId=698 | 13.5s | Kdo
+    ✅ convId=701 | 42.5s | ICOSVG technology
+    ✅ convId=703 | 22.1s | Jeevana
+    ✅ convId=706 | 45.0s | Purelife Innovations Private limited
+    ✅ convId=712 | 40.8s | Urbanpark solution private limited
+    ✅ convId=713 | 28.0s | Kirana Shankar Chawan Interview
+    ✅ convId=716 | 31.3s | Corpogn
+    ✅ convId=719 | 16.6s | Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling
+    ✅ convId=721 | 44.8s | SpareMatch
+    ✅ convId=722 | 27.1s | Prompt Library
+    ✅ convId=734 | 77.9s | Mano Veda - An Alzheimer Detection App
+    ✅ convId=738 | 18.4s | Already i told
+    ✅ convId=742 | 30.8s | Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India
+    ✅ convId=745 | 18.2s | Edify ai
+    ✅ convId=746 | 34.0s | Jobply
+    ✅ convId=747 | 28.6s | Corridors.ai
+    ✅ convId=749 | 44.5s | DriveGuard Systems
+    ✅ convId=754 | 19.1s | Zerofalse
+    ✅ convId=764 | 22.0s | Satyam Singh Interview
+    ✅ convId=765 | 63.5s | CoheRex
+    ✅ convId=769 | 25.4s | Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM)
+    ✅ convId=770 | 51.1s | BristleTech Pvt Lts
+    ✅ convId=772 | 51.6s | Joshua Lawrence Interview
+    ✅ convId=777 | 41.7s | Redipath health ops private limited
+    ✅ convId=780 | 28.3s | Vitalens
+    ✅ convId=785 | 49.2s | Beyond Space Technologies
+    ✅ convId=787 | 22.2s | more info plce contact ok
+    ✅ convId=793 | 57.8s | company : ROOT
+product name : Hiredai
+    ✅ convId=794 | 39.2s | AgriCPS
+    ✅ convId=795 | 21.7s | "Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses
+    ✅ convId=809 | 19.5s | Aasvaa Universal Private Limited
+    ✅ convId=814 | 48.6s | CRATER Computing
+    ✅ convId=819 | 63.6s | Anteratic Solutions
+    ✅ convId=820 | 19.8s | SahayLink
+    ✅ convId=821 | 17.3s | SecurePay Shield
+    ✅ convId=823 | 48.8s | Kenesis Labs Private Limited
+    ✅ convId=824 | 20.6s | Currently, i have not decided
+    ✅ convId=825 | 14.9s | ML BIZ LLP (globally we operate as ZkAGI)
+    ✅ convId=829 | 29.4s | DRAFTMATE PVT LTD
+    ✅ convId=832 | 36.4s | Indilingo Labs
+    ✅ convId=833 | 11.2s | Alchimera
+    ✅ convId=836 | 20.0s | Kuldeep Pramod Pathak Interview
+    ✅ convId=838 | 43.2s | Dentalverse
+    ✅ convId=840 | 40.5s | ScaleMyStartup is the name of our startup
+    ✅ convId=842 | 49.3s | Snapbooks
+    ✅ convId=843 | 61.5s | SafeRide
+    ✅ convId=844 | 52.5s | JobFlow
+    ✅ convId=851 | 32.7s | preet singh rajput jan seva kendra
+    ✅ convId=859 | 22.7s | likemystory.com, and it operates under the registered entity name Storyverse
+    ✅ convId=862 | 27.8s | ClawDuck
+    ✅ convId=863 | 57.9s | Preto.ai
+    ✅ convId=870 | 56.1s | would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users
+    ✅ convId=871 | 59.3s | InnoVibe Mobility India Pvt Ltd
+    ✅ convId=882 | 26.7s | tileview.ai
+    ✅ convId=883 | 18.1s | Ashish Kumar Interview
+    ✅ convId=887 | 15.9s | Operon
+    ✅ convId=888 | 19.0s | Scriptonia AI Pvt Ltd
+    ✅ convId=891 | 21.8s | Bugbusterslabs Private Limited
+    ✅ convId=899 | 17.6s | GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems
+    ✅ convId=902 | 35.4s | Bunderbrains pvt ltd is the company, platform is misrut
+    ✅ convId=906 | 17.8s | Hybrid Octopus OS
+════════════════════════════════════════════════════════════
+[2026-03-24T11:40:25.326Z] 
+📁 Full log saved to: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-58-39.log

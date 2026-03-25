@@ -21,7 +21,7 @@ export const STEPS: Step[] = [
     { id: "name", prompt: "Could you please tell me your full name to get started?", maxDrills: 1, evalPrompt: "CRITICAL: This step is ONLY for the founder's full personal name. If the user only provided a first name, or hasn't provided their name at all, your follow-up MUST ask for their full name. NEVER ask for the company or project name in this step." },
     { id: "professional_background", prompt: "Tell me about your professional background and work experience.", maxDrills: 0 },
     { id: "education_background", prompt: "What is your educational background?", maxDrills: 0 },
-    { id: "life_goals", prompt: "What are your short-term, mid-term, and long-term life goals?", maxDrills: 2, evalPrompt: "The answer must cover short-term AND mid-term AND long-term goals with CONCRETE, SPECIFIC details. Vague goals like 'grow', 'scale', or 'succeed' without specifics = answered=false. Each timeframe needs a clear, actionable goal. If any timeframe is missing OR any goal is generic/vague, answered=false." },
+    { id: "life_goals", prompt: "What are your short-term, mid-term, and long-term life goals?", maxDrills: 2, evalPrompt: "Accept ONLY if the answer EXPLICITLY addresses all 3 timeframes: short-term, mid-term, AND long-term — each with a separate directional goal. A single generic sentence with no timeframe breakdown (e.g. 'I want to grow', 'be successful', 'scale internationally') = answered=false. Do NOT require specific numbers, dates, or metrics — directional clarity per timeframe is sufficient. If any of the 3 timeframes is missing or unclear, answered=false." },
     { id: "startup_vs_technology", prompt: "What does it mean to you that a startup is a BUSINESS, not just a technology?", maxDrills: 2, evalPrompt: "The answer must show genuine understanding of BUSINESS fundamentals (e.g., revenue, customers, market, operations, sales) vs just building technology. Generic statements like 'business is important' or 'it's not just about tech' without explaining WHAT that means concretely = answered=false. Look for specific business thinking." },
     { id: "founder_status_step1", prompt: "Are you building this as a solo founder or do you have co-founders?", maxDrills: 0 },
     { id: "founder_status_step2", prompt: "", maxDrills: 0 },  // prompt set dynamically by backend
@@ -34,14 +34,14 @@ export const STEPS: Step[] = [
     { id: "startup_idea", prompt: "Tell me about your startup idea — what problem are you solving and what is your solution?", maxDrills: 2 },
     { id: "zone_1_desirability", prompt: "Who are your target customers and why would they want this?", maxDrills: 2 },
     { id: "zone_2_viability", prompt: "What is your business model and how will you generate revenue?", maxDrills: 2 },
-    { id: "zone_3_feasibility", prompt: "Do you have the technical capability and team to build this?", maxDrills: 2 },
-    { id: "zone_4_defensibility", prompt: "What makes your solution hard to replicate?", maxDrills: 2 },
-    { id: "zone_5_affordability", prompt: "How does your pricing fit within the Indian market?", maxDrills: 2 },
+    { id: "zone_3_feasibility", prompt: "Do you have the technical capability and team to build this?", maxDrills: 2, evalPrompt: "Accept if the founder confirms they can build the core product — either through their own skills or a clear existing team. Future hiring plans are a bonus, not required. Do NOT drill into future roles, hiring skills, or specific technology vendor/API names. If the founder mentions a category of tools (e.g. 'LLM APIs', 'cloud infrastructure'), that is sufficient. One follow-up is acceptable only if current technical capability is entirely unclear." },
+    { id: "zone_4_defensibility", prompt: "What makes your solution hard to replicate?", maxDrills: 2, evalPrompt: "Accept if the founder identifies at least one credible moat mechanism (data advantage, network effects, proprietary workflow, switching costs, domain expertise, etc.). Do NOT drill into product UX or user experience examples — stay focused on competitive defensibility. One follow-up is acceptable if the moat is purely generic ('we work hard')." },
+    { id: "zone_5_affordability", prompt: "How does your pricing fit within the Indian market?", maxDrills: 2, evalPrompt: "Focus ONLY on India-specific affordability: does the pricing make sense relative to the Indian market (student budgets, regional income levels, comparison to similar Indian products)? If the founder gives India-relevant pricing rationale, answered=true. Do NOT re-ask about tier structure or feature breakdown — that was covered in viability. One follow-up is acceptable only if there is zero India-specific context." },
 
     // ── Phase 3: AI & IndiaAI ──
     { id: "ai_interest", prompt: "What got you interested in AI? Was there a specific moment or problem that drew you to it?", maxDrills: 1, evalPrompt: "Accept any genuine personal story or motivation. Do NOT demand technical details or metrics. If they mention a moment, problem, or general interest in AI, answered=true." },
-    { id: "ai_necessity", prompt: "Why does your product specifically require AI? Would it not be possible to build this without AI?", maxDrills: 2, evalPrompt: "The answer should explain WHY the product specifically needs AI vs traditional approaches. Accept clear reasoning about what AI enables. Do NOT demand specific model names or technical architecture." },
-    { id: "ai_ecosystem_contribution", prompt: "How do you think your product will contribute to the Indian AI ecosystem?", maxDrills: 2, evalPrompt: "The answer should describe how the product benefits the broader Indian AI ecosystem (e.g., adoption, accessibility, local capability). Accept vision-level answers with at least one concrete example or mechanism. Stay scoped to ecosystem contribution — do NOT ask about IndiaAI Mission here." },
+    { id: "ai_necessity", prompt: "Why does your product specifically require AI? Would it not be possible to build this without AI?", maxDrills: 2, evalPrompt: "The answer should explain WHY the product structurally needs AI (what breaks without it). Accept clear reasoning about what AI enables that rule-based or traditional approaches cannot. One follow-up asking for a concrete example is acceptable. Do NOT ask follow-up questions about user outcomes, product benefits, or business results — those are not AI necessity. Stay strictly focused on structural necessity only." },
+    { id: "ai_ecosystem_contribution", prompt: "How do you think your product will contribute to the Indian AI ecosystem?", maxDrills: 2, evalPrompt: "The answer should describe ecosystem-level contribution: AI adoption, Indian-language tools, local datasets, talent, or public services. Accept vision-level answers with at least one concrete mechanism. Do NOT ask follow-up questions about scaling strategy, go-to-market, distribution, or user growth — those are business questions, not ecosystem questions. Stay strictly scoped to ecosystem impact." },
     { id: "indiaai_awareness", prompt: "Are you aware of the IndiaAI Mission?", maxDrills: 0, evalPrompt: "This is a simple yes/no awareness check. Any answer indicating awareness or lack thereof is sufficient." },
     { id: "indiaai_alignment", prompt: "How does your product empower the IndiaAI Mission?", maxDrills: 2, evalPrompt: "The answer should explain how the product aligns with or empowers the IndiaAI Mission. Accept answers that describe contribution to AI adoption, local capability building, or government AI goals. If they provide a clear example, answered=true." },
 
@@ -52,6 +52,29 @@ export const STEPS: Step[] = [
     { id: "website", prompt: "Do you have a website? If yes, please share the URL.", maxDrills: 0 },
 ];
 
+// ─── Solo/Co-founder Detection ──────────────────────────────────────
+/**
+ * Determine whether the founder is solo based on their answer.
+ *
+ * Priority rules:
+ * 1. Explicit solo keywords always win ("solo founder", "by myself", etc.)
+ * 2. Only flag as co-founder if the message contains CURRENT co-founder language
+ *    that is NOT framed as a future plan ("open to", "plan to", "as we scale", etc.)
+ * 3. Default to solo if ambiguous — step2 will surface the right question.
+ */
+function detectIsSolo(userMessage: string): boolean {
+    const hasSoloSignal = /\b(solo\s*founder|solo|by\s*myself|just\s*me|alone|single\s*founder|only\s*one|i\s*am\s*the\s*only|building\s*(this\s*)?(myself|alone|by\s*myself))\b/i.test(userMessage);
+    if (hasSoloSignal) return true;
+
+    // Future-plan phrases that should NOT count as current co-founder status
+    const isFuturePlan = /\b(open\s*to|plan\s*to|looking\s*for|will\s*bring|hope\s*to|intend\s*to|want\s*to|thinking\s*of|considering|eventually|as\s*we\s*scale|in\s*the\s*future|down\s*the\s*road|when\s*we\s*(grow|scale|expand)|will\s*add)\b/i.test(userMessage);
+
+    const hasCurrentCoFounder = !isFuturePlan &&
+        /\b(have\s*a\s*co-?founder|my\s*co-?founder|with\s*a?\s*co-?founder|co-?founders?\s*and\s*i|my\s*partner|building\s*together|we\s*(are|have|built|launched)\b)/i.test(userMessage);
+
+    return !hasCurrentCoFounder;
+}
+
 // ─── LLM Prompt (simplified: evaluate + generate wording only) ──────
 
 const FSM_EVAL_PROMPT = `You are FounderCheck, a warm and curious interviewer for ITEL Foundation.
@@ -61,7 +84,6 @@ OUTPUT FORMAT — RAW JSON ONLY, no markdown, no backticks:
 {
   "answered": true/false,
   "is_off_topic": true/false,
-  "is_next_topic_answered": true/false,
   "response": "Your text (see rules below for what to write)"
 }
 
@@ -75,11 +97,6 @@ RULES FOR "answered":
 2. answered=false if the answer is vague, generic, uses buzzwords without evidence, or is missing key parts.
 3. If the user explicitly refuses to answer gracefully (e.g., "I'd rather not say"), set answered=true.
 
-RULES FOR "is_next_topic_answered":
-- Look closely at what the NEXT topic is (provided at the bottom). 
-- If the user's current message naturally ALREADY answered the NEXT topic proactively, set is_next_topic_answered=true.
-- For example: if we ask "Who are your customers?" and they reply "Our customers are teens and by the way our company is called TeenApp", and the NEXT topic is Company Name, set is_next_topic_answered=true.
-- Default to false.
 
 BE A STRICT SKEPTIC WHEN EVALUATING:
 - "We have great traction" without metrics → answered=false
@@ -93,7 +110,6 @@ RULES FOR "response":
 - If answered=true: Set "response" to exactly "". The system handles the next question automatically. Do NOT say "Got it, thanks", do NOT acknowledge the user at all.
   CRITICAL: Under NO circumstances should you ask a question when answered=true. Do NOT end with a question mark. Do NOT mention the next topic.
 - If answered=false and is_off_topic=false: Write a conversational follow-up to get more detail about the CURRENT TOPIC ONLY.
-  CRITICAL AVOIDANCE RULE: You are provided with a "next topic hint" at the bottom of the context, purely so you can check if the user accidentally answered it proactively. You MUST NEVER ask a question about the NEXT topic if the CURRENT TOPIC is not answered yet. Your follow-up MUST be strictly about the CURRENT TOPIC.
   CRUCIAL TONE RULE: You MUST match the tone of the user's answer.
   - If the user says "I don't know", "I am not sure", or gives a short negative answer, DO NOT use positive affirmations like "That sounds great!" or "Promising!". Instead, be gently encouraging (e.g., "No worries! Even a rough estimate is fine—how are you currently thinking about [topic]?").
   - If the user gives a positive but vague answer, ONLY THEN can you be encouraging (e.g., "That sounds interesting, could you share a specific example?").
@@ -130,6 +146,7 @@ export interface FSMResult {
 
 export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {
     const { userMessage, stepIndex, drillCount, conversationHistory } = input;
+    console.log(`[CONDUCTOR] Input: stepIndex=${stepIndex}, drillCount=${drillCount}`);
 
     // ── Guard: interview already complete ──
     if (stepIndex >= STEPS.length) {
@@ -147,9 +164,7 @@ export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {
     if (currentStep.id === "founder_status_step2" && drillCount === 0) {
         // This is the first time we hit step2. We need to determine SOLO vs CO-FOUNDER
         // from the user's PREVIOUS answer (to step1).
-        // Check for co-founder keywords FIRST to avoid false solo detection
-        const hasCoFounder = /co-?founder|co founder|partner|team|we are|we have|together/i.test(userMessage);
-        const isSolo = input.founderIsSolo ?? (hasCoFounder ? false : /solo|by myself|just me|alone|single founder|only one|i am the only/i.test(userMessage));
+        const isSolo = input.founderIsSolo ?? detectIsSolo(userMessage);
         const step2Question = isSolo
             ? "How do you plan to manage Product, Sales, and Tech all by yourself?"
             : "How do you split Product, Sales, and Tech among your team?";
@@ -163,15 +178,8 @@ export async function runConductorFSM(input: FSMInput): Promise<FSMResult> {
         };
     }
 
-    // ── SPECIAL: indiaai_awareness — if NO, skip indiaai_alignment ──
-    // We handle this AFTER evaluating the answer (see below)
-
-    // ── Determine the NEXT step's prompt (for transition wording) ──
+    // ── Determine the NEXT step index ──
     const nextStepIndex = stepIndex + 1;
-    const nextStep = nextStepIndex < STEPS.length ? STEPS[nextStepIndex] : null;
-    const nextTopicHint = nextStep
-        ? `The next topic is "${nextStep.id}". The fallback question for it is: "${nextStep.prompt}"`
-        : "The interview is about to end. Thank the user.";
 
     // ── Build LLM eval prompt ──
     const recentHistory = conversationHistory.slice(-8)
@@ -189,8 +197,6 @@ RECENT CONVERSATION:
 ${recentHistory}
 
 USER'S LATEST MESSAGE: ${userMessage}
-
-${nextTopicHint}
 
 Remember: output RAW JSON only. No markdown.`.trim();
 
@@ -216,105 +222,68 @@ Remember: output RAW JSON only. No markdown.`.trim();
 
             // Extract JSON Robustly
             let jsonStr = text.trim();
-            // Remove markdown code blocks if present
             const jsonMatch = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
-            if (jsonMatch) {
-                jsonStr = jsonMatch[1].trim();
-            }
+            if (jsonMatch) jsonStr = jsonMatch[1].trim();
 
-            // Find first { and last }
             const firstBrace = jsonStr.indexOf("{");
             const lastBrace = jsonStr.lastIndexOf("}");
             if (firstBrace !== -1 && lastBrace !== -1) {
                 jsonStr = jsonStr.substring(firstBrace, lastBrace + 1);
-            } else if (firstBrace !== -1) {
-                // Cut off? Try to repair by closing it
-                console.warn("⚠️ JSON appears cut off. Attempting repair.");
-                jsonStr = jsonStr.substring(firstBrace);
-                if (!jsonStr.endsWith("}")) {
-                    // Primitive repair: add missing quotes and braces
-                    if ((jsonStr.match(/"/g) || []).length % 2 !== 0) jsonStr += '"';
-                    if (!jsonStr.endsWith("}")) jsonStr += "}";
-                }
             }
 
-            // Clean up common LLM JSON mistakes (e.g., trailing commas, unescaped quotes in response)
-            // Note: fixing unescaped quotes automatically is dangerous, but we can try to JSON.parse
             let parsed;
             try {
                 parsed = JSON.parse(jsonStr);
-            } catch (parseError: unknown) {
-                const message = parseError instanceof Error ? parseError.message : String(parseError);
-                console.warn(`⚠️ JSON parse error (attempt ${attempt + 1}):`, message);
-
-                // Fallback Attempt 1: Fix trailing commas + missing values before } or ]
-                try {
-                    let fixedStr = jsonStr;
-                    // Fix keys with missing values like "answered":} or "answered":,
-                    fixedStr = fixedStr.replace(/:\s*([}\]])/g, ': null$1');
-                    fixedStr = fixedStr.replace(/:\s*,/g, ': null,');
-                    // Fix trailing commas
-                    fixedStr = fixedStr.replace(/,\s*([}\]])/g, "$1");
-                    parsed = JSON.parse(fixedStr);
-                } catch (e) {
-                    console.error(`❌ FSM json fallback fix failed:`, e);
-                    continue; // Auto-retry next LLM attempt
-                }
+            } catch (e) {
+                console.warn(`⚠️ JSON parse error (attempt ${attempt + 1})`);
+                continue;
             }
 
             // ── Zod Validation ──
             const zodResult = ConductorEvalSchema.safeParse(parsed);
             if (!zodResult.success) {
-                console.warn(`⚠️ Zod validation failed (attempt ${attempt + 1}):`, zodResult.error.flatten());
-                continue; // Auto-retry
+                console.warn(`⚠️ Zod validation failed (attempt ${attempt + 1})`);
+                continue;
             }
 
-            const { answered, response, is_off_topic, is_next_topic_answered } = zodResult.data;
+            console.log(`[CONDUCTOR] LLM Result:`, zodResult.data);
+            const { answered, response, is_off_topic } = zodResult.data;
 
             // ── Force advance if max drills reached ──
-            // Note: If we hit max drills, we force advance NO MATTER WHAT (even if off-topic). This prevents infinite loops.
-            const effectiveAnswered = (answered && !is_off_topic) || drillCount >= currentStep.maxDrills;
+            let effectiveAnswered = (answered && !is_off_topic) || drillCount >= currentStep.maxDrills;
+
+            // SPECIAL: Be extra strict with the 'name' step on the first message
+            if (currentStep.id === "name" && drillCount === 0 && effectiveAnswered) {
+                const isGreetingOnly = /^(hi|hello|hey|greetings|good\s+\w+)[\s,!.]*$/i.test(userMessage.trim());
+                const isTooShort = userMessage.trim().split(/\s+/).length < 2 && !/^[A-Z][a-z]+$/.test(userMessage.trim());
+                if (isGreetingOnly || isTooShort) {
+                    console.log("🛡️ FSM: 'name' step strictness triggered — forcing answered=false");
+                    effectiveAnswered = false;
+                }
+            }
 
             if (effectiveAnswered) {
                 // ── ADVANCE to next step ──
                 let advanceTo = stepIndex + 1;
+                console.log(`[CONDUCTOR] Advancing from ${stepIndex} to ${advanceTo}`);
 
-                // If they proactively answered the NEXT topic, fast-forward past it.
-                if (is_next_topic_answered && (stepIndex + 2) < STEPS.length) {
-                    console.log(`🚀 FSM: User proactively answered next topic. Fast-forwarding by 2 steps.`);
-                    advanceTo = stepIndex + 2;
-                }
-
-                let finalResponse: string = response || ""; // Default: use LLM's generated text, handle optionality safely
+                let finalResponse = "";
 
                 // SPECIAL: founder_status_step1 → override with hard-coded step2 question
                 if (currentStep.id === "founder_status_step1") {
-                    // Check for co-founder keywords FIRST
-                    const hasCoFounderKeyword = /co-?founder|co founder|partner|team|we are|we have|together/i.test(userMessage);
-                    const isSolo = hasCoFounderKeyword ? false : /solo|by myself|just me|alone|single founder|only one|i am the only/i.test(userMessage);
+                    const isSolo = detectIsSolo(userMessage);
                     finalResponse = isSolo
                         ? "How do you plan to manage Product, Sales, and Tech all by yourself?"
                         : "How do you split Product, Sales, and Tech among your team?";
-                    console.log(`🛡️ FSM: founder_status_step1 answered. SOLO=${isSolo}. Hard-coded step2 question injected.`);
 
                     return {
                         response: finalResponse,
                         nextStepIndex: advanceTo,       // advance to step2
                         nextDrillCount: 1,              // so step2 evaluates the answer next call
-                        checklistUpdate: undefined,     // don't mark founder_status complete yet
+                        checklistUpdate: undefined,
                         isComplete: false,
                         founderIsSolo: isSolo,
                     };
-                }
-
-                // SPECIAL: indiaai_awareness → if user said NO, skip indiaai_alignment
-                if (currentStep.id === "indiaai_awareness") {
-                    const saidNo = /\bno\b|not aware|haven't heard|don't know/i.test(userMessage);
-                    if (saidNo) {
-                        // Skip indiaai_alignment (advance by 2)
-                        advanceTo = stepIndex + 2;
-                        console.log("🛡️ FSM: User not aware of IndiaAI Mission — skipping indiaai_alignment");
-                    }
                 }
 
                 // Map step IDs to checklist keys for backward compatibility
@@ -322,15 +291,19 @@ Remember: output RAW JSON only. No markdown.`.trim();
 
                 // HYBRID: Ask hardcoded next question
                 if (advanceTo >= STEPS.length) {
-                    // Interview is DONE — closing message
                     finalResponse = "Thank you for completing the interview! We will now generate your evaluation report.";
                 } else {
                     const hardcodedQuestion = STEPS[advanceTo].prompt;
-                    finalResponse = hardcodedQuestion || "Moving on...";
+                    // When force-advanced (max drills hit), the LLM response is a drill-down
+                    // question — discard it to avoid showing two questions at once.
+                    const forcedAdvance = drillCount >= currentStep.maxDrills;
+                    finalResponse = (!forcedAdvance && response)
+                        ? `${response}\n\n${hardcodedQuestion}`
+                        : hardcodedQuestion;
                 }
 
                 return {
-                    response: finalResponse,
+                    response: finalResponse || "Moving on...",
                     nextStepIndex: advanceTo,
                     nextDrillCount: 0,
                     checklistUpdate: { key: checklistKey, value: true },
@@ -339,16 +312,13 @@ Remember: output RAW JSON only. No markdown.`.trim();
                 };
             } else {
                 // ── DRILL DOWN / STAY ON CURRENT STEP ──
-
-                // If it's off-topic, we gently redirect and append the original question again.
-                // Otherwise, it's just a normal follow-up where the LLM's response asks for more detail.
                 let finalResponse: string = response || "Could you please elaborate on that?";
                 if (is_off_topic) {
-                    console.log(`🛡️ FSM: User went off-topic. Emitting polite redirect.`);
                     const ack = response ? response.trim() : "Let's try to stay focused on the interview.";
                     finalResponse = `${ack}\n\n${currentStep.prompt}`;
                 }
 
+                console.log(`[CONDUCTOR] Staying on step ${stepIndex}, drillCount ${drillCount + 1}`);
                 return {
                     response: finalResponse,
                     nextStepIndex: stepIndex,
@@ -364,16 +334,9 @@ Remember: output RAW JSON only. No markdown.`.trim();
     }
 
     // ── All retries failed: use hardcoded fallback ──
-    console.warn("⚠️ All LLM attempts failed. Using hardcoded fallback.");
-
-    // Force advance if we've drilled enough, OR if the LLM is consistently failing (safety)
-    // persistent failure = drillCount >= 1 and we are still here
     if (drillCount >= currentStep.maxDrills || drillCount >= 1) {
         const checklistKey = currentStep.id.replace(/_step[12]$/, "");
         const nextPrompt = STEPS[stepIndex + 1]?.prompt || "Thank you! Your interview is complete.";
-
-        console.warn(`🛡️ FSM Fallback: Forcing advance to next step due to ${drillCount >= currentStep.maxDrills ? 'max drills' : 'persistent LLM failure'}.`);
-
         return {
             response: nextPrompt,
             nextStepIndex: stepIndex + 1,
@@ -392,8 +355,6 @@ Remember: output RAW JSON only. No markdown.`.trim();
         founderIsSolo: input.founderIsSolo,
     };
 }
-
-// ─── Helper: Get initial checklist (backward compat for reports) ─────
 
 export function getInitialChecklist(): Record<string, boolean> {
     return {
@@ -424,9 +385,6 @@ export function getInitialChecklist(): Record<string, boolean> {
     };
 }
 
-/**
- * Get the initial conversation summary.
- */
 export function getInitialSummary(): Record<string, unknown> {
     return {
         founder_name: null,

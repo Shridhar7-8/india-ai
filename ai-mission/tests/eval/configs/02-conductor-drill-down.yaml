@@ -1,0 +1,194 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 02 — Conductor Drill-Down Behaviour
+# Tests that vague answers on steps with maxDrills > 0 keep the FSM on the same
+# step (nextStepIndex === stepIndex, nextDrillCount === drillCount + 1).
+# Also tests force-advance: a vague answer at drillCount=maxDrills MUST advance.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── Step 3: life_goals (maxDrills=2) ──────────────────────────────────────────
+
+- description: "Step 3 life_goals: vague single-timeframe answer triggers drill-down"
+  vars:
+    userMessage: "I want to grow my startup and be successful."
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 3 && out.nextDrillCount === 1;
+
+- description: "Step 3 life_goals: still vague at drillCount=1 triggers second drill"
+  vars:
+    userMessage: "I want to scale the company internationally in the long run."
+    stepIndex: 3
+    drillCount: 1
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 3 && out.nextDrillCount === 2;
+
+- description: "Step 3 life_goals: vague answer at max drills (2) force-advances to step 4"
+  vars:
+    userMessage: "I just want to make an impact somehow."
+    stepIndex: 3
+    drillCount: 2
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 4;
+
+# ── Step 4: startup_vs_technology (maxDrills=2) ───────────────────────────────
+
+- description: "Step 4 startup_vs_technology: generic answer without business specifics triggers drill"
+  vars:
+    userMessage: "A startup is more than just technology. Business is important too."
+    stepIndex: 4
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 4;"
+
+- description: "Step 4 startup_vs_technology: vague at max drills force-advances"
+  vars:
+    userMessage: "Business means making money, not just building stuff."
+    stepIndex: 4
+    drillCount: 2
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 5;"
+
+# ── Step 8: failure_story (maxDrills=2) ──────────────────────────────────────
+
+- description: "Step 8 failure_story: no specific failure mentioned triggers drill"
+  vars:
+    userMessage: "I have faced many failures in life and learned from them."
+    stepIndex: 8
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 8;"
+
+- description: "Step 8 failure_story: failure mentioned but no lesson triggers drill"
+  vars:
+    userMessage: "I once failed at a project I worked on. It was hard but I got through it."
+    stepIndex: 8
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 8;"
+
+- description: "Step 8 failure_story: vague at max drills force-advances"
+  vars:
+    userMessage: "I failed in business once and learned to be more careful."
+    stepIndex: 8
+    drillCount: 2
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 9;"
+
+# ── Step 11: startup_idea (maxDrills=2) ──────────────────────────────────────
+
+- description: "Step 11 startup_idea: no clear problem or solution triggers drill"
+  vars:
+    userMessage: "I want to build an AI app that helps people."
+    stepIndex: 11
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 11;"
+
+# ── Step 12: zone_1_desirability (maxDrills=2) ───────────────────────────────
+
+- description: "Step 12 desirability: no evidence of demand triggers drill"
+  vars:
+    userMessage: "Students in India need better education. There is a big market."
+    stepIndex: 12
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 12;"
+
+# ── Step 13: zone_2_viability (maxDrills=2) ──────────────────────────────────
+
+- description: "Step 13 viability: vague monetization without specifics triggers drill"
+  vars:
+    userMessage: "We will monetize through multiple channels including subscriptions and enterprise deals."
+    stepIndex: 13
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 13;"
+
+# ── Step 14: zone_3_feasibility (maxDrills=2) ────────────────────────────────
+
+- description: "Step 14 feasibility: claiming capability without evidence triggers drill"
+  vars:
+    userMessage: "We definitely have the capability to build this. We are a strong technical team."
+    stepIndex: 14
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 14;"
+
+# ── Step 15: zone_4_defensibility (maxDrills=2) ──────────────────────────────
+
+- description: "Step 15 defensibility: first-mover advantage only triggers drill (easily copied)"
+  vars:
+    userMessage: "We have first-mover advantage. No one else is doing this in India yet."
+    stepIndex: 15
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 15;"
+
+# ── Step 16: zone_5_affordability (maxDrills=2) ──────────────────────────────
+
+- description: "Step 16 affordability: no India-specific pricing research triggers drill"
+  vars:
+    userMessage: "We will price it competitively for the Indian market. We will figure it out."
+    stepIndex: 16
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 16;"
+
+# ── Step 18: ai_necessity (maxDrills=2) ──────────────────────────────────────
+
+- description: "Step 18 ai_necessity: vague AI claim without structural reasoning triggers drill"
+  vars:
+    userMessage: "AI makes our product much better and smarter than traditional solutions."
+    stepIndex: 18
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 18;"
+
+# ── Step 21: indiaai_alignment (maxDrills=2) ─────────────────────────────────
+
+- description: "Step 21 indiaai_alignment: generic alignment claim without details triggers drill"
+  vars:
+    userMessage: "Our product definitely aligns with the IndiaAI Mission in many ways."
+    stepIndex: 21
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 21;"

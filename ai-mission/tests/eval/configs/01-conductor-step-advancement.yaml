@@ -1,0 +1,326 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 01 — Conductor Step Advancement
+# Each test verifies a good answer on a given step causes the FSM to advance
+# (nextStepIndex = stepIndex + 1). Covers all 26 steps.
+#
+# Key design note: steps with maxDrills=0 auto-advance regardless of quality
+# (drillCount=0 >= maxDrills=0 → effectiveAnswered=true). Steps with maxDrills>0
+# require a quality answer to advance.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Step 0 — name (maxDrills=1, strict: full name required)
+- description: "Step 0 name: full name advances to step 1"
+  vars:
+    userMessage: "My name is Rahul Verma."
+    stepIndex: 0
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 1 && out.isComplete === false;
+
+# Step 1 — professional_background (maxDrills=0, any answer advances)
+- description: "Step 1 professional_background: any answer advances to step 2"
+  vars:
+    userMessage: "I worked as a software engineer at Infosys for 3 years and then at an early-stage EdTech startup."
+    stepIndex: 1
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 2;"
+
+# Step 2 — education_background (maxDrills=0)
+- description: "Step 2 education_background: any answer advances to step 3"
+  vars:
+    userMessage: "I completed my B.Tech in Computer Science from NIT Trichy in 2018."
+    stepIndex: 2
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 3;"
+
+# Step 3 — life_goals (maxDrills=2, needs all 3 timeframes with specifics)
+- description: "Step 3 life_goals: detailed answer with all 3 timeframes advances to step 4"
+  vars:
+    userMessage: "Short-term: Launch our MVP in 6 months and acquire 500 paying users. Mid-term: Reach 50,000 users and close a Series A within 2 years. Long-term: Build India's most trusted AI education platform serving 10 million students by 2030."
+    stepIndex: 3
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 4;"
+
+# Step 4 — startup_vs_technology (maxDrills=2, needs genuine business understanding)
+- description: "Step 4 startup_vs_technology: concrete business understanding advances to step 5"
+  vars:
+    userMessage: "A startup is a business that must generate revenue to survive. It needs paying customers, a viable unit economics model, and a path to profitability. Technology is the enabler, not the end goal — without revenue and customers it's just an expensive experiment."
+    stepIndex: 4
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 5;"
+
+# Step 5 — founder_status_step1 (maxDrills=0, any answer → advance to step6 with drillCount=1)
+- description: "Step 5 founder_status_step1: solo answer advances to step 6 with drillCount=1 and founderIsSolo=true"
+  vars:
+    userMessage: "I am a solo founder building this entirely by myself."
+    stepIndex: 5
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 6 && out.nextDrillCount === 1 && out.founderIsSolo === true;
+
+# Step 5 — founder_status_step1 co-founder variant
+- description: "Step 5 founder_status_step1: co-founder answer sets founderIsSolo=false"
+  vars:
+    userMessage: "I have a co-founder who handles the technical side while I handle business."
+    stepIndex: 5
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 6 && out.founderIsSolo === false;
+
+# Step 6 — founder_status_step2 (maxDrills=0, drillCount=1 means normal eval → advances)
+- description: "Step 6 founder_status_step2: answer with drillCount=1 advances to step 7"
+  vars:
+    userMessage: "I will handle product and tech myself since I have 7 years of engineering experience. I plan to hire a sales person in month 6 once we have traction."
+    stepIndex: 6
+    drillCount: 1
+    founderIsSolo: true
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 7;"
+
+# Step 7 — financial_obligations (maxDrills=0)
+- description: "Step 7 financial_obligations: any answer advances to step 8"
+  vars:
+    userMessage: "I have no family dependents. My monthly personal expenses are around 30,000 rupees which I can cover from savings for 18 months."
+    stepIndex: 7
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 8;"
+
+# Step 8 — failure_story (maxDrills=2, needs specific failure + concrete lesson)
+- description: "Step 8 failure_story: specific failure with concrete lesson advances to step 9"
+  vars:
+    userMessage: "Two years ago I built a food delivery app. We were losing 80 rupees per order and didn't realize until month 4. I had to shut it down after burning 6 lakh rupees. The lesson was clear: validate unit economics before scaling. Now I always model unit economics before writing a single line of code."
+    stepIndex: 8
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 9;"
+
+# Step 9 — hobbies (maxDrills=0)
+- description: "Step 9 hobbies: any answer advances to step 10"
+  vars:
+    userMessage: "I enjoy reading history books and playing badminton on weekends."
+    stepIndex: 9
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 10;"
+
+# Step 10 — the_why (maxDrills=0)
+- description: "Step 10 the_why: any answer advances to step 11"
+  vars:
+    userMessage: "I grew up in a tier-3 city and couldn't afford quality tutors. I want to give every Indian student the education I wish I had."
+    stepIndex: 10
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 11;"
+
+# Step 11 — startup_idea (maxDrills=2, needs clear problem + solution)
+- description: "Step 11 startup_idea: clear problem and solution advances to step 12"
+  vars:
+    userMessage: "I am building an AI tutoring platform for Class 10-12 students in India. The problem: 80% of students in tier-2 and tier-3 cities cannot afford quality private tutors which cost 500-1000 rupees per hour. Our solution: an AI tutor that provides personalized, adaptive lessons at 99 rupees per month."
+    stepIndex: 11
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 12;"
+
+# Step 12 — zone_1_desirability (maxDrills=2)
+- description: "Step 12 desirability: specific customer segment + evidence of demand advances to step 13"
+  vars:
+    userMessage: "Our target customers are Class 10-12 students in tier-2 and tier-3 Indian cities. I conducted 50 user interviews — 80% said they cannot afford good tutors. We have 200 students on a waitlist and our beta cohort of 30 students improved their scores by an average of 22% in one month."
+    stepIndex: 12
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 13;"
+
+# Step 13 — zone_2_viability (maxDrills=2)
+- description: "Step 13 viability: clear revenue model with unit economics advances to step 14"
+  vars:
+    userMessage: "We charge 99 rupees per month subscription. Our compute cost per student is 12 rupees per month, so we break even at 500 students. We also offer a freemium tier to drive acquisition. At 10,000 students that is 10 lakh revenue per month. We have a clear path to profitability at 3,000 students."
+    stepIndex: 13
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 14;"
+
+# Step 14 — zone_3_feasibility (maxDrills=2)
+- description: "Step 14 feasibility: demonstrated technical capability advances to step 15"
+  vars:
+    userMessage: "I have 7 years of ML engineering experience, including 3 years building NLP models in production at a funded startup. My co-founder has a PhD in educational technology from IIT Bombay. We already have a working prototype with 50 beta users and a 4.2 out of 5 satisfaction rating."
+    stepIndex: 14
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 15;"
+
+# Step 15 — zone_4_defensibility (maxDrills=2)
+- description: "Step 15 defensibility: specific moat (proprietary dataset) advances to step 16"
+  vars:
+    userMessage: "We are building a proprietary dataset of 200,000 curriculum-mapped Q&A pairs in Hindi and English aligned to NCERT. This took us 8 months to create and no competitor has it. Additionally, as students use our platform we accumulate their learning patterns which continuously improves our model — a data flywheel no one can easily replicate."
+    stepIndex: 15
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 16;"
+
+# Step 16 — zone_5_affordability (maxDrills=2)
+- description: "Step 16 affordability: India-specific pricing research advances to step 17"
+  vars:
+    userMessage: "I researched that Netflix India costs 149 rupees per month and that students in tier-2 cities have 200-500 rupees discretionary monthly budget. We specifically chose 99 rupees after testing 79, 99, and 149 rupee price points with 100 beta users. We also offer 1 rupee per session pay-as-you-go for rural users who cannot commit monthly."
+    stepIndex: 16
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 17;"
+
+# Step 17 — ai_interest (maxDrills=1, lenient — any genuine story accepted)
+- description: "Step 17 ai_interest: any genuine personal story about AI interest advances to step 18"
+  vars:
+    userMessage: "I first got seriously interested in AI when I tried to build a chatbot that could explain calculus in simple Hindi. I realized language models could completely change how students learn in their native language."
+    stepIndex: 17
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 18;"
+
+# Step 18 — ai_necessity (maxDrills=2)
+- description: "Step 18 ai_necessity: clear structural reason why AI is needed advances to step 19"
+  vars:
+    userMessage: "Without AI, personalized tutoring at this scale is impossible. You would need one human tutor per student. AI allows us to analyze each student's exact knowledge gaps in real time, generate custom practice questions, and adapt the difficulty dynamically. Traditional software cannot do adaptive learning — it would just be a static question bank."
+    stepIndex: 18
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 19;"
+
+# Step 19 — ai_ecosystem_contribution (maxDrills=2)
+- description: "Step 19 ai_ecosystem_contribution: concrete ecosystem contribution advances to step 20"
+  vars:
+    userMessage: "Our platform generates 100,000 student-AI interactions per day, all in Hindi. We plan to open-source our Hindi NLP evaluation benchmark which does not exist today. We are also training a small, distilled model that runs on low-end Android phones with 2G connections — making AI accessible to rural India for the first time."
+    stepIndex: 19
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 20;"
+
+# Step 20 — indiaai_awareness (maxDrills=0, yes/no check — any answer advances)
+- description: "Step 20 indiaai_awareness: yes answer advances to step 21"
+  vars:
+    userMessage: "Yes, I am very aware of the IndiaAI Mission. I have followed its announcements and read about its seven pillars."
+    stepIndex: 20
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 21;"
+
+# Step 20 — indiaai_awareness negative variant (no answer still advances)
+- description: "Step 20 indiaai_awareness: no answer still advances (maxDrills=0)"
+  vars:
+    userMessage: "No, I am not familiar with the IndiaAI Mission specifically."
+    stepIndex: 20
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 21;"
+
+# Step 21 — indiaai_alignment (maxDrills=2)
+- description: "Step 21 indiaai_alignment: specific alignment explanation advances to step 22"
+  vars:
+    userMessage: "We directly align with the FutureSkills pillar of the IndiaAI Mission because we are building AI-powered education infrastructure for Indian students. We are also contributing to the AIKosh objective by open-sourcing our Hindi education dataset. Our work builds AI literacy from the ground up."
+    stepIndex: 21
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 22;"
+
+# Step 22 — company_name (maxDrills=0)
+- description: "Step 22 company_name: any answer advances to step 23"
+  vars:
+    userMessage: "Our company is called FutureMind Technologies Private Limited."
+    stepIndex: 22
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 23;"
+
+# Step 23 — company_incorporated (maxDrills=0)
+- description: "Step 23 company_incorporated: any answer advances to step 24"
+  vars:
+    userMessage: "Yes, we incorporated as a Private Limited company in January 2024."
+    stepIndex: 23
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 24;"
+
+# Step 24 — pitch_deck (maxDrills=0)
+- description: "Step 24 pitch_deck: no pitch deck answer advances to step 25"
+  vars:
+    userMessage: "We do not have a pitch deck ready yet. We are still in early development."
+    stepIndex: 24
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 25;"
+
+# Step 25 — website (maxDrills=0, last step → isComplete=true)
+- description: "Step 25 website: last step answer sets isComplete=true"
+  vars:
+    userMessage: "Our website is futuremind.in — it is live but minimal right now."
+    stepIndex: 25
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.isComplete === true && out.nextStepIndex === 26;
