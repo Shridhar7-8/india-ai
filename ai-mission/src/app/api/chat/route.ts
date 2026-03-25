@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase";
 import { MessageCreateSchema } from "@/lib/schemas";
 import { runConductorFSM, getInitialChecklist, getInitialSummary, STEPS } from "@/agents/conductor";
 import { runSkeptic } from "@/agents/skeptic";
-import { inngest } from "@/inngest/client";
+import { sendToQueue } from "@/lib/sqs";
 
 /**
  * POST /api/chat — Main chat endpoint.
@@ -217,7 +217,9 @@ export async function POST(req: NextRequest) {
       updatedVagueTopics.push(fsmResult.notedVague);
     }
 
-    await supabase
+    console.log(`[API] Updating interview state for conv ${convId}: step_index ${stepIndex} -> ${fsmResult.nextStepIndex}`);
+
+    const { error: updateError } = await supabase
       .from("interview_states")
       .update({
         checklist: updatedChecklist,
@@ -232,6 +234,12 @@ export async function POST(req: NextRequest) {
         ...(fsmResult.founderIsSolo !== undefined ? { founder_is_solo: fsmResult.founderIsSolo } : {}),
       })
       .eq("conversation_id", convId);
+
+    if (updateError) {
+      console.error(`❌ [API] Failed to update interview state:`, updateError);
+    } else {
+      console.log(`✅ [API] Interview state updated successfully.`);
+    }
 
     // 11. Run Skeptic agent in background (fire-and-forget)
     const currentStepId = stepIndex < STEPS.length ? STEPS[stepIndex].id : "unknown";
@@ -270,16 +278,13 @@ export async function POST(req: NextRequest) {
         .eq("id", convId);
 
       try {
-        await inngest.send({
-          name: "interview/finalize",
-          data: {
-            conversationId: convId,
-            conversationTitle: title,
-          },
+        await sendToQueue("interview/finalize", {
+          conversationId: convId,
+          conversationTitle: title,
         });
-        console.log("✅ Inngest event 'interview/finalize' sent successfully for conversation:", convId);
-      } catch (inngestError) {
-        console.error("❌ Failed to send Inngest event:", inngestError);
+        console.log("✅ SQS message 'interview/finalize' sent successfully for conversation:", convId);
+      } catch (sqsError) {
+        console.error("❌ Failed to send SQS message:", sqsError);
       }
     }
 

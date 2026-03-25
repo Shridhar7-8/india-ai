@@ -1,0 +1,27 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# FounderCheck — Conductor FSM Evaluation Suite
+# Run all conductor tests:  npx promptfoo eval
+# Run skeptic tests:        npx promptfoo eval --config tests/eval/skeptic-eval.yaml
+# View results (UI):        npx promptfoo view
+# ──────────────────────────────────────────────────────────────────────────────
+
+description: "FounderCheck — Conductor FSM Full Evaluation"
+
+prompts:
+  - file://tests/eval/prompts/conductor-prompt.js
+
+providers:
+  - id: "exec:node node_modules/tsx/dist/cli.mjs tests/eval/conductor_standalone.ts"
+    label: conductor
+
+defaultTest:
+  options:
+    timeout: 90000  # 90s per test — LLM calls can be slow
+
+tests:
+  - file://tests/eval/configs/01-conductor-step-advancement.yaml
+  - file://tests/eval/configs/02-conductor-drill-down.yaml
+  - file://tests/eval/configs/03-conductor-off-topic.yaml
+  - file://tests/eval/configs/04-conductor-special-logic.yaml
+  - file://tests/eval/configs/05-conductor-edge-cases.yaml
+  - file://tests/eval/configs/09-flow-integrity.yaml

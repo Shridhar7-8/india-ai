@@ -3,7 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "concurrently --names \"app,worker\" \"npm run dev:app\" \"npm run dev:worker\"",
+    "dev:app": "next dev",
+    "dev:worker": "tsx src/scripts/sqs-worker.ts",
+    "dev:analyze": "tsx src/scripts/analyze-trigger.ts",
+    "trigger-report": "tsx src/scripts/trigger-report.ts",
+    "analyze": "tsx src/scripts/analyze-trigger.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -14,6 +19,7 @@
   "dependencies": {
     "@ai-sdk/amazon-bedrock": "^4.0.77",
     "@ai-sdk/openai": "^3.0.37",
+    "@aws-sdk/client-sqs": "^3.1010.0",
     "@clerk/nextjs": "^6.39.0",
     "@react-pdf/renderer": "^4.3.2",
     "@sentry/nextjs": "^10.43.0",
@@ -46,10 +52,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^5.1.4",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "jsdom": "^28.1.0",
+    "promptfoo": "^0.120.19",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.0.18"
   }

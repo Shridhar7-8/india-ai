@@ -1,0 +1,167 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 09 — Flow Integrity (Multi-Turn Simulations)
+# Tests that the FSM returns the correct NEXT question for a given step,
+# using realistic conversation history. Validates interview sequencing.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# After step 0 (name answered), next question should be about professional background
+- description: "Flow: after name answered, response asks about professional background"
+  vars:
+    userMessage: "My name is Rahul Verma."
+    stepIndex: 0
+    drillCount: 0
+    history: []
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 1;"
+    - type: icontains
+      value: "professional"
+
+# After step 3 (life_goals), next question asks about startup vs technology
+- description: "Flow: after life_goals answered, response asks about startup vs technology"
+  vars:
+    userMessage: "Short-term: Launch MVP in 3 months with 100 users. Mid-term: Reach 10,000 users in year 2. Long-term: Build the leading AI education platform for India by 2030."
+    stepIndex: 3
+    drillCount: 0
+    history:
+      - role: "assistant"
+        content: "What are your short-term, mid-term, and long-term life goals?"
+      - role: "user"
+        content: "Short-term: Launch MVP in 3 months with 100 users. Mid-term: Reach 10,000 users in year 2. Long-term: Build the leading AI education platform for India by 2030."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 4;"
+    - type: icontains
+      value: "business"
+
+# After phase 1 completion (step 10), next question is about startup idea
+- description: "Flow: after the_why answered (step 10), next asks about startup idea"
+  vars:
+    userMessage: "I want to democratize quality education for every Indian student regardless of their economic background."
+    stepIndex: 10
+    drillCount: 0
+    history:
+      - role: "assistant"
+        content: "What motivates you to build this startup?"
+      - role: "user"
+        content: "I want to democratize quality education for every Indian student regardless of their economic background."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 11;"
+    - type: icontains
+      value: "startup idea"
+
+# After startup idea (step 11), next asks about desirability (customers)
+- description: "Flow: after startup_idea answered, next asks about target customers"
+  vars:
+    userMessage: "I am building an AI tutor for Class 10-12 students in India. The problem is unaffordable private tutoring. Our solution gives personalized AI tutoring at 99 rupees per month."
+    stepIndex: 11
+    drillCount: 0
+    history:
+      - role: "assistant"
+        content: "Tell me about your startup idea — what problem are you solving and what is your solution?"
+      - role: "user"
+        content: "I am building an AI tutor for Class 10-12 students in India. The problem is unaffordable private tutoring. Our solution gives personalized AI tutoring at 99 rupees per month."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 12;"
+    - type: icontains
+      value: "customer"
+
+# After all zone scores (step 16), next asks about AI interest
+- description: "Flow: after affordability answered (step 16), next asks about AI interest"
+  vars:
+    userMessage: "We priced at 99 rupees after testing 79, 99, and 149 with 100 beta users. Specifically chosen because Netflix India costs 149 and students have 200-500 rupees monthly discretionary budget."
+    stepIndex: 16
+    drillCount: 0
+    history:
+      - role: "assistant"
+        content: "How does your pricing fit within the Indian market?"
+      - role: "user"
+        content: "We priced at 99 rupees after testing 79, 99, and 149 with 100 beta users. Specifically chosen because Netflix India costs 149 and students have 200-500 rupees monthly discretionary budget."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 17;"
+    - type: icontains
+      value: "AI"
+
+# indiaai_awareness NO answer auto-advances (maxDrills=0)
+- description: "Flow: 'No' to indiaai_awareness advances to indiaai_alignment (step 21)"
+  vars:
+    userMessage: "No, I have not heard of the IndiaAI Mission before."
+    stepIndex: 20
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 21;"
+
+# Closing phase: after company_incorporated, next asks about pitch deck
+- description: "Flow: after company_incorporated (step 23), next asks about pitch deck"
+  vars:
+    userMessage: "Yes, we incorporated in January 2024 as FutureMind Technologies Private Limited."
+    stepIndex: 23
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: "const out = JSON.parse(output); out.nextStepIndex === 24;"
+    - type: icontains
+      value: "pitch"
+
+# Verify checklistUpdate key is populated on advance
+- description: "Flow: advancing from step 8 (failure_story) includes correct checklistUpdate key"
+  vars:
+    userMessage: "My first startup failed because I did not validate the business model. I burned 5 lakh rupees and shut it down in 4 months. The lesson: always test willingness to pay before building. Now I do paid pilots before writing code."
+    stepIndex: 8
+    drillCount: 0
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 9 &&
+          out.checklistUpdate != null &&
+          out.checklistUpdate.key === 'failure_story' &&
+          out.checklistUpdate.value === true;
+
+# founderIsSolo propagates through subsequent steps unchanged
+- description: "Flow: founderIsSolo=true propagates through non-founder steps"
+  vars:
+    userMessage: "I enjoy reading and coding on weekends."
+    stepIndex: 9
+    drillCount: 0
+    founderIsSolo: true
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 10 && out.founderIsSolo === true;
+
+# Multi-turn drill-down: same step asked twice, correct drill count increments
+- description: "Flow: two consecutive vague answers on life_goals correctly increments drillCount"
+  vars:
+    userMessage: "I just want to be successful in life."
+    stepIndex: 3
+    drillCount: 1
+    history:
+      - role: "assistant"
+        content: "What are your short-term, mid-term, and long-term life goals?"
+      - role: "user"
+        content: "I want to grow."
+      - role: "assistant"
+        content: "Could you share specific goals for each time frame — short-term, mid-term, and long-term?"
+      - role: "user"
+        content: "I just want to be successful in life."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.nextStepIndex === 3 && out.nextDrillCount === 2;

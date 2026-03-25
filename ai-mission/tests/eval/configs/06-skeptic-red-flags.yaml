@@ -1,0 +1,197 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 06 — Skeptic Red Flag Detection
+# Two tests per red flag category (clear trigger + borderline).
+# Each test includes the userMessage in the history array so the evidence
+# validator in skeptic.ts can find verbatim quotes.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── LOGIC_GAP: contradicts previous statements ───────────────────────────────
+
+- description: "Red flag LOGIC_GAP: claims 10M users but just launched last week"
+  vars:
+    userMessage: "We already have 10 million active users and 100 crore in revenue per month. We launched just last week."
+    currentTopic: "zone_2_viability"
+    history:
+      - role: "user"
+        content: "We already have 10 million active users and 100 crore in revenue per month. We launched just last week."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => f.category === 'LOGIC_GAP');
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const flag = out.redFlags.find(f => f.category === 'LOGIC_GAP');
+        return flag && Array.isArray(flag._evidence) && flag._evidence.length > 0;
+
+- description: "Red flag LOGIC_GAP: says solo founder then says 'we have a team of 10'"
+  vars:
+    userMessage: "Yes I am a solo founder, just me. Our team of 10 engineers is making great progress on the backend."
+    currentTopic: "founder_status"
+    history:
+      - role: "user"
+        content: "Yes I am a solo founder, just me. Our team of 10 engineers is making great progress on the backend."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => f.category === 'LOGIC_GAP');
+
+# ── VAGUE_FLUFF: buzzwords without any data ───────────────────────────────────
+
+- description: "Red flag VAGUE_FLUFF: pure buzzwords with no specifics on startup_idea"
+  vars:
+    userMessage: "We are leveraging cutting-edge AI to disrupt the market and create synergistic value through our innovative platform. Our revolutionary technology will transform the entire education ecosystem."
+    currentTopic: "startup_idea"
+    history:
+      - role: "user"
+        content: "We are leveraging cutting-edge AI to disrupt the market and create synergistic value through our innovative platform. Our revolutionary technology will transform the entire education ecosystem."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => f.category === 'VAGUE_FLUFF');
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const flag = out.redFlags.find(f => f.category === 'VAGUE_FLUFF');
+        return flag && Array.isArray(flag._evidence) && flag._evidence.length > 0;
+
+- description: "Red flag VAGUE_FLUFF: claiming huge market with zero data"
+  vars:
+    userMessage: "The market opportunity is absolutely massive — a multi-billion dollar space that we are uniquely positioned to capture."
+    currentTopic: "zone_1_desirability"
+    history:
+      - role: "user"
+        content: "The market opportunity is absolutely massive — a multi-billion dollar space that we are uniquely positioned to capture."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.some(f => f.category === 'VAGUE_FLUFF');
+
+# ── EVASION: deflecting or changing the subject ───────────────────────────────
+
+- description: "Red flag EVASION: changing subject when asked about revenue model"
+  vars:
+    userMessage: "Revenue is a complex topic. What I really want to focus on is the product vision and how transformative it will be for users. The market will figure it out."
+    currentTopic: "zone_2_viability"
+    history:
+      - role: "assistant"
+        content: "What is your business model and how will you generate revenue?"
+      - role: "user"
+        content: "Revenue is a complex topic. What I really want to focus on is the product vision and how transformative it will be for users. The market will figure it out."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['EVASION', 'VAGUE_FLUFF'].includes(f.category));
+
+- description: "Red flag EVASION: repeated vagueness after explicit follow-up about moat"
+  vars:
+    userMessage: "We have competitive advantages. I would rather not get into specifics right now. Trust me, we have thought about this."
+    currentTopic: "zone_4_defensibility"
+    history:
+      - role: "assistant"
+        content: "Can you be more specific about what makes your solution hard to replicate?"
+      - role: "user"
+        content: "We have competitive advantages. I would rather not get into specifics right now. Trust me, we have thought about this."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['EVASION', 'CLARITY_GAP'].includes(f.category));
+
+# ── SHALLOW_DEPTH: surface-level answer on critical topic ────────────────────
+
+- description: "Red flag SHALLOW_DEPTH: failure story with no recovery or lesson"
+  vars:
+    userMessage: "I once failed at a project. It was really hard. But I kept going and eventually things got better."
+    currentTopic: "failure_story"
+    history:
+      - role: "user"
+        content: "I once failed at a project. It was really hard. But I kept going and eventually things got better."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['SHALLOW_DEPTH', 'VAGUE_FLUFF'].includes(f.category));
+
+- description: "Red flag SHALLOW_DEPTH: no concrete feasibility answer after follow-up"
+  vars:
+    userMessage: "We are fully capable of building this. We have the skills and experience needed. It will work."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "assistant"
+        content: "Can you tell me more specifically about your technical background and current build progress?"
+      - role: "user"
+        content: "We are fully capable of building this. We have the skills and experience needed. It will work."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['SHALLOW_DEPTH', 'VAGUE_FLUFF'].includes(f.category));
+
+# ── CLARITY_GAP: cannot explain what the product actually does ────────────────
+
+- description: "Red flag CLARITY_GAP: unable to clearly define own product after follow-up"
+  vars:
+    userMessage: "It is like an AI platform that helps people do things more efficiently using data and intelligence."
+    currentTopic: "startup_idea"
+    history:
+      - role: "assistant"
+        content: "Could you describe more specifically what your product does and what problem it solves?"
+      - role: "user"
+        content: "It is like an AI platform that helps people do things more efficiently using data and intelligence."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['CLARITY_GAP', 'VAGUE_FLUFF'].includes(f.category));
+
+# ── AI_WASHING: AI is decorative or repackaged foreign API ───────────────────
+
+- description: "Red flag AI_WASHING: admits using GPT API with no custom layer"
+  vars:
+    userMessage: "We use the ChatGPT API. You type a question and it answers. We put a nice UI around it. The AI does everything automatically."
+    currentTopic: "ai_necessity"
+    history:
+      - role: "user"
+        content: "We use the ChatGPT API. You type a question and it answers. We put a nice UI around it. The AI does everything automatically."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => f.category === 'AI_WASHING');
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const flag = out.redFlags.find(f => f.category === 'AI_WASHING');
+        return flag && Array.isArray(flag._evidence) && flag._evidence.length > 0;
+
+- description: "Red flag AI_WASHING: cannot explain why product needs AI vs rule-based system"
+  vars:
+    userMessage: "We use AI because AI is the future. Everything is better with AI. Our algorithm processes inputs and gives outputs — that is AI."
+    currentTopic: "ai_necessity"
+    history:
+      - role: "assistant"
+        content: "Why does your product specifically need AI? Could you not build this with traditional software?"
+      - role: "user"
+        content: "We use AI because AI is the future. Everything is better with AI. Our algorithm processes inputs and gives outputs — that is AI."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length > 0 && out.redFlags.some(f => ['AI_WASHING', 'VAGUE_FLUFF'].includes(f.category));

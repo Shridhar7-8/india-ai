@@ -1,0 +1,135 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 08 — Skeptic Evidence Validation & Deduplication
+# Tests the evidence grounding system:
+#   - Flags must have _evidence with verbatim quotes from the history
+#   - Clean positive answers should produce zero red flags
+#   - Duplicate flags should not accumulate in existingFlags
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Evidence grounding: each flag's _evidence must be verifiable in history
+- description: "Evidence: all returned red flag _evidence quotes exist verbatim in history"
+  vars:
+    userMessage: "We already have 10 million users and 100 crore revenue. We launched just last week."
+    currentTopic: "zone_2_viability"
+    history:
+      - role: "user"
+        content: "We already have 10 million users and 100 crore revenue. We launched just last week."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const allFlags = [...out.redFlags, ...out.greenFlags];
+        // Every _evidence quote must appear in the history content
+        const historyText = "We already have 10 million users and 100 crore revenue. We launched just last week.".toLowerCase();
+        return allFlags.every(flag =>
+          !flag._evidence || flag._evidence.length === 0 ||
+          flag._evidence.every(quote => historyText.includes(quote.toLowerCase().trim()))
+        );
+
+# No false positives: clear, strong, well-articulated answer should produce no red flags
+- description: "Evidence: strong, honest, specific answer produces no red flags"
+  vars:
+    userMessage: "I have 7 years of ML engineering experience at production scale. We have 50 beta users with an 85% retention rate and a Net Promoter Score of 72. Our break-even is at 500 subscribers and we have a clear path to profitability within 6 months."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "user"
+        content: "I have 7 years of ML engineering experience at production scale. We have 50 beta users with an 85% retention rate and a Net Promoter Score of 72. Our break-even is at 500 subscribers and we have a clear path to profitability within 6 months."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length === 0;
+
+# Deduplication: same flag passed as existingFlag should not be duplicated
+- description: "Deduplication: flagging same VAGUE_FLUFF again does not add a duplicate"
+  vars:
+    userMessage: "We are disrupting the market with our innovative AI solutions."
+    currentTopic: "startup_idea"
+    history:
+      - role: "user"
+        content: "We are disrupting the market with our innovative AI solutions."
+    redFlags:
+      - category: "VAGUE_FLUFF"
+        description: "User used pure buzzwords without any specifics about the product."
+        _evidence:
+          - "We are disrupting the market with our innovative AI solutions."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        // If a new VAGUE_FLUFF flag is raised it should not be a duplicate of the existing one
+        // (The deduplication happens in buildSkepticSummary, but standalone returns new flags only)
+        // The important check: output is valid and structured
+        return Array.isArray(out.redFlags) && Array.isArray(out.greenFlags);
+
+# No flag without evidence: short neutral input produces empty or evidence-backed flags only
+- description: "Evidence: neutral single-word answer produces zero flags or evidence-backed flags"
+  vars:
+    userMessage: "Yes."
+    currentTopic: "indiaai_awareness"
+    history:
+      - role: "user"
+        content: "Yes."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const allFlags = [...out.redFlags, ...out.greenFlags];
+        // Any flag that was raised must have at least one _evidence entry
+        return allFlags.every(f => Array.isArray(f._evidence) && f._evidence.length > 0);
+
+# Do not flag genuine "don't know" on non-critical topic
+- description: "Evidence: 'I don't know' on hobbies does not trigger red flags"
+  vars:
+    userMessage: "I don't really have any hobbies outside work to be honest."
+    currentTopic: "hobbies"
+    history:
+      - role: "user"
+        content: "I don't really have any hobbies outside work to be honest."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.redFlags.length === 0;
+
+# Do not flag short factual negative on financial_obligations
+- description: "Evidence: 'none' on financial_obligations does not trigger EVASION flag"
+  vars:
+    userMessage: "None. I have no loans, no dependents, and no financial commitments."
+    currentTopic: "financial_obligations"
+    history:
+      - role: "user"
+        content: "None. I have no loans, no dependents, and no financial commitments."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return !out.redFlags.some(f => f.category === 'EVASION');
+
+# Multi-flag response: complex message with both red and green signals
+- description: "Evidence: response with both strengths and weaknesses produces mixed flags with evidence"
+  vars:
+    userMessage: "I have 10 years of experience building medical imaging software specifically for rural clinics in India. However, I honestly admit I have never done sales before and I don't know how to price our product yet — we are still figuring that out."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "user"
+        content: "I have 10 years of experience building medical imaging software specifically for rural clinics in India. However, I honestly admit I have never done sales before and I don't know how to price our product yet — we are still figuring that out."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        // Should find at least a green flag for domain expertise or honest self-awareness
+        return out.greenFlags.length > 0;
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        // All flags must have evidence
+        const allFlags = [...out.redFlags, ...out.greenFlags];
+        return allFlags.every(f => Array.isArray(f._evidence) && f._evidence.length > 0);

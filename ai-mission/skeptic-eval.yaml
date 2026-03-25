@@ -1,0 +1,22 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# FounderCheck — Skeptic Agent Evaluation Suite
+# Run: npx promptfoo eval --config skeptic-eval.yaml
+# ──────────────────────────────────────────────────────────────────────────────
+
+description: "FounderCheck — Skeptic Agent Full Evaluation"
+
+prompts:
+  - file://tests/eval/prompts/skeptic-prompt.js
+
+providers:
+  - id: "exec:node node_modules/tsx/dist/cli.mjs tests/eval/skeptic_standalone.ts"
+    label: skeptic
+
+defaultTest:
+  options:
+    timeout: 90000
+
+tests:
+  - file://tests/eval/configs/06-skeptic-red-flags.yaml
+  - file://tests/eval/configs/07-skeptic-green-flags.yaml
+  - file://tests/eval/configs/08-skeptic-evidence.yaml

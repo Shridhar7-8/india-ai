@@ -1,0 +1,757 @@
+════════════════════════════════════════════════════════════
+  FounderCheck Analyze Trigger — Run Log
+  Started : 2026-03-24T09:34:16.131Z
+  Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-34-16.log
+════════════════════════════════════════════════════════════
+
+[2026-03-24T09:34:16.132Z] ─────────────────────────────────────────
+[2026-03-24T09:34:16.132Z] 📬 Email Config Check:
+[2026-03-24T09:34:16.133Z]    SMTP_USERNAME      : ✅ buildai@itelfoundation.in
+[2026-03-24T09:34:16.134Z]    SMTP_PASSWORD      : ✅ loaded (hidden)
+[2026-03-24T09:34:16.134Z]    REPORT_RECIPIENT   : ✅ karthikoff87@gmail.com
+[2026-03-24T09:34:16.134Z] ✅ Email is configured — report will be sent.
+[2026-03-24T09:34:16.135Z] ─────────────────────────────────────────
+
+[2026-03-24T09:34:16.155Z] 🔍 Fetching all completed real conversations since 2026-03-15...
+[2026-03-24T09:34:16.662Z] 
+📋 Found 194 completed conversations since 2026-03-15
+[2026-03-24T09:34:16.663Z]    → 1 skipped (test users)
+[2026-03-24T09:34:16.663Z]    → 193 real conversations to process
+[2026-03-24T09:34:16.664Z]    → Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-34-16.log
+[2026-03-24T09:34:16.664Z] ─────────────────────────────────────────
+
+CONVERSATION LIST:
+    1. convId=229 | 2026-03-15 | MediVault AI
+    2. convId=231 | 2026-03-15 | JantaFlash
+    3. convId=236 | 2026-03-16 | Srishti Shaw Interview
+    4. convId=251 | 2026-03-16 | New Conversation
+    5. convId=256 | 2026-03-16 | KAL
+    6. convId=257 | 2026-03-16 | Wise Drop
+    7. convId=262 | 2026-03-16 | build private ltd
+    8. convId=265 | 2026-03-16 | Reach-out AI Technologies pvt Ltd
+    9. convId=266 | 2026-03-16 | VidyaVerse
+   10. convId=268 | 2026-03-16 | Y labs
+   11. convId=273 | 2026-03-16 | AgentIC
+   12. convId=275 | 2026-03-16 | Tvara
+   13. convId=280 | 2026-03-16 | Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon
+   14. convId=281 | 2026-03-16 | Lehio Solution PVT LTD
+The startup name is Vidhik AI
+   15. convId=284 | 2026-03-16 | Will my information that I share about my product be safe here
+   16. convId=285 | 2026-03-16 | OPERATION SINDOOR.AI
+   17. convId=290 | 2026-03-16 | Whisperwave
+   18. convId=291 | 2026-03-16 | and also cse with ai/ml
+   19. convId=293 | 2026-03-16 | Massxg
+   20. convId=297 | 2026-03-16 | LotusAI
+   21. convId=303 | 2026-03-16 | Wetroo Automation
+   22. convId=305 | 2026-03-16 | ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org
+   23. convId=306 | 2026-03-16 | FactoryBrain
+   24. convId=307 | 2026-03-16 | Alfa Hawk
+   25. convId=309 | 2026-03-16 | Huia Labs
+   26. convId=311 | 2026-03-16 | MetricAI, BlaiseLogic Technology Private Limited
+   27. convId=313 | 2026-03-16 | Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name
+   28. convId=314 | 2026-03-16 | Nebils
+   29. convId=315 | 2026-03-16 | Nyayamitra
+   30. convId=316 | 2026-03-16 | Sylithe
+   31. convId=318 | 2026-03-16 | Fluxi Technologies Private Limited
+   32. convId=325 | 2026-03-17 | The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India
+   33. convId=328 | 2026-03-17 | Witting AI Private Limited
+   34. convId=330 | 2026-03-17 | gem pvt ltd
+   35. convId=331 | 2026-03-17 | My name is Vishal Raina
+   36. convId=333 | 2026-03-17 | Trishul Space
+   37. convId=335 | 2026-03-17 | Pooja Malakar Interview
+   38. convId=336 | 2026-03-17 | PetsGo and PetsDoor Pvt Ltd
+   39. convId=337 | 2026-03-17 | Slaab.ai
+   40. convId=339 | 2026-03-17 | ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited)
+   41. convId=341 | 2026-03-17 | VYGOT
+   42. convId=350 | 2026-03-17 | Ayush Arya Interview
+   43. convId=363 | 2026-03-17 | I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector
+   44. convId=371 | 2026-03-17 | Crynie is name of startup not registered yet and burpsie is our ecosystem name
+   45. convId=380 | 2026-03-17 | Siddhant Gujar Interview
+   46. convId=382 | 2026-03-17 | New Conversation
+   47. convId=394 | 2026-03-17 | LeadPe
+   48. convId=396 | 2026-03-17 | Friday Intellytics
+   49. convId=399 | 2026-03-18 | Charky Labs Pvt. Ltd
+   50. convId=401 | 2026-03-18 | AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem
+   51. convId=402 | 2026-03-18 | Wharf Street Studios
+   52. convId=436 | 2026-03-18 | Beaver tech
+   53. convId=439 | 2026-03-18 | Venturelens
+   54. convId=442 | 2026-03-18 | Qualentra Global
+   55. convId=455 | 2026-03-18 | Aloukik Bhatnagar Interview
+   56. convId=456 | 2026-03-18 | BODH-Ai
+   57. convId=466 | 2026-03-18 | InsightFlow AI, focused on turning complex content into clear, actionable insights using AI
+   58. convId=468 | 2026-03-18 | Dr. ViKi
+   59. convId=479 | 2026-03-18 | Vaibhav Mahato Interview
+   60. convId=481 | 2026-03-18 | A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs)
+   61. convId=482 | 2026-03-18 | godyns
+   62. convId=488 | 2026-03-18 | 97 group
+   63. convId=489 | 2026-03-18 | VAIL synonym with Vetri AI Labs
+   64. convId=491 | 2026-03-18 | Invariant Labs
+   65. convId=493 | 2026-03-18 | Aptenix Software Technologies Private Limited
+   66. convId=505 | 2026-03-18 | Zeex AI
+   67. convId=511 | 2026-03-18 | Pashudhan AI
+   68. convId=514 | 2026-03-18 | Resurgenix Technologies
+   69. convId=515 | 2026-03-18 | TechTeenu AI
+   70. convId=516 | 2026-03-18 | Artograph AI
+   71. convId=522 | 2026-03-19 | ekithab
+   72. convId=527 | 2026-03-19 | Zenith
+   73. convId=531 | 2026-03-19 | Urban mind AI-smart city decision making platform
+   74. convId=533 | 2026-03-19 | Indilingo Labs LLP
+   75. convId=534 | 2026-03-19 | HireMind AI
+   76. convId=535 | 2026-03-19 | Yamini Parashar Interview
+   77. convId=538 | 2026-03-19 | Amit Tiwari Interview
+   78. convId=543 | 2026-03-19 | AVYRA AI
+   79. convId=548 | 2026-03-19 | SafeNet AI
+   80. convId=550 | 2026-03-19 | Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In)
+   81. convId=555 | 2026-03-19 | VentureThrust
+   82. convId=563 | 2026-03-19 | Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point
+   83. convId=565 | 2026-03-19 | Company Name : Provaantech and their products Name: Prohirey and ToxBox AI
+   84. convId=566 | 2026-03-19 | The product name is MindShield. The start-up name is yet to be finalised. It's in the process
+   85. convId=567 | 2026-03-19 | Dezion
+   86. convId=569 | 2026-03-19 | Finigenie
+   87. convId=571 | 2026-03-19 | MindBlix
+   88. convId=573 | 2026-03-19 | DiaX.AI as start up in Diabwellness Private Limited as company
+   89. convId=577 | 2026-03-19 | Capabloo med tech pvt ltd
+   90. convId=579 | 2026-03-20 | NIRAM
+   91. convId=580 | 2026-03-20 | Nexvern Technology
+   92. convId=590 | 2026-03-20 | Shyam Bhakti Rasik
+   93. convId=591 | 2026-03-20 | Nexvern Technologies
+   94. convId=592 | 2026-03-20 | Capabloo med tech pvt ltd
+   95. convId=593 | 2026-03-20 | Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding."
+   96. convId=596 | 2026-03-20 | I couldn't name at this time
+   97. convId=597 | 2026-03-20 | DecodeDocs
+   98. convId=599 | 2026-03-20 | Memro
+   99. convId=600 | 2026-03-20 | Smart Eye a brand under KA IKSANATECH INDIA LLP
+  100. convId=601 | 2026-03-20 | Unmaster (Ergastirio Vaccua LLP)
+  101. convId=604 | 2026-03-20 | I am still in the process of getting my legal entity
+  102. convId=605 | 2026-03-20 | DAILYPLANNER APP ( AASHUKAY TECH PVT LTD)
+  103. convId=609 | 2026-03-20 | Charumathi Kumaraswamy Interview
+  104. convId=611 | 2026-03-20 | Punal Legacy Labs Pvt. Ltd
+  105. convId=617 | 2026-03-20 | Datamatrix.AI Pvt Ltd
+  106. convId=618 | 2026-03-20 | Micro Chrome Bio Private Limited
+  107. convId=620 | 2026-03-20 | AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions
+  108. convId=623 | 2026-03-20 | OPERATION SINDOOR.AI (MSME)
+  109. convId=625 | 2026-03-20 | Sevakk.io A First Trust Hyperlocal Service Platform
+  110. convId=627 | 2026-03-20 | Halosafe Private Limited
+  111. convId=628 | 2026-03-20 | ArtemysX
+  112. convId=630 | 2026-03-20 | S. Meditech
+  113. convId=631 | 2026-03-20 | WAHEfilms, focused on building and scaling AI-driven filmmaking and content production
+  114. convId=632 | 2026-03-20 | Ananta intelligence
+  115. convId=635 | 2026-03-20 | Agronova
+  116. convId=638 | 2026-03-20 | GATI AI LABS is my startup and the name of saas is not decided yet
+  117. convId=642 | 2026-03-20 | Neurix
+  118. convId=645 | 2026-03-20 | Dnyandip Patil Interview
+  119. convId=646 | 2026-03-20 | Olynk AI
+  120. convId=647 | 2026-03-20 | Dhruv Kumar Jha Interview
+  121. convId=655 | 2026-03-21 | FLAC
+  122. convId=657 | 2026-03-21 | Socio-Matics private limited
+  123. convId=658 | 2026-03-21 | Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses
+  124. convId=661 | 2026-03-21 | The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction
+  125. convId=667 | 2026-03-21 | IO ROBOTIC PRIVATE LIMITED
+  126. convId=669 | 2026-03-21 | Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems
+  127. convId=672 | 2026-03-21 | Ashvya Services Private Limited
+  128. convId=683 | 2026-03-21 | The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform
+  129. convId=693 | 2026-03-21 | AgroShield AI
+  130. convId=694 | 2026-03-21 | BidCoPilot AI
+  131. convId=695 | 2026-03-21 | As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80
+  132. convId=696 | 2026-03-21 | Niksla Energy
+  133. convId=698 | 2026-03-21 | Kdo
+  134. convId=701 | 2026-03-21 | ICOSVG technology
+  135. convId=703 | 2026-03-21 | Jeevana
+  136. convId=706 | 2026-03-21 | Purelife Innovations Private limited
+  137. convId=712 | 2026-03-21 | Urbanpark solution private limited
+  138. convId=713 | 2026-03-21 | Kirana Shankar Chawan Interview
+  139. convId=716 | 2026-03-21 | Corpogn
+  140. convId=719 | 2026-03-22 | Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling
+  141. convId=721 | 2026-03-22 | SpareMatch
+  142. convId=722 | 2026-03-22 | Prompt Library
+  143. convId=734 | 2026-03-22 | Mano Veda - An Alzheimer Detection App
+  144. convId=738 | 2026-03-22 | Already i told
+  145. convId=742 | 2026-03-22 | Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India
+  146. convId=745 | 2026-03-22 | Edify ai
+  147. convId=746 | 2026-03-22 | Jobply
+  148. convId=747 | 2026-03-22 | Corridors.ai
+  149. convId=749 | 2026-03-22 | DriveGuard Systems
+  150. convId=754 | 2026-03-22 | Zerofalse
+  151. convId=764 | 2026-03-22 | Satyam Singh Interview
+  152. convId=765 | 2026-03-22 | CoheRex
+  153. convId=769 | 2026-03-22 | Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM)
+  154. convId=770 | 2026-03-22 | BristleTech Pvt Lts
+  155. convId=772 | 2026-03-22 | Joshua Lawrence Interview
+  156. convId=777 | 2026-03-23 | Redipath health ops private limited
+  157. convId=780 | 2026-03-23 | Vitalens
+  158. convId=785 | 2026-03-23 | Beyond Space Technologies
+  159. convId=787 | 2026-03-23 | more info plce contact ok
+  160. convId=793 | 2026-03-23 | company : ROOT
+product name : Hiredai
+  161. convId=794 | 2026-03-23 | AgriCPS
+  162. convId=795 | 2026-03-23 | "Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses
+  163. convId=809 | 2026-03-23 | Aasvaa Universal Private Limited
+  164. convId=814 | 2026-03-23 | CRATER Computing
+  165. convId=819 | 2026-03-23 | Anteratic Solutions
+  166. convId=820 | 2026-03-23 | SahayLink
+  167. convId=821 | 2026-03-23 | SecurePay Shield
+  168. convId=823 | 2026-03-23 | Kenesis Labs Private Limited
+  169. convId=824 | 2026-03-23 | Currently, i have not decided
+  170. convId=825 | 2026-03-23 | ML BIZ LLP (globally we operate as ZkAGI)
+  171. convId=829 | 2026-03-23 | DRAFTMATE PVT LTD
+  172. convId=832 | 2026-03-23 | Indilingo Labs
+  173. convId=833 | 2026-03-23 | Alchimera
+  174. convId=836 | 2026-03-23 | Kuldeep Pramod Pathak Interview
+  175. convId=838 | 2026-03-23 | Dentalverse
+  176. convId=840 | 2026-03-23 | ScaleMyStartup is the name of our startup
+  177. convId=842 | 2026-03-23 | Snapbooks
+  178. convId=843 | 2026-03-23 | SafeRide
+  179. convId=844 | 2026-03-23 | JobFlow
+  180. convId=851 | 2026-03-23 | preet singh rajput jan seva kendra
+  181. convId=859 | 2026-03-23 | likemystory.com, and it operates under the registered entity name Storyverse
+  182. convId=862 | 2026-03-23 | ClawDuck
+  183. convId=863 | 2026-03-23 | Preto.ai
+  184. convId=870 | 2026-03-24 | would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users
+  185. convId=871 | 2026-03-24 | InnoVibe Mobility India Pvt Ltd
+  186. convId=882 | 2026-03-24 | tileview.ai
+  187. convId=883 | 2026-03-24 | Ashish Kumar Interview
+  188. convId=887 | 2026-03-24 | Operon
+  189. convId=888 | 2026-03-24 | Scriptonia AI Pvt Ltd
+  190. convId=891 | 2026-03-24 | Bugbusterslabs Private Limited
+  191. convId=899 | 2026-03-24 | GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems
+  192. convId=902 | 2026-03-24 | Bunderbrains pvt ltd is the company, platform is misrut
+  193. convId=906 | 2026-03-24 | Hybrid Octopus OS
+
+PROCESSING LOG:
+[2026-03-24T09:34:16.689Z] [1/193] convId=229 "MediVault AI" ... ✅ DONE  (25.8s | 26s total | ETA calculating...)
+[2026-03-24T09:34:42.472Z] [2/193] convId=231 "JantaFlash" ... ✅ DONE  (13.4s | 39s total | ETA ~83m)
+[2026-03-24T09:34:55.869Z] [3/193] convId=236 "Srishti Shaw Interview" ... ✅ DONE  (31.7s | 71s total | ETA ~62m)
+[2026-03-24T09:35:27.557Z] [4/193] convId=251 "New Conversation" ... ✅ DONE  (26.2s | 97s total | ETA ~75m)
+[2026-03-24T09:35:53.769Z] [5/193] convId=256 "KAL" ... ✅ DONE  (25.4s | 122s total | ETA ~76m)
+[2026-03-24T09:36:19.182Z] [6/193] convId=257 "Wise Drop" ... ✅ DONE  (19.5s | 142s total | ETA ~77m)
+[2026-03-24T09:36:38.650Z] [7/193] convId=262 "build private ltd" ... ✅ DONE  (26.0s | 168s total | ETA ~74m)
+[2026-03-24T09:37:04.699Z] [8/193] convId=265 "Reach-out AI Technologies pvt Ltd" ... ❌ FAILED (36.7s) — Failed to fetch interview state: TypeError: terminated
+[2026-03-24T09:37:41.400Z] [9/193] convId=266 "VidyaVerse" ... ❌ FAILED (28.7s) — Failed to fetch interview state: TypeError: fetch failed
+[2026-03-24T09:38:10.119Z] [10/193] convId=268 "Y labs" ... ❌ FAILED (0.1s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.188Z] [11/193] convId=273 "AgentIC" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.197Z] [12/193] convId=275 "Tvara" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.206Z] [13/193] convId=280 "Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.214Z] [14/193] convId=281 "Lehio Solution PVT LTD
+The startup name is Vidhik AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.220Z] [15/193] convId=284 "Will my information that I share about my product be safe here" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.228Z] [16/193] convId=285 "OPERATION SINDOOR.AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.237Z] [17/193] convId=290 "Whisperwave" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.245Z] [18/193] convId=291 "and also cse with ai/ml" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.251Z] [19/193] convId=293 "Massxg" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.257Z] [20/193] convId=297 "LotusAI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.263Z] [21/193] convId=303 "Wetroo Automation" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.272Z] [22/193] convId=305 "ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.282Z] [23/193] convId=306 "FactoryBrain" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.290Z] [24/193] convId=307 "Alfa Hawk" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.297Z] [25/193] convId=309 "Huia Labs" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.303Z] [26/193] convId=311 "MetricAI, BlaiseLogic Technology Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.308Z] [27/193] convId=313 "Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.313Z] [28/193] convId=314 "Nebils" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.317Z] [29/193] convId=315 "Nyayamitra" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.323Z] [30/193] convId=316 "Sylithe" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.328Z] [31/193] convId=318 "Fluxi Technologies Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.335Z] [32/193] convId=325 "The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.340Z] [33/193] convId=328 "Witting AI Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.345Z] [34/193] convId=330 "gem pvt ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.351Z] [35/193] convId=331 "My name is Vishal Raina" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.355Z] [36/193] convId=333 "Trishul Space" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.358Z] [37/193] convId=335 "Pooja Malakar Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.363Z] [38/193] convId=336 "PetsGo and PetsDoor Pvt Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.368Z] [39/193] convId=337 "Slaab.ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.377Z] [40/193] convId=339 "ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.383Z] [41/193] convId=341 "VYGOT" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.390Z] [42/193] convId=350 "Ayush Arya Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.397Z] [43/193] convId=363 "I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.403Z] [44/193] convId=371 "Crynie is name of startup not registered yet and burpsie is our ecosystem name" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.410Z] [45/193] convId=380 "Siddhant Gujar Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.415Z] [46/193] convId=382 "New Conversation" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.419Z] [47/193] convId=394 "LeadPe" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.424Z] [48/193] convId=396 "Friday Intellytics" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.429Z] [49/193] convId=399 "Charky Labs Pvt. Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.434Z] [50/193] convId=401 "AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.440Z] [51/193] convId=402 "Wharf Street Studios" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.444Z] [52/193] convId=436 "Beaver tech" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.449Z] [53/193] convId=439 "Venturelens" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.454Z] [54/193] convId=442 "Qualentra Global" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.462Z] [55/193] convId=455 "Aloukik Bhatnagar Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.467Z] [56/193] convId=456 "BODH-Ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.473Z] [57/193] convId=466 "InsightFlow AI, focused on turning complex content into clear, actionable insights using AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.478Z] [58/193] convId=468 "Dr. ViKi" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.483Z] [59/193] convId=479 "Vaibhav Mahato Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.488Z] [60/193] convId=481 "A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.493Z] [61/193] convId=482 "godyns" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.496Z] [62/193] convId=488 "97 group" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.500Z] [63/193] convId=489 "VAIL synonym with Vetri AI Labs" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.504Z] [64/193] convId=491 "Invariant Labs" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.508Z] [65/193] convId=493 "Aptenix Software Technologies Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.512Z] [66/193] convId=505 "Zeex AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.514Z] [67/193] convId=511 "Pashudhan AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.517Z] [68/193] convId=514 "Resurgenix Technologies" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.521Z] [69/193] convId=515 "TechTeenu AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.523Z] [70/193] convId=516 "Artograph AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.526Z] [71/193] convId=522 "ekithab" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.529Z] [72/193] convId=527 "Zenith" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.531Z] [73/193] convId=531 "Urban mind AI-smart city decision making platform" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.536Z] [74/193] convId=533 "Indilingo Labs LLP" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.539Z] [75/193] convId=534 "HireMind AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.542Z] [76/193] convId=535 "Yamini Parashar Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.545Z] [77/193] convId=538 "Amit Tiwari Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.548Z] [78/193] convId=543 "AVYRA AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.551Z] [79/193] convId=548 "SafeNet AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.554Z] [80/193] convId=550 "Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.557Z] [81/193] convId=555 "VentureThrust" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.560Z] [82/193] convId=563 "Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.569Z] [83/193] convId=565 "Company Name : Provaantech and their products Name: Prohirey and ToxBox AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.580Z] [84/193] convId=566 "The product name is MindShield. The start-up name is yet to be finalised. It's in the process" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.587Z] [85/193] convId=567 "Dezion" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.596Z] [86/193] convId=569 "Finigenie" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.601Z] [87/193] convId=571 "MindBlix" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.605Z] [88/193] convId=573 "DiaX.AI as start up in Diabwellness Private Limited as company" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.609Z] [89/193] convId=577 "Capabloo med tech pvt ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.613Z] [90/193] convId=579 "NIRAM" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.616Z] [91/193] convId=580 "Nexvern Technology" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.618Z] [92/193] convId=590 "Shyam Bhakti Rasik" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.620Z] [93/193] convId=591 "Nexvern Technologies" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.624Z] [94/193] convId=592 "Capabloo med tech pvt ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.627Z] [95/193] convId=593 "Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding."" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.631Z] [96/193] convId=596 "I couldn't name at this time" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.634Z] [97/193] convId=597 "DecodeDocs" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.637Z] [98/193] convId=599 "Memro" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.640Z] [99/193] convId=600 "Smart Eye a brand under KA IKSANATECH INDIA LLP" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.645Z] [100/193] convId=601 "Unmaster (Ergastirio Vaccua LLP)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.647Z] [101/193] convId=604 "I am still in the process of getting my legal entity" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.650Z] [102/193] convId=605 "DAILYPLANNER APP ( AASHUKAY TECH PVT LTD)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.653Z] [103/193] convId=609 "Charumathi Kumaraswamy Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.655Z] [104/193] convId=611 "Punal Legacy Labs Pvt. Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.659Z] [105/193] convId=617 "Datamatrix.AI Pvt Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.663Z] [106/193] convId=618 "Micro Chrome Bio Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.667Z] [107/193] convId=620 "AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.671Z] [108/193] convId=623 "OPERATION SINDOOR.AI (MSME)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.675Z] [109/193] convId=625 "Sevakk.io A First Trust Hyperlocal Service Platform" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.681Z] [110/193] convId=627 "Halosafe Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.684Z] [111/193] convId=628 "ArtemysX" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.687Z] [112/193] convId=630 "S. Meditech" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.689Z] [113/193] convId=631 "WAHEfilms, focused on building and scaling AI-driven filmmaking and content production" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.692Z] [114/193] convId=632 "Ananta intelligence" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.695Z] [115/193] convId=635 "Agronova" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.698Z] [116/193] convId=638 "GATI AI LABS is my startup and the name of saas is not decided yet" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.700Z] [117/193] convId=642 "Neurix" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.703Z] [118/193] convId=645 "Dnyandip Patil Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.705Z] [119/193] convId=646 "Olynk AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.708Z] [120/193] convId=647 "Dhruv Kumar Jha Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.711Z] [121/193] convId=655 "FLAC" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.714Z] [122/193] convId=657 "Socio-Matics private limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.717Z] [123/193] convId=658 "Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.720Z] [124/193] convId=661 "The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.723Z] [125/193] convId=667 "IO ROBOTIC PRIVATE LIMITED" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.726Z] [126/193] convId=669 "Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.729Z] [127/193] convId=672 "Ashvya Services Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.731Z] [128/193] convId=683 "The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.735Z] [129/193] convId=693 "AgroShield AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.737Z] [130/193] convId=694 "BidCoPilot AI" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.740Z] [131/193] convId=695 "As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.743Z] [132/193] convId=696 "Niksla Energy" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.745Z] [133/193] convId=698 "Kdo" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.748Z] [134/193] convId=701 "ICOSVG technology" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.751Z] [135/193] convId=703 "Jeevana" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.753Z] [136/193] convId=706 "Purelife Innovations Private limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.756Z] [137/193] convId=712 "Urbanpark solution private limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.759Z] [138/193] convId=713 "Kirana Shankar Chawan Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.762Z] [139/193] convId=716 "Corpogn" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.764Z] [140/193] convId=719 "Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.767Z] [141/193] convId=721 "SpareMatch" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.770Z] [142/193] convId=722 "Prompt Library" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.773Z] [143/193] convId=734 "Mano Veda - An Alzheimer Detection App" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.776Z] [144/193] convId=738 "Already i told" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.780Z] [145/193] convId=742 "Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.784Z] [146/193] convId=745 "Edify ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.788Z] [147/193] convId=746 "Jobply" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.791Z] [148/193] convId=747 "Corridors.ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.796Z] [149/193] convId=749 "DriveGuard Systems" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.799Z] [150/193] convId=754 "Zerofalse" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.801Z] [151/193] convId=764 "Satyam Singh Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.805Z] [152/193] convId=765 "CoheRex" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.807Z] [153/193] convId=769 "Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.810Z] [154/193] convId=770 "BristleTech Pvt Lts" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.813Z] [155/193] convId=772 "Joshua Lawrence Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.816Z] [156/193] convId=777 "Redipath health ops private limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.819Z] [157/193] convId=780 "Vitalens" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.821Z] [158/193] convId=785 "Beyond Space Technologies" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.825Z] [159/193] convId=787 "more info plce contact ok" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.828Z] [160/193] convId=793 "company : ROOT
+product name : Hiredai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.831Z] [161/193] convId=794 "AgriCPS" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.834Z] [162/193] convId=795 ""Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.837Z] [163/193] convId=809 "Aasvaa Universal Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.840Z] [164/193] convId=814 "CRATER Computing" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.842Z] [165/193] convId=819 "Anteratic Solutions" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.853Z] [166/193] convId=820 "SahayLink" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.856Z] [167/193] convId=821 "SecurePay Shield" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.860Z] [168/193] convId=823 "Kenesis Labs Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.862Z] [169/193] convId=824 "Currently, i have not decided" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.864Z] [170/193] convId=825 "ML BIZ LLP (globally we operate as ZkAGI)" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.867Z] [171/193] convId=829 "DRAFTMATE PVT LTD" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.869Z] [172/193] convId=832 "Indilingo Labs" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.872Z] [173/193] convId=833 "Alchimera" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.874Z] [174/193] convId=836 "Kuldeep Pramod Pathak Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.877Z] [175/193] convId=838 "Dentalverse" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.879Z] [176/193] convId=840 "ScaleMyStartup is the name of our startup" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.882Z] [177/193] convId=842 "Snapbooks" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.885Z] [178/193] convId=843 "SafeRide" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.888Z] [179/193] convId=844 "JobFlow" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.890Z] [180/193] convId=851 "preet singh rajput jan seva kendra" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.892Z] [181/193] convId=859 "likemystory.com, and it operates under the registered entity name Storyverse" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.894Z] [182/193] convId=862 "ClawDuck" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.896Z] [183/193] convId=863 "Preto.ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.898Z] [184/193] convId=870 "would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.901Z] [185/193] convId=871 "InnoVibe Mobility India Pvt Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.904Z] [186/193] convId=882 "tileview.ai" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.907Z] [187/193] convId=883 "Ashish Kumar Interview" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.909Z] [188/193] convId=887 "Operon" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.912Z] [189/193] convId=888 "Scriptonia AI Pvt Ltd" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.915Z] [190/193] convId=891 "Bugbusterslabs Private Limited" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.917Z] [191/193] convId=899 "GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.919Z] [192/193] convId=902 "Bunderbrains pvt ltd is the company, platform is misrut" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+[2026-03-24T09:38:10.922Z] [193/193] convId=906 "Hybrid Octopus OS" ... ❌ FAILED (0.0s) — Failed to fetch messages: TypeError: fetch failed
+
+════════════════════════════════════════════════════════════
+  BATCH COMPLETE — SUMMARY
+════════════════════════════════════════════════════════════
+  Finished    : 2026-03-24T09:38:10.925Z
+  Total       : 193
+  ✅ Success  : 7
+  ❌ Failed   : 186
+  ⏱ Time      : 3.9 minutes
+
+  COMPLETED CONVERSATIONS:
+    ✅ convId=229 | 25.8s | MediVault AI
+    ✅ convId=231 | 13.4s | JantaFlash
+    ✅ convId=236 | 31.7s | Srishti Shaw Interview
+    ✅ convId=251 | 26.2s | New Conversation
+    ✅ convId=256 | 25.4s | KAL
+    ✅ convId=257 | 19.5s | Wise Drop
+    ✅ convId=262 | 26.0s | build private ltd
+
+  FAILED CONVERSATIONS:
+    ❌ convId=265 | Reach-out AI Technologies pvt Ltd | Failed to fetch interview state: TypeError: terminated
+    ❌ convId=266 | VidyaVerse | Failed to fetch interview state: TypeError: fetch failed
+    ❌ convId=268 | Y labs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=273 | AgentIC | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=275 | Tvara | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=280 | Yet to decide. I have resigned from my present employment & is serving notice period. I shall register my start-up formally soon | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=281 | Lehio Solution PVT LTD
+The startup name is Vidhik AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=284 | Will my information that I share about my product be safe here | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=285 | OPERATION SINDOOR.AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=290 | Whisperwave | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=291 | and also cse with ai/ml | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=293 | Massxg | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=297 | LotusAI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=303 | Wetroo Automation | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=305 | ExperQuick Research Infra  Pvt. Ltd.
+
+ExperQuick.org | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=306 | FactoryBrain | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=307 | Alfa Hawk | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=309 | Huia Labs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=311 | MetricAI, BlaiseLogic Technology Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=313 | Currently, I am in the early stage of building the product, and the startup name is still being finalized. The focus right now is on developing the AI-powered interview practice platform and validating the idea with users. Once the product reaches a more stable stage, I plan to finalize and register the startup name | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=314 | Nebils | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=315 | Nyayamitra | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=316 | Sylithe | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=318 | Fluxi Technologies Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=325 | The name of the project and the emerging startup is Sarthi AI.
+In Sanskrit and Hindi, "Sarthi" (सारथी) means a "Charioteer" or a "Guide." We chose this name because our mission is to act as an intelligent, multimodal guide that helps Persons with Disabilities (PwDs) navigate the complexities of public services and modern infrastructure with independence and dignity.
+Currently, Sarthi AI is a high-impact research initiative that has been selected for the IndiaAI Impact Casebook by the Ministry of Electronics and Information Technology (MeitY). Following this national recognition, we are in the process of formalizing it into a Social Enterprise to scale its deployment across India | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=328 | Witting AI Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=330 | gem pvt ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=331 | My name is Vishal Raina | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=333 | Trishul Space | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=335 | Pooja Malakar Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=336 | PetsGo and PetsDoor Pvt Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=337 | Slaab.ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=339 | ScoutEdge
+(Operated under EdgeSphere Sports Intelligence Private Limited) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=341 | VYGOT | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=350 | Ayush Arya Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=363 | I am currently at the idea stage and exploring the name Dhivix AI for my startup, which focuses on AI-driven fraud detection and assisted digital onboarding in the banking sector | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=371 | Crynie is name of startup not registered yet and burpsie is our ecosystem name | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=380 | Siddhant Gujar Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=382 | New Conversation | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=394 | LeadPe | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=396 | Friday Intellytics | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=399 | Charky Labs Pvt. Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=401 | AETHER INTELLIGENCE (Aether Intel).
+
+Under the Aether Intelligence umbrella, we are developing a suite of specialized AI solutions:
+
+Aether Scan: Our flagship multimodal AI analyst for retail investors.
+
+PropLoom: Our real-time lead management CRM for the real estate sector.
+
+Jarvis ADA: Our core autonomous AI agent framework that powers the backend of our products.
+
+The name 'Aether' represents the 'fifth element'—the invisible force that connects everything—just as our AI connects complex data points to provide clear, actionable intelligence for our users. We are building Aether Intelligence to be a leader in India’s deep-tech ecosystem | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=402 | Wharf Street Studios | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=436 | Beaver tech | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=439 | Venturelens | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=442 | Qualentra Global | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=455 | Aloukik Bhatnagar Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=456 | BODH-Ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=466 | InsightFlow AI, focused on turning complex content into clear, actionable insights using AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=468 | Dr. ViKi | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=479 | Vaibhav Mahato Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=481 | A very powerful startup name (like a billion-dollar startup style name)
+Logo idea + tagline
+One-line startup pitch (very useful in interviews or startup programs) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=482 | godyns | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=488 | 97 group | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=489 | VAIL synonym with Vetri AI Labs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=491 | Invariant Labs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=493 | Aptenix Software Technologies Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=505 | Zeex AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=511 | Pashudhan AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=514 | Resurgenix Technologies | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=515 | TechTeenu AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=516 | Artograph AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=522 | ekithab | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=527 | Zenith | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=531 | Urban mind AI-smart city decision making platform | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=533 | Indilingo Labs LLP | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=534 | HireMind AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=535 | Yamini Parashar Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=538 | Amit Tiwari Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=543 | AVYRA AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=548 | SafeNet AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=550 | Company- ONE OATH Educational Research and Technologies Pvt. Ltd.
+
+Brand- (Assessli / Dots-In) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=555 | VentureThrust | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=563 | Currently, I’m using the name KolkataRail because the initial focus and pilot is based on Kolkata local trains. However, the vision is not limited to Kolkata—we’re building a scalable architecture that can be adapted to different cities. As we expand, the product can evolve into a more universal brand while keeping Kolkata as the starting point | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=565 | Company Name : Provaantech and their products Name: Prohirey and ToxBox AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=566 | The product name is MindShield. The start-up name is yet to be finalised. It's in the process | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=567 | Dezion | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=569 | Finigenie | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=571 | MindBlix | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=573 | DiaX.AI as start up in Diabwellness Private Limited as company | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=577 | Capabloo med tech pvt ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=579 | NIRAM | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=580 | Nexvern Technology | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=590 | Shyam Bhakti Rasik | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=591 | Nexvern Technologies | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=592 | Capabloo med tech pvt ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=593 | Not formally registered yet. Project name is URCM + SPANDA (Unified μ-Resonance Cognitive Mesh + SPANDA Network). Will incorporate as private limited company post-funding." | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=596 | I couldn't name at this time | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=597 | DecodeDocs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=599 | Memro | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=600 | Smart Eye a brand under KA IKSANATECH INDIA LLP | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=601 | Unmaster (Ergastirio Vaccua LLP) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=604 | I am still in the process of getting my legal entity | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=605 | DAILYPLANNER APP ( AASHUKAY TECH PVT LTD) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=609 | Charumathi Kumaraswamy Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=611 | Punal Legacy Labs Pvt. Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=617 | Datamatrix.AI Pvt Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=618 | Micro Chrome Bio Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=620 | AEITY Systems Pvt. Ltd.
+
+It represents Agile, Efficient, Innovative Technologies, reflecting our focus on building scalable, intelligent, and future-ready solutions | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=623 | OPERATION SINDOOR.AI (MSME) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=625 | Sevakk.io A First Trust Hyperlocal Service Platform | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=627 | Halosafe Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=628 | ArtemysX | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=630 | S. Meditech | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=631 | WAHEfilms, focused on building and scaling AI-driven filmmaking and content production | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=632 | Ananta intelligence | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=635 | Agronova | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=638 | GATI AI LABS is my startup and the name of saas is not decided yet | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=642 | Neurix | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=645 | Dnyandip Patil Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=646 | Olynk AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=647 | Dhruv Kumar Jha Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=655 | FLAC | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=657 | Socio-Matics private limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=658 | Gati AI LabsIt focuses on providing AI-powered digital solutions like websites and chatbots for small businesses | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=661 | The primary name of my startup is FounderTruth.in.
+
+Under this banner, I am developing a suite of AI-driven auditing and transparency tools. The core ecosystem includes:
+
+FounderTruth.in: The flagship platform and AI auditor that utilizes the Sovereign Protocol to provide high-integrity, machine-readable identities for startups.
+
+Mike OS: The proprietary AI engine behind the platform that calculates Foundation and Velocity scores to eliminate "vibe-based" pitching.
+
+Sarkari Saathi (GovGuide India): My specialized project focused on the public sector, providing an AI-based system for government document verification and reducing bureaucratic friction | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=667 | IO ROBOTIC PRIVATE LIMITED | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=669 | Our legal entity is Jekobachan LLP, and we operate under the brand Robust Robotics, which represents our focus on building reliable and practical robotics-based solutions for real-world problems | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=672 | Ashvya Services Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=683 | The current name of the startup is DESocial, as it is initially focused within the DES Pune University ecosystem.
+
+As we expand and collaborate with more universities, we plan to rebrand to a more universal name that reflects a broader, multi-campus platform | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=693 | AgroShield AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=694 | BidCoPilot AI | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=695 | As steel handle shook from self in vrindavan,building name ,prabhupad kunj : 143...so I would name kanhaiya steels...kanhaiya: 70..steels: 80....Krishna: 80 | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=696 | Niksla Energy | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=698 | Kdo | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=701 | ICOSVG technology | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=703 | Jeevana | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=706 | Purelife Innovations Private limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=712 | Urbanpark solution private limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=713 | Kirana Shankar Chawan Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=716 | Corpogn | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=719 | Agripath, which focuses on empowering farmers with technology and AI-driven insights.
+🔥 If they ask meaning (be ready):
+“Agripath” represents a guided path for farmers—helping them make better decisions from crop planning to selling | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=721 | SpareMatch | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=722 | Prompt Library | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=734 | Mano Veda - An Alzheimer Detection App | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=738 | Already i told | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=742 | Sorte Lab, where we develop AI solutions like our voice-first, multilingual form-filling platform to make digital services accessible to everyone in India | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=745 | Edify ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=746 | Jobply | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=747 | Corridors.ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=749 | DriveGuard Systems | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=754 | Zerofalse | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=764 | Satyam Singh Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=765 | CoheRex | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=769 | Company Name: NeoShoonya Private Limited
+Platform Brand Name: Safarimap(TM) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=770 | BristleTech Pvt Lts | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=772 | Joshua Lawrence Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=777 | Redipath health ops private limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=780 | Vitalens | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=785 | Beyond Space Technologies | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=787 | more info plce contact ok | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=793 | company : ROOT
+product name : Hiredai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=794 | AgriCPS | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=795 | "Dhibot AI", a multi-domain AI platform focused on making AI accessible and practical for businesses | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=809 | Aasvaa Universal Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=814 | CRATER Computing | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=819 | Anteratic Solutions | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=820 | SahayLink | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=821 | SecurePay Shield | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=823 | Kenesis Labs Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=824 | Currently, i have not decided | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=825 | ML BIZ LLP (globally we operate as ZkAGI) | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=829 | DRAFTMATE PVT LTD | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=832 | Indilingo Labs | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=833 | Alchimera | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=836 | Kuldeep Pramod Pathak Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=838 | Dentalverse | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=840 | ScaleMyStartup is the name of our startup | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=842 | Snapbooks | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=843 | SafeRide | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=844 | JobFlow | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=851 | preet singh rajput jan seva kendra | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=859 | likemystory.com, and it operates under the registered entity name Storyverse | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=862 | ClawDuck | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=863 | Preto.ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=870 | would name my startup “FinTrack AI.”
+It reflects the core idea—tracking finances intelligently using AI.
+The name is simple, clear, and easy to remember for users | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=871 | InnoVibe Mobility India Pvt Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=882 | tileview.ai | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=883 | Ashish Kumar Interview | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=887 | Operon | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=888 | Scriptonia AI Pvt Ltd | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=891 | Bugbusterslabs Private Limited | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=899 | GramSwaram
+
+Why this name is perfect for your application:
+Meaning: "Gram" (Village) + "Swaram" (Voice/Sound). It literally tells the judges that your startup is the "Voice of the Village."
+
+Branding: It is easy to pronounce, memorable, and aligns perfectly with the IndiaAI and Bhashini missions.
+
+Cultural Connection: It shows you are proud of your roots while using modern Java and AI technology to solve local problems | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=902 | Bunderbrains pvt ltd is the company, platform is misrut | Failed to fetch messages: TypeError: fetch failed
+    ❌ convId=906 | Hybrid Octopus OS | Failed to fetch messages: TypeError: fetch failed
+
+  Retry: npm run analyze -- <id>
+════════════════════════════════════════════════════════════
+[2026-03-24T09:38:11.020Z] 
+📁 Full log saved to: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-34-16.log

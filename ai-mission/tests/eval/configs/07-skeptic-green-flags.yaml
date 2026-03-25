@@ -1,0 +1,142 @@
+# ──────────────────────────────────────────────────────────────────────────────
+# Suite 07 — Skeptic Green Flag Detection
+# One test per green flag category (9 total).
+# Each test includes the userMessage in history so evidence validator passes.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Problem Clarity
+- description: "Green flag Problem Clarity: sharp specific pain point articulation"
+  vars:
+    userMessage: "Class 10-12 students in tier-2 cities cannot afford private tutors at 500-1000 rupees per hour. 80% of students I interviewed said they had never had a private tutor because of cost. This directly causes 30% lower exam scores compared to urban students who can afford tutoring."
+    currentTopic: "startup_idea"
+    history:
+      - role: "user"
+        content: "Class 10-12 students in tier-2 cities cannot afford private tutors at 500-1000 rupees per hour. 80% of students I interviewed said they had never had a private tutor because of cost. This directly causes 30% lower exam scores compared to urban students who can afford tutoring."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Problem Clarity');
+
+# Commercial Awareness
+- description: "Green flag Commercial Awareness: distinguishes user from customer unprompted"
+  vars:
+    userMessage: "The student is the user but the parent is the customer — they are the ones paying. So our product must delight the student enough to keep them engaged while proving ROI to the parent. That is why we send weekly progress reports to parents automatically."
+    currentTopic: "zone_1_desirability"
+    history:
+      - role: "user"
+        content: "The student is the user but the parent is the customer — they are the ones paying. So our product must delight the student enough to keep them engaged while proving ROI to the parent. That is why we send weekly progress reports to parents automatically."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Commercial Awareness');
+
+# Ecosystem Thinking
+- description: "Green flag Ecosystem Thinking: thinks beyond own product to India AI ecosystem"
+  vars:
+    userMessage: "Beyond our own product, we plan to open-source our Hindi NLP evaluation benchmark — it does not exist today and the whole Indian AI community needs it. We are also generating 100,000 student interactions daily in Hindi which we will contribute to public datasets to help train better Indian language models."
+    currentTopic: "ai_ecosystem_contribution"
+    history:
+      - role: "user"
+        content: "Beyond our own product, we plan to open-source our Hindi NLP evaluation benchmark — it does not exist today and the whole Indian AI community needs it. We are also generating 100,000 student interactions daily in Hindi which we will contribute to public datasets to help train better Indian language models."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const norm = s => s.toLowerCase().replace(/[\s_]/g, '');
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => norm(f.category) === norm('Ecosystem Thinking'));
+
+# Domain Expertise
+- description: "Green flag Domain Expertise: specific directly-relevant prior experience"
+  vars:
+    userMessage: "I spent the last seven years entirely focused on building ML-powered personalisation systems at a Series B EdTech company. I personally built the recommendation engine that served 2 million students. The problem we are solving is exactly what I encountered every day — I know this problem from the inside."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "user"
+        content: "I spent the last seven years entirely focused on building ML-powered personalisation systems at a Series B EdTech company. I personally built the recommendation engine that served 2 million students. The problem we are solving is exactly what I encountered every day — I know this problem from the inside."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Domain Expertise');
+
+# India-First Design
+- description: "Green flag India-First Design: India-specific constraints embedded in product"
+  vars:
+    userMessage: "We built the entire product to work on 2G connections and low-end Android phones because 60% of our target users are in rural areas. We also deliberately use Hindi as the primary language, not English, and our UI uses low-data SVG animations instead of videos."
+    currentTopic: "zone_5_affordability"
+    history:
+      - role: "user"
+        content: "We built the entire product to work on 2G connections and low-end Android phones because 60% of our target users are in rural areas. We also deliberately use Hindi as the primary language, not English, and our UI uses low-data SVG animations instead of videos."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'India-First Design');
+
+# AI Conviction
+- description: "Green flag AI Conviction: clearly articulates structural AI necessity"
+  vars:
+    userMessage: "Without AI, personalized tutoring at this scale requires one human tutor per student — economically impossible. AI is what enables us to analyze each student's exact knowledge gaps in real time and generate custom practice questions dynamically. Remove AI and you just have a static PDF library. AI is not a feature, it is the entire product."
+    currentTopic: "ai_necessity"
+    history:
+      - role: "user"
+        content: "Without AI, personalized tutoring at this scale requires one human tutor per student — economically impossible. AI is what enables us to analyze each student's exact knowledge gaps in real time and generate custom practice questions dynamically. Remove AI and you just have a static PDF library. AI is not a feature, it is the entire product."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        const norm = s => s.toLowerCase().replace(/[\s_]/g, '');
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => norm(f.category) === norm('AI Conviction'));
+
+# Grit Signal
+- description: "Green flag Grit Signal: specific failure with concrete recovery action"
+  vars:
+    userMessage: "My first startup failed because we were losing 80 rupees per order on food delivery and did not realise it until month 4. I had to shut it down after burning 6 lakh rupees of my own savings. The concrete lesson: I now model unit economics before writing a single line of code. That is why FutureMind's unit economics were validated before we built anything."
+    currentTopic: "failure_story"
+    history:
+      - role: "user"
+        content: "My first startup failed because we were losing 80 rupees per order on food delivery and did not realise it until month 4. I had to shut it down after burning 6 lakh rupees of my own savings. The concrete lesson: I now model unit economics before writing a single line of code. That is why FutureMind's unit economics were validated before we built anything."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Grit Signal');
+
+# Prior Build Experience
+- description: "Green flag Prior Build Experience: has shipped a product before"
+  vars:
+    userMessage: "I shipped a Hindi voice assistant for feature phones at my previous company. It reached 500,000 users across Bihar and UP before I left. I also built and deployed a document classification system used by 3 banks in production. I know what it takes to get things to production."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "user"
+        content: "I shipped a Hindi voice assistant for feature phones at my previous company. It reached 500,000 users across Bihar and UP before I left. I also built and deployed a document classification system used by 3 banks in production. I know what it takes to get things to production."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Prior Build Experience');
+
+# Honest Self-Awareness
+- description: "Green flag Honest Self-Awareness: unprompted acknowledgement of a real gap"
+  vars:
+    userMessage: "I want to be upfront: sales is not my strength. I am a technical founder and I have never done B2C sales before. I know this is a risk. That is why one of the first hires I am planning is a head of growth who has done this before. I would rather acknowledge the gap and plan for it than pretend I can do everything."
+    currentTopic: "zone_3_feasibility"
+    history:
+      - role: "user"
+        content: "I want to be upfront: sales is not my strength. I am a technical founder and I have never done B2C sales before. I know this is a risk. That is why one of the first hires I am planning is a head of growth who has done this before. I would rather acknowledge the gap and plan for it than pretend I can do everything."
+  assert:
+    - type: is-json
+    - type: javascript
+      value: |
+        const out = JSON.parse(output);
+        return out.greenFlags.length > 0 && out.greenFlags.some(f => f.category === 'Honest Self-Awareness');

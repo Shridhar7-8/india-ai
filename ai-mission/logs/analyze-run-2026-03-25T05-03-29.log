@@ -1,0 +1,26 @@
+════════════════════════════════════════════════════════════
+  FounderCheck Analyze Trigger — Run Log
+  Started : 2026-03-25T05:03:29.015Z
+  Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-25T05-03-29.log
+════════════════════════════════════════════════════════════
+
+[2026-03-25T05:03:29.015Z] ─────────────────────────────────────────
+[2026-03-25T05:03:29.016Z] 📬 Email Config Check:
+[2026-03-25T05:03:29.024Z]    SMTP_USERNAME      : ✅ buildai@itelfoundation.in
+[2026-03-25T05:03:29.024Z]    SMTP_PASSWORD      : ✅ loaded (hidden)
+[2026-03-25T05:03:29.025Z]    REPORT_RECIPIENT   : ✅ karthikoff87@gmail.com
+[2026-03-25T05:03:29.025Z] ✅ Email is configured — report will be sent.
+[2026-03-25T05:03:29.026Z] ─────────────────────────────────────────
+
+[2026-03-25T05:03:29.045Z] 🔍 Looking for conversation ID 439...
+[2026-03-25T05:03:30.397Z] ✅ Found: ID=439  Title="Venturelens"
+
+[2026-03-25T05:03:30.398Z] [1/1] Processing convId=439 "Venturelens"...
+[2026-03-25T05:04:13.331Z] [1/1] ✅ DONE    convId=439 "Venturelens" — 42.9s
+
+────────────────────────────────────────────────────────────
+  Result  : SUCCESS
+  convId  : 439
+  Title   : Venturelens
+  Time    : 42.9s
+────────────────────────────────────────────────────────────

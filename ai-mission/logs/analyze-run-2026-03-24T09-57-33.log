@@ -1,0 +1,16 @@
+════════════════════════════════════════════════════════════
+  FounderCheck Analyze Trigger — Run Log
+  Started : 2026-03-24T09:57:33.234Z
+  Log file: D:\india-ai\ai-mission\logs\analyze-run-2026-03-24T09-57-33.log
+════════════════════════════════════════════════════════════
+
+[2026-03-24T09:57:33.235Z] ─────────────────────────────────────────
+[2026-03-24T09:57:33.235Z] 📬 Email Config Check:
+[2026-03-24T09:57:33.243Z]    SMTP_USERNAME      : ✅ buildai@itelfoundation.in
+[2026-03-24T09:57:33.243Z]    SMTP_PASSWORD      : ✅ loaded (hidden)
+[2026-03-24T09:57:33.244Z]    REPORT_RECIPIENT   : ✅ karthikoff87@gmail.com
+[2026-03-24T09:57:33.244Z] ✅ Email is configured — report will be sent.
+[2026-03-24T09:57:33.245Z] ─────────────────────────────────────────
+
+[2026-03-24T09:57:33.264Z] 🔍 Fetching all completed real conversations since 2026-03-15...
+[2026-03-24T09:57:44.004Z] ❌ Failed to fetch conversations: TypeError: fetch failed

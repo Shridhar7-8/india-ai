@@ -36,24 +36,63 @@ export interface SkepticSummary {
     };
 }
 
+/** Normalize text for fuzzy comparison: lowercase, strip punctuation, collapse whitespace. */
+function normalizeForMatch(s: string): string {
+    return s.toLowerCase().replace(/[^\w\s]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+/**
+ * Check if a quote is grounded in the transcript using a two-tier strategy:
+ * 1. Normalized substring match (handles punctuation/casing differences).
+ * 2. Word-overlap fallback: ≥70% of significant words (length > 3) appear in the transcript.
+ */
+function isEvidenceGrounded(quote: string, normalizedTranscript: string): boolean {
+    const normalizedQuote = normalizeForMatch(quote);
+    if (!normalizedQuote) return false;
+
+    // Tier 1: normalized substring
+    if (normalizedTranscript.includes(normalizedQuote)) return true;
+
+    // Tier 2: word overlap — check significant words (length > 3)
+    const words = normalizedQuote.split(" ").filter(w => w.length > 3);
+    if (words.length === 0) return false;
+    const matchCount = words.filter(w => normalizedTranscript.includes(w)).length;
+    return matchCount / words.length >= 0.7;
+}
+
 function validateEvidenceAgainstTranscript(
     flags: Array<RedFlag | GreenFlag>,
     conversationHistory: Array<{ role: string; content: string }>
 ): Array<RedFlag | GreenFlag> {
-    const fullTranscript = conversationHistory
-        .filter(m => m.role === "user")
-        .map(m => m.content)
-        .join(" ")
-        .toLowerCase();
+    const normalizedTranscript = normalizeForMatch(
+        conversationHistory
+            .filter(m => m.role === "user")
+            .map(m => m.content)
+            .join(" ")
+    );
 
     return flags.filter(flag => {
         if (!flag._evidence || !Array.isArray(flag._evidence) || flag._evidence.length === 0) return false;
-
-        // Every quote in _evidence must exist in the transcript
-        return flag._evidence.every(quote =>
-            fullTranscript.includes(quote.toLowerCase().trim())
-        );
+        return flag._evidence.every(quote => isEvidenceGrounded(quote, normalizedTranscript));
     });
+}
+
+const RED_FLAG_CATEGORIES = ["LOGIC_GAP", "VAGUE_FLUFF", "EVASION", "SHALLOW_DEPTH", "CLARITY_GAP", "AI_WASHING"] as const;
+const GREEN_FLAG_CATEGORIES = [
+    "Problem Clarity", "Commercial Awareness", "Ecosystem Thinking",
+    "Domain Expertise", "India-First Design", "AI Conviction",
+    "Grit Signal", "Prior Build Experience", "Honest Self-Awareness",
+] as const;
+
+/**
+ * Map LLM-generated category names to the canonical form defined in the prompt.
+ * Handles casing/spacing/underscore variants (e.g. "AI_Conviction" → "AI Conviction",
+ * "EcosystemThinking" → "Ecosystem Thinking").
+ */
+function normalizeCategory(category: string, type: "red" | "green"): string {
+    const norm = (s: string) => s.toLowerCase().replace(/[\s_]/g, "");
+    const candidates = type === "red" ? RED_FLAG_CATEGORIES : GREEN_FLAG_CATEGORIES;
+    return (candidates as readonly string[]).find(c => norm(c) === norm(category)) ?? category;
 }
 
 function deduplicateFlags<T extends { category: string; description: string; _evidence: string[] }>(
@@ -161,7 +200,19 @@ If no new flags, return an empty array [].
             return { redFlags: [], greenFlags: [] };
         }
 
-        const parsed = JSON.parse(jsonStr);
+        // --- NEW: Robust JSON Cleanup ---
+        // Strip trailing commas from objects and arrays: [1, 2,] -> [1, 2]
+        jsonStr = jsonStr.replace(/,\s*([\]}])/g, '$1'); 
+        // --------------------------------
+
+        let parsed;
+        try {
+            parsed = JSON.parse(jsonStr);
+        } catch (e) {
+            console.error("❌ [SKEPTIC] Failed to parse JSON after cleanup:", e);
+            console.log("Context:", jsonStr);
+            return { redFlags: [], greenFlags: [] };
+        }
 
         if (!Array.isArray(parsed)) return { redFlags: [], greenFlags: [] };
 
@@ -172,7 +223,7 @@ If no new flags, return an empty array [].
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ).map((f: any) => ({
             type: f.type,
-            category: String(f.category),
+            category: normalizeCategory(String(f.category), f.type as "red" | "green"),
             description: String(f.description),
             _evidence: Array.isArray(f._evidence) ? f._evidence.map(String) : [],
         }));
