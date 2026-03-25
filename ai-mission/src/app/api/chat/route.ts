@@ -4,7 +4,11 @@ import { supabase } from "@/lib/supabase";
 import { MessageCreateSchema } from "@/lib/schemas";
 import { runConductorFSM, getInitialChecklist, getInitialSummary, STEPS } from "@/agents/conductor";
 import { runSkeptic } from "@/agents/skeptic";
+<<<<<<< HEAD
 import { sendToQueue } from "@/lib/sqs";
+=======
+import { sendSQSMessage } from "@/lib/sqs";
+>>>>>>> bab1d57879f565406e3cec4e5b10a04e1339f383
 
 /**
  * POST /api/chat — Main chat endpoint.
@@ -278,7 +282,11 @@ export async function POST(req: NextRequest) {
         .eq("id", convId);
 
       try {
+<<<<<<< HEAD
         await sendToQueue("interview/finalize", {
+=======
+        await sendSQSMessage("interview/finalize", {
+>>>>>>> bab1d57879f565406e3cec4e5b10a04e1339f383
           conversationId: convId,
           conversationTitle: title,
         });
