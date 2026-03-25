@@ -45,8 +45,9 @@ async function main() {
         isError: result.startsWith("ERROR:"),
       })
     );
-  } catch (error: any) {
-    console.error(JSON.stringify({ error: error.message, stack: error.stack }));
+  } catch (error) {
+    const err = error as Error;
+    console.error(JSON.stringify({ error: err.message, stack: err.stack }));
     process.exit(1);
   }
 }

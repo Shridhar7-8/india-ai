@@ -1,4 +1,4 @@
-import { sendSQSMessage } from "./src/lib/sqs";
+import { sendToQueue } from "./src/lib/sqs";
 import "dotenv/config";
 
 /**
@@ -19,9 +19,9 @@ async function triggerTest() {
   console.log(`🚀 Sending SQS message for Conversation ID: ${testData.conversationId}...`);
 
   try {
-    const result = await sendSQSMessage("interview/finalize", testData);
+    const result = await sendToQueue("interview/finalize", testData);
     console.log("✅ SQS message sent successfully!");
-    console.log("Message ID:", result.MessageId);
+    console.log("Message ID:", result?.MessageId);
     console.log("\nNext Steps:");
     console.log("1. Make sure your worker is running: npm run worker");
     console.log("2. Check the worker terminal output to see if it processes this ID.");
